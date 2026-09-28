@@ -13,8 +13,8 @@ import {
   RefreshCw,
   ShieldCheck,
   UserRound,
+  Users,
   WalletCards,
-  Gift,
 } from "lucide-react";
 
 type Asset = "USDT" | "WDC";
@@ -131,7 +131,7 @@ export default function WalletSwapPage() {
         <nav className="dash-mobile-nav gradient-border flow-mobile-nav">
           <Link href="/dashboard"><Home size={19}/><span>Home</span></Link>
           <Link className="active" href="/wallet"><WalletCards size={19}/><span>Wallet</span></Link>
-          <Link href="/referrals"><Gift size={19}/><span>Referral</span></Link>
+          <Link href="/referrals"><Users size={19}/><span>Referral</span></Link>
           <a href="#"><Coins size={19}/><span>Stake</span></a>
           <a href="#"><UserRound size={19}/><span>Profile</span></a>
         </nav>
