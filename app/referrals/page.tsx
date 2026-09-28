@@ -15,7 +15,6 @@ import {
   Send,
   Settings,
   ShieldCheck,
-  Sparkles,
   Trophy,
   UserPlus,
   UserRound,
@@ -179,20 +178,25 @@ export default function ReferralsPage() {
             <small>Preview rates</small>
           </div>
 
-          <div className={styles.levelGrid}>
-            {rewardLevels.map((item)=>(
-              <article className={styles.levelCard} key={item.level}>
-                <div className={styles.levelTop}>
-                  <span className={styles.levelBadge}>L{item.level}</span>
-                  <strong className={styles.levelRate}>{item.rate}</strong>
+          <div className={styles.rewardJourney}>
+            <div className={styles.rewardTrack} aria-hidden="true"><span /></div>
+
+            {rewardLevels.map((item,index)=>(
+              <div className={styles.rewardStep} key={item.level}>
+                <div className={styles.rewardNodeWrap}>
+                  <div className={styles.rewardNode}>L{item.level}</div>
+                  <span className={styles.rewardIndex}>0{index+1}</span>
                 </div>
-                <h3>{item.relation}</h3>
-                <p>{item.note}</p>
-                <div className={styles.levelFoot}>
-                  <Sparkles size={14}/>
-                  <span>Share of eligible referral reward</span>
+
+                <div className={styles.rewardStepBody}>
+                  <div className={styles.rewardStepTop}>
+                    <strong className={styles.rewardPercent}>{item.rate}</strong>
+                    <span>reward share</span>
+                  </div>
+                  <h3>{item.relation}</h3>
+                  <p>{item.note}</p>
                 </div>
-              </article>
+              </div>
             ))}
           </div>
 
