@@ -1,14 +1,14 @@
 <svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="g1" x1="28" y1="22" x2="132" y2="140" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFF0B2"/>
-      <stop offset=".36" stop-color="#FFD36D"/>
-      <stop offset=".72" stop-color="#D69B2A"/>
-      <stop offset="1" stop-color="#8E5A0A"/>
+      <stop stop-color="#FFF0A8"/>
+      <stop offset=".36" stop-color="#FFC533"/>
+      <stop offset=".72" stop-color="#FFAD00"/>
+      <stop offset="1" stop-color="#8A5200"/>
     </linearGradient>
     <linearGradient id="g2" x1="52" y1="47" x2="108" y2="116" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFF8D7"/>
-      <stop offset="1" stop-color="#E7B64B"/>
+      <stop stop-color="#FFF2BE"/>
+      <stop offset="1" stop-color="#FFB000"/>
     </linearGradient>
     <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
       <feGaussianBlur stdDeviation="6" result="b"/>
@@ -16,8 +16,8 @@
     </filter>
   </defs>
   <circle cx="80" cy="80" r="72" fill="#070708" stroke="url(#g1)" stroke-width="3"/>
-  <circle cx="80" cy="80" r="61" fill="#0D0D10" stroke="#F4CF74" stroke-opacity=".28"/>
+  <circle cx="80" cy="80" r="61" fill="#0D0D10" stroke="#FFCC47" stroke-opacity=".28"/>
   <path d="M37 52L54 111L73 77L87 111L123 52H105L88 82L74 51L58 82L50 52H37Z" fill="url(#g1)" filter="url(#glow)"/>
   <path d="M72 89L80 75L88 89L80 103L72 89Z" fill="url(#g2)"/>
-  <circle cx="80" cy="80" r="68" stroke="#FFF6D0" stroke-opacity=".10" stroke-dasharray="3 7"/>
+  <circle cx="80" cy="80" r="68" stroke="#FFE8A0" stroke-opacity=".10" stroke-dasharray="3 7"/>
 </svg>
