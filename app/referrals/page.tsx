@@ -1,20 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Bell,
   Check,
+  ChevronDown,
   Copy,
   Gift,
   History,
   Home,
   LayoutDashboard,
   Link2,
-  Medal,
+  Network,
   Send,
   Settings,
   ShieldCheck,
+  Sparkles,
   Trophy,
   UserPlus,
   UserRound,
@@ -26,14 +28,31 @@ import {
 const referralCode = "WDC-MK7A2";
 const referralLink = "https://wadan.app/signup?ref=WDC-MK7A2";
 
-const levels = [
-  { name: "Starter", target: "0–9", bonus: "Base rewards", active: true },
-  { name: "Builder", target: "10–49", bonus: "Milestone perks", active: false },
-  { name: "Leader", target: "50+", bonus: "Community tier", active: false },
+const rewardLevels = [
+  { level: 1, rate: "5%", relation: "Direct referrals", note: "People you invite personally" },
+  { level: 2, rate: "3%", relation: "2nd generation", note: "Referrals invited by Level 1" },
+  { level: 3, rate: "2%", relation: "3rd generation", note: "Network depth Level 3" },
+  { level: 4, rate: "1%", relation: "4th generation", note: "Network depth Level 4" },
+  { level: 5, rate: "0.5%", relation: "5th generation", note: "Network depth Level 5" },
 ];
+
+const referralRows: Array<{
+  id: string;
+  name: string;
+  level: number;
+  joined: string;
+  status: "Qualified" | "Pending";
+  reward: string;
+}> = [];
 
 export default function ReferralsPage() {
   const [copied, setCopied] = useState<"code" | "link" | null>(null);
+  const [filter, setFilter] = useState<"all" | "1" | "2" | "3" | "4" | "5">("all");
+
+  const visibleRows = useMemo(() => {
+    if (filter === "all") return referralRows;
+    return referralRows.filter((row) => String(row.level) === filter);
+  }, [filter]);
 
   async function copy(value: string, type: "code" | "link") {
     try {
@@ -100,44 +119,50 @@ export default function ReferralsPage() {
           </div>
         </header>
 
-        <section className="referral-hero">
+        <section className="referral-hero referral-hero-v2">
           <div className="referral-hero-copy">
             <span className="referral-eyebrow"><Users size={15}/> BUILD YOUR NETWORK</span>
-            <h2>Invite people.<br/>Grow WADAN.</h2>
-            <p>Your personal referral space for invites, network growth and future WDC referral rewards.</p>
+            <h2>Invite people. Grow WADAN.</h2>
+            <p>One referral link, five reward levels, and a clear view of your full WADAN network.</p>
 
             <div className="referral-hero-stats">
               <div><small>Total referrals</small><strong>0</strong></div>
               <div><small>Qualified</small><strong>0</strong></div>
-              <div><small>Rewards</small><strong>0 WDC</strong></div>
+              <div><small>Total rewards</small><strong>0 WDC</strong></div>
             </div>
           </div>
 
-          <div className="referral-medal">
-            <div className="referral-medal-ring"><Trophy size={42}/></div>
-            <span>Current tier</span>
-            <strong>Starter</strong>
-            <small>Invite your first member</small>
+          <div className="referral-medal referral-medal-v2">
+            <div className="referral-medal-ring"><Network size={38}/></div>
+            <span>Network depth</span>
+            <strong>5 Levels</strong>
+            <small>Multi-level referral rewards</small>
           </div>
         </section>
 
         <section className="referral-share-section">
           <div className="section-strip">
-            <div><span>YOUR INVITE</span><strong>Share WADAN</strong></div>
-            <small>Personal referral</small>
+            <div><span>YOUR INVITE</span><strong>Referral code & link</strong></div>
+            <small>Ready to share</small>
           </div>
 
           <div className="referral-share-grid">
             <article className="referral-code-card">
-              <div className="referral-card-label"><span><UserPlus size={18}/></span><div><small>Referral code</small><strong>{referralCode}</strong></div></div>
+              <div className="referral-card-label">
+                <span><UserPlus size={18}/></span>
+                <div><small>Referral code</small><strong>{referralCode}</strong></div>
+              </div>
               <button type="button" onClick={()=>copy(referralCode,"code")}>
                 {copied==="code" ? <Check size={19}/> : <Copy size={19}/>}
-                {copied==="code" ? "Copied" : "Copy code"}
+                {copied==="code" ? "Copied" : "Copy"}
               </button>
             </article>
 
             <article className="referral-link-card">
-              <div className="referral-card-label"><span><Link2 size={18}/></span><div><small>Invite link</small><strong>wadan.app/ref/…</strong></div></div>
+              <div className="referral-card-label">
+                <span><Link2 size={18}/></span>
+                <div><small>Referral link</small><strong>wadan.app/signup?ref=…</strong></div>
+              </div>
               <div className="referral-link-actions">
                 <button type="button" onClick={()=>copy(referralLink,"link")}>
                   {copied==="link" ? <Check size={18}/> : <Copy size={18}/>}
@@ -148,46 +173,103 @@ export default function ReferralsPage() {
           </div>
         </section>
 
-        <section className="referral-progress-section">
+        <section className="referral-reward-section">
           <div className="section-strip">
-            <div><span>PROGRESS</span><strong>Referral tiers</strong></div>
-            <small>Preview structure</small>
+            <div><span>REWARD SYSTEM</span><strong>5-level referral rewards</strong></div>
+            <small>Preview rates</small>
           </div>
 
-          <div className="referral-levels">
-            {levels.map((level,index)=>(
-              <article className={level.active ? "active" : ""} key={level.name}>
-                <div className="level-icon">{index===0 ? <UserPlus size={21}/> : index===1 ? <Medal size={21}/> : <Trophy size={21}/>}</div>
-                <div className="level-copy"><small>{level.target} referrals</small><strong>{level.name}</strong><span>{level.bonus}</span></div>
-                <em>{level.active ? "Current" : "Locked"}</em>
+          <div className="reward-level-grid">
+            {rewardLevels.map((item)=>(
+              <article className={item.level===1 ? "primary" : ""} key={item.level}>
+                <div className="reward-level-top">
+                  <span>L{item.level}</span>
+                  <strong>{item.rate}</strong>
+                </div>
+                <h3>{item.relation}</h3>
+                <p>{item.note}</p>
+                <div className="reward-level-foot">
+                  <Sparkles size={15}/>
+                  <span>Share of eligible referral reward</span>
+                </div>
               </article>
             ))}
           </div>
+
+          <div className="referral-rule-note">
+            <ShieldCheck size={19}/>
+            <p>The percentages above are preview settings for the frontend. Final reward eligibility, anti-abuse rules and payout logic will be enforced by the backend before launch.</p>
+          </div>
         </section>
 
-        <section className="referral-lower-grid">
-          <article className="referral-panel">
-            <div className="section-strip">
-              <div><span>NETWORK</span><strong>Your referrals</strong></div>
-              <Users size={20}/>
-            </div>
-            <div className="referral-empty">
-              <div><UserPlus size={28}/></div>
-              <strong>No referrals yet</strong>
-              <p>Share your referral link. New members who join through it will appear here once the backend is connected.</p>
-            </div>
-          </article>
+        <section className="my-referrals-section">
+          <div className="section-strip">
+            <div><span>MY NETWORK</span><strong>My referrals</strong></div>
+            <small>0 members</small>
+          </div>
 
-          <article className="referral-panel">
-            <div className="section-strip">
-              <div><span>REWARDS</span><strong>Referral earnings</strong></div>
-              <Gift size={20}/>
+          <div className="referral-filter-bar">
+            {(["all","1","2","3","4","5"] as const).map((item)=>(
+              <button
+                key={item}
+                type="button"
+                className={filter===item ? "active" : ""}
+                onClick={()=>setFilter(item)}
+              >
+                {item==="all" ? "All" : `Level ${item}`}
+              </button>
+            ))}
+          </div>
+
+          <div className="referral-table-card">
+            <div className="referral-table-head">
+              <span>Member</span>
+              <span>Level</span>
+              <span>Joined</span>
+              <span>Status</span>
+              <span>Reward</span>
             </div>
-            <div className="referral-reward-summary">
-              <small>Lifetime referral rewards</small>
-              <strong>0 WDC</strong>
-              <span>Reward rules will be finalized before public launch.</span>
-            </div>
+
+            {visibleRows.length > 0 ? (
+              <div className="referral-table-body">
+                {visibleRows.map((row)=>(
+                  <div className="referral-table-row" key={row.id}>
+                    <div><span className="mini-avatar">{row.name.slice(0,2).toUpperCase()}</span><strong>{row.name}</strong></div>
+                    <span>L{row.level}</span>
+                    <span>{row.joined}</span>
+                    <span>{row.status}</span>
+                    <strong>{row.reward}</strong>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="referral-empty referral-empty-v2">
+                <div><UserPlus size={28}/></div>
+                <strong>No referrals in this view</strong>
+                <p>When members join through your referral link, their name, level, join date, qualification status and earned reward will appear here.</p>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section className="referral-summary-grid">
+          <article>
+            <div className="summary-icon"><Trophy size={20}/></div>
+            <small>Highest active level</small>
+            <strong>Level 1</strong>
+            <span>Starts with your first qualified referral</span>
+          </article>
+          <article>
+            <div className="summary-icon"><Gift size={20}/></div>
+            <small>Lifetime referral rewards</small>
+            <strong>0 WDC</strong>
+            <span>No referral reward credited yet</span>
+          </article>
+          <article>
+            <div className="summary-icon"><Users size={20}/></div>
+            <small>Network size</small>
+            <strong>0</strong>
+            <span>Across all five levels</span>
           </article>
         </section>
 
