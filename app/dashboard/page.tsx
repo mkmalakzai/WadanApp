@@ -30,6 +30,7 @@ export default function DashboardPage() {
   return (
     <main className="dash-shell">
       <div className="public-grid-bg" />
+
       <aside className="dash-sidebar gradient-border">
         <Link href="/" className="public-brand dash-brand">
           <img src="/wadan-mark.svg" alt="WADAN"/>
@@ -37,8 +38,8 @@ export default function DashboardPage() {
         </Link>
 
         <nav className="dash-nav">
-          <a className="active" href="#"><LayoutDashboard size={18}/> Dashboard</a>
-          <a href="#"><WalletCards size={18}/> Wallet</a>
+          <Link className="active" href="/dashboard"><LayoutDashboard size={18}/> Dashboard</Link>
+          <Link href="/wallet"><WalletCards size={18}/> Wallet</Link>
           <a href="#"><Repeat2 size={18}/> Swap</a>
           <a href="#"><Coins size={18}/> Staking</a>
           <a href="#"><Gift size={18}/> Referrals</a>
@@ -63,24 +64,40 @@ export default function DashboardPage() {
             <h1>WADAN Dashboard</h1>
           </div>
           <div className="dash-top-actions">
-            <button className="icon-square"><Bell size={18}/></button>
+            <button className="icon-square" aria-label="Notifications"><Bell size={18}/></button>
             <button className="user-chip"><span>MK</span><div><strong>Malakzai</strong><small>Member</small></div></button>
           </div>
         </header>
 
-        <section className="dash-hero gradient-border">
-          <div>
+        <section className="portfolio-pro gradient-border">
+          <div className="portfolio-main">
             <div className="dash-hero-label"><Sparkles size={14}/> YOUR WDC PORTFOLIO</div>
-            <p>Total portfolio value</p>
+            <p className="portfolio-caption">Total portfolio value</p>
             <h2>$0.00</h2>
-            <span>0.00 WDC available</span>
+            <div className="portfolio-change"><span>WDC account</span><strong>0.00 WDC available</strong></div>
+
+            <div className="portfolio-breakdown">
+              <div><small>Available</small><strong>0 WDC</strong></div>
+              <div><small>Staked</small><strong>0 WDC</strong></div>
+              <div><small>Rewards</small><strong>0 WDC</strong></div>
+            </div>
           </div>
-          <div className="dash-hero-actions">
-            <button><ArrowDownToLine size={18}/><span>Deposit</span></button>
-            <button><ArrowUpRight size={18}/><span>Withdraw</span></button>
-            <button><Repeat2 size={18}/><span>Swap</span></button>
-            <button><Coins size={18}/><span>Stake</span></button>
+
+          <div className="portfolio-visual">
+            <div className="portfolio-ring ring-one"/>
+            <div className="portfolio-ring ring-two"/>
+            <div className="portfolio-coin">
+              <img src="/wadan-mark.svg" alt="WDC"/>
+            </div>
+            <span className="portfolio-network">BNB SMART CHAIN</span>
           </div>
+        </section>
+
+        <section className="dashboard-actions">
+          <button><span><ArrowDownToLine size={22}/></span><div><strong>Deposit</strong><small>Add USDT or WDC</small></div></button>
+          <button><span><ArrowUpRight size={22}/></span><div><strong>Withdraw</strong><small>Send to external wallet</small></div></button>
+          <button><span><Repeat2 size={22}/></span><div><strong>Swap</strong><small>USDT ⇄ WDC</small></div></button>
+          <button><span><Coins size={22}/></span><div><strong>Stake</strong><small>Start earning WDC</small></div></button>
         </section>
 
         <section className="dash-metrics">
@@ -160,8 +177,8 @@ export default function DashboardPage() {
         </section>
 
         <nav className="dash-mobile-nav gradient-border">
-          <a className="active" href="#"><Home size={19}/><span>Home</span></a>
-          <a href="#"><WalletCards size={19}/><span>Wallet</span></a>
+          <Link className="active" href="/dashboard"><Home size={19}/><span>Home</span></Link>
+          <Link href="/wallet"><WalletCards size={19}/><span>Wallet</span></Link>
           <a href="#"><Repeat2 size={19}/><span>Swap</span></a>
           <a href="#"><Coins size={19}/><span>Stake</span></a>
           <a href="#"><UserRound size={19}/><span>Profile</span></a>
