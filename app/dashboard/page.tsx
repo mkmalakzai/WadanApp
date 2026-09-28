@@ -10,7 +10,6 @@ import {
   History,
   Home,
   LayoutDashboard,
-  Repeat2,
   Settings,
   ShieldCheck,
   Sparkles,
@@ -40,9 +39,8 @@ export default function DashboardPage() {
         <nav className="dash-nav">
           <Link className="active" href="/dashboard"><LayoutDashboard size={18}/> Dashboard</Link>
           <Link href="/wallet"><WalletCards size={18}/> Wallet</Link>
-          <a href="#"><Repeat2 size={18}/> Swap</a>
+          <Link href="/referrals"><Gift size={18}/> Referrals</Link>
           <a href="#"><Coins size={18}/> Staking</a>
-          <a href="#"><Gift size={18}/> Referrals</a>
           <a href="#"><History size={18}/> History</a>
         </nav>
 
@@ -111,7 +109,7 @@ export default function DashboardPage() {
           <div className="action-dock">
             <Link href="/wallet/deposit" className="action-link"><span><ArrowDownToLine size={23}/></span><strong>Deposit</strong><small>Add funds</small></Link>
             <Link href="/wallet/withdraw" className="action-link"><span><ArrowUpRight size={23}/></span><strong>Withdraw</strong><small>Send funds</small></Link>
-            <a href="#" className="action-link"><span><Repeat2 size={23}/></span><strong>Swap</strong><small>USDT ⇄ WDC</small></a>
+            <Link href="/wallet/swap" className="action-link"><span><WalletCards size={23}/></span><strong>Swap</strong><small>USDT ⇄ WDC</small></Link>
             <a href="#" className="action-link"><span><Coins size={23}/></span><strong>Stake</strong><small>Earn WDC</small></a>
           </div>
         </section>
@@ -200,7 +198,7 @@ export default function DashboardPage() {
         <nav className="dash-mobile-nav gradient-border">
           <Link className="active" href="/dashboard"><Home size={19}/><span>Home</span></Link>
           <Link href="/wallet"><WalletCards size={19}/><span>Wallet</span></Link>
-          <a href="#"><Repeat2 size={19}/><span>Swap</span></a>
+          <Link href="/referrals"><Gift size={19}/><span>Referral</span></Link>
           <a href="#"><Coins size={19}/><span>Stake</span></a>
           <a href="#"><UserRound size={19}/><span>Profile</span></a>
         </nav>
