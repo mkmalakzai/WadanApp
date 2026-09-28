@@ -739,3 +739,189 @@ linear-gradient(135deg,rgba(255,238,174,.34),rgba(255,176,0,.10),rgba(255,255,25
     min-height:42px;
   }
 }
+
+
+/* MOBILE SCALE V5 — true phone-first sizing */
+@media (max-width:760px){
+  body{font-size:16px}
+
+  .public-nav-wrap{padding:8px}
+  .public-nav{padding:10px 11px}
+  .public-brand img{width:42px;height:42px}
+  .public-brand strong{font-size:15px}
+  .nav-signup{min-height:40px;padding:0 13px;font-size:10px}
+
+  .public-hero,
+  .public-stats,
+  .public-section,
+  .final-cta,
+  .public-footer{
+    width:calc(100% - 16px);
+  }
+
+  .hero-kicker{font-size:10px}
+  .hero-copy-block h1{font-size:clamp(54px,17vw,78px)}
+  .hero-copy-block>p{font-size:14px;line-height:1.7}
+  .hero-trust-row{font-size:10.5px}
+  .gold-cta,.glass-cta{min-height:50px;font-size:11px}
+  .hero-visual{min-height:380px}
+  .hero-logo-core{width:182px;height:182px}
+
+  .public-stats article{min-height:116px;padding:15px}
+  .stat-icon{width:44px;height:44px}
+  .public-stats small,.public-stats em{font-size:9px}
+  .public-stats strong{font-size:16px}
+
+  .section-heading p{font-size:10px}
+  .section-heading h2{font-size:clamp(38px,11vw,54px)}
+  .section-heading span{font-size:13px}
+
+  .vision-card{min-height:196px;padding:17px}
+  .vision-card h3{font-size:18px}
+  .vision-card p{font-size:11.5px}
+
+  .leaderboard-head h3{font-size:18px}
+  .leader-row{min-height:64px}
+  .avatar-art{width:40px;height:40px}
+  .leader-name strong{font-size:11px}
+  .leader-name small{font-size:8px}
+  .leader-value{font-size:10px}
+
+  .roadmap-card h3{font-size:18px}
+  .roadmap-card p{font-size:11px}
+
+  .token-identity h2{font-size:38px}
+  .token-identity p{font-size:10px}
+  .token-details small{font-size:8px}
+  .token-details strong{font-size:10px}
+
+  .social-card strong{font-size:11px}
+  .social-card small{font-size:8px}
+
+  /* AUTH — noticeably larger on phones */
+  .auth-shell{padding:8px}
+  .auth-brand-panel{min-height:250px;padding:21px}
+  .auth-brand-copy h1{font-size:38px;line-height:.98}
+  .auth-brand-copy em{font-size:11px;line-height:1.65}
+  .auth-form-panel{padding:22px 18px 24px}
+  .auth-back{font-size:10px}
+  .auth-title p{font-size:10px}
+  .auth-title h2{font-size:32px}
+  .auth-title span{font-size:11px}
+  .signup-form{gap:12px;margin-top:22px}
+  .form-row-two{gap:8px}
+  .field label{font-size:11px;margin-bottom:7px}
+  .input-shell{
+    height:49px;
+    padding:0 10px;
+    border-radius:12px;
+  }
+  .input-shell input,
+  .input-shell select{
+    font-size:12px;
+  }
+  .dial-code{font-size:11px}
+  .terms-line{font-size:10px}
+  .auth-submit{
+    min-height:52px;
+    font-size:12px;
+    border-radius:13px;
+  }
+  .auth-switch{font-size:10px}
+  .auth-preview-note{font-size:8.5px}
+
+  /* DASHBOARD — larger typography while preserving compact layout */
+  .dash-shell{
+    width:calc(100% - 10px);
+    padding:5px 0 84px;
+  }
+
+  .dash-topbar{
+    min-height:68px;
+    padding:5px 4px 10px;
+  }
+  .dash-topbar p{font-size:10px}
+  .dash-topbar h1{font-size:29px}
+  .icon-square,.user-chip{height:44px}
+  .icon-square{width:44px}
+  .user-chip>span{width:32px;height:32px;font-size:10px}
+
+  .dash-hero{
+    padding:20px 16px 16px;
+    border-radius:18px;
+  }
+  .dash-hero-label{font-size:10px;padding:7px 10px}
+  .dash-hero p{font-size:11px;margin-top:16px}
+  .dash-hero h2{font-size:52px;line-height:.94}
+  .dash-hero>div>span{font-size:10px}
+
+  .dash-hero-actions{
+    margin-top:18px;
+    gap:6px;
+  }
+  .dash-hero-actions button{
+    height:70px;
+    border-radius:13px;
+  }
+  .dash-hero-actions svg{width:20px;height:20px}
+  .dash-hero-actions span{font-size:10px}
+
+  .dash-metrics{gap:7px;margin-top:7px}
+  .dash-metric{
+    min-height:108px;
+    padding:13px;
+    gap:10px;
+  }
+  .dash-metric>span{width:38px;height:38px}
+  .dash-metric small{font-size:9px}
+  .dash-metric strong{font-size:17px}
+  .dash-metric em{font-size:8px}
+
+  .dash-panel{padding:15px}
+  .dash-panel-head p{font-size:9px}
+  .dash-panel-head h3{font-size:21px}
+
+  .staking-cards{gap:7px}
+  .staking-card{
+    min-height:128px;
+    padding:12px;
+  }
+  .staking-badge{width:42px;height:42px}
+  .staking-card strong{font-size:11px}
+  .staking-card span{font-size:9px}
+  .staking-card button{font-size:9px}
+
+  .referral-box>span,
+  .referral-box>small{font-size:9px}
+  .referral-box strong{font-size:18px}
+
+  .dash-activity strong{font-size:10px}
+  .dash-activity small{font-size:8px}
+
+  .profile-summary strong{font-size:11px}
+  .profile-summary span{font-size:8px}
+  .profile-lines>div{font-size:9px}
+
+  .dash-mobile-nav{
+    left:6px;right:6px;bottom:6px;
+    padding:7px 5px;
+  }
+  .dash-mobile-nav a{
+    min-height:50px;
+    font-size:9px;
+    gap:4px;
+  }
+  .dash-mobile-nav svg{width:20px;height:20px}
+}
+
+@media (max-width:430px){
+  .form-row-two{grid-template-columns:1fr 1fr}
+  .country-phone-row{grid-template-columns:1.05fr .95fr}
+  .input-shell input,.input-shell select{font-size:11px}
+  .field label{font-size:10px}
+
+  .dash-hero h2{font-size:48px}
+  .dash-topbar h1{font-size:27px}
+  .dash-metric strong{font-size:16px}
+  .dash-panel-head h3{font-size:19px}
+}
