@@ -66,76 +66,86 @@ export default function WalletPage() {
           </div>
         </header>
 
-        <section className="wallet-balance-card gradient-border">
-          <div className="wallet-balance-top">
+        <section className="wallet-overview-v2">
+          <div className="wallet-total">
             <div>
-              <span className="wallet-label"><WalletCards size={15}/> TOTAL WALLET BALANCE</span>
+              <span className="wallet-label"><WalletCards size={15}/> TOTAL WALLET</span>
               <p>Estimated value</p>
               <h2>$0.00</h2>
-              <small>0.00 WDC + 0.00 USDT</small>
+              <small>Across WDC and USDT</small>
             </div>
             <button className="wallet-eye" aria-label="Toggle balance visibility"><Eye size={19}/></button>
           </div>
 
-          <div className="wallet-address-box">
+          <div className="wallet-balance-grid">
+            <article className="wallet-asset-balance wdc-balance">
+              <div className="asset-balance-top">
+                <span className="asset-symbol">W</span>
+                <div><strong>Wadan Coin</strong><small>WDC • BNB Chain</small></div>
+              </div>
+              <h3>0.00 WDC</h3>
+              <div className="asset-balance-foot"><span>$0.00</span><em>$0.0100 / WDC</em></div>
+            </article>
+
+            <article className="wallet-asset-balance usdt-balance">
+              <div className="asset-balance-top">
+                <span className="asset-symbol usdt"><CircleDollarSign size={22}/></span>
+                <div><strong>Tether USD</strong><small>USDT • BNB Chain</small></div>
+              </div>
+              <h3>0.00 USDT</h3>
+              <div className="asset-balance-foot"><span>$0.00</span><em>$1.00 / USDT</em></div>
+            </article>
+          </div>
+        </section>
+
+        <section className="wallet-action-section">
+          <div className="section-strip">
+            <div><span>QUICK TOOLS</span><strong>Manage wallet</strong></div>
+            <small>BNB Chain</small>
+          </div>
+          <div className="wallet-action-dock">
+            <button><span><ArrowDownToLine size={22}/></span><strong>Deposit</strong><small>Add funds</small></button>
+            <button><span><ArrowUpRight size={22}/></span><strong>Withdraw</strong><small>Send out</small></button>
+            <button><span><Repeat2 size={22}/></span><strong>Swap</strong><small>USDT ⇄ WDC</small></button>
+          </div>
+        </section>
+
+        <section className="wallet-receive-panel">
+          <div className="receive-copy">
+            <span>RECEIVE FUNDS</span>
+            <strong>Your WADAN deposit address</strong>
+            <small>BNB Smart Chain • BEP-20</small>
+          </div>
+          <div className="receive-address">
+            <code>0x••••••••••••••••••••••••A7C2</code>
             <div>
-              <small>WADAN deposit address</small>
-              <strong>0x••••••••••••••••••••••••A7C2</strong>
-            </div>
-            <div className="wallet-address-actions">
               <button aria-label="Copy address"><Copy size={16}/></button>
               <button aria-label="Show QR code"><QrCode size={17}/></button>
             </div>
           </div>
         </section>
 
-        <section className="wallet-actions">
-          <button><span><ArrowDownToLine size={22}/></span><div><strong>Deposit</strong><small>Add funds</small></div></button>
-          <button><span><ArrowUpRight size={22}/></span><div><strong>Withdraw</strong><small>Send externally</small></div></button>
-          <button><span><Repeat2 size={22}/></span><div><strong>Swap</strong><small>USDT ⇄ WDC</small></div></button>
-        </section>
-
-        <section className="wallet-assets">
-          <div className="wallet-section-head">
-            <div><p>ASSETS</p><h3>Your balances</h3></div>
-            <span>2 assets</span>
-          </div>
-
-          <article className="asset-card gradient-border">
-            <div className="asset-logo wdc"><img src="/wadan-mark.svg" alt="WDC"/></div>
-            <div className="asset-name"><strong>Wadan Coin</strong><small>WDC • BNB Smart Chain</small></div>
-            <div className="asset-price"><small>Price</small><strong>$0.0100</strong></div>
-            <div className="asset-balance"><small>Balance</small><strong>0.00 WDC</strong><span>$0.00</span></div>
-          </article>
-
-          <article className="asset-card gradient-border">
-            <div className="asset-logo usdt"><CircleDollarSign size={24}/></div>
-            <div className="asset-name"><strong>Tether USD</strong><small>USDT • BNB Smart Chain</small></div>
-            <div className="asset-price"><small>Price</small><strong>$1.00</strong></div>
-            <div className="asset-balance"><small>Balance</small><strong>0.00 USDT</strong><span>$0.00</span></div>
-          </article>
-        </section>
-
-        <section className="wallet-grid">
-          <article className="dash-panel gradient-border">
-            <div className="dash-panel-head">
-              <div><p>RECENT WALLET ACTIVITY</p><h3>Transactions</h3></div>
+        <section className="wallet-grid-v2">
+          <article className="wallet-activity-panel">
+            <div className="section-strip">
+              <div><span>RECENT ACTIVITY</span><strong>Wallet transactions</strong></div>
               <History size={20}/>
             </div>
-            <div className="dash-activity wallet-activity">
+
+            <div className="wallet-activity-list">
               {walletActivity.map((r,i)=>(
-                <div key={r[0]}>
+                <div className="wallet-activity-row" key={r[0]}>
                   <span className="activity-dot">{i+1}</span>
                   <div><strong>{r[0]}</strong><small>{r[1]}</small></div>
-                  <div className="activity-right"><strong>{r[2]}</strong><small>{r[3]}</small></div>
+                  <div><strong>{r[2]}</strong><small>{r[3]}</small></div>
                 </div>
               ))}
             </div>
           </article>
 
-          <article className="dash-panel gradient-border wallet-security-panel">
-            <div className="dash-panel-head">
-              <div><p>SECURITY</p><h3>Wallet protection</h3></div>
+          <article className="wallet-security-v2">
+            <div className="section-strip">
+              <div><span>SECURITY</span><strong>Wallet protection</strong></div>
               <ShieldCheck size={20}/>
             </div>
 
