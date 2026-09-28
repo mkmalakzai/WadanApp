@@ -272,3 +272,246 @@ linear-gradient(135deg,rgba(255,238,174,.34),rgba(255,176,0,.10),rgba(255,255,25
     linear-gradient(135deg,rgba(255,225,138,.45),rgba(255,176,0,.12),rgba(255,255,255,.06)) border-box;
   box-shadow:0 16px 45px rgba(0,0,0,.45),0 0 24px rgba(255,176,0,.04);
 }
+
+
+/* MOBILE DENSITY V3 — closer, larger and better-balanced cards */
+@media (max-width:760px){
+  body{font-size:15px}
+
+  .public-nav-wrap{padding:6px}
+  .public-nav{width:100%;padding:9px 10px;border-radius:16px}
+  .public-brand{gap:9px}
+  .public-brand img{width:39px;height:39px}
+  .public-brand strong{font-size:14px}
+  .nav-signup{min-height:37px;padding:0 12px;font-size:9px;border-radius:10px}
+
+  .public-hero,
+  .public-stats,
+  .public-section,
+  .final-cta,
+  .public-footer{
+    width:calc(100% - 12px);
+  }
+
+  .public-hero{margin-top:12px}
+  .hero-copy-block h1{font-size:clamp(50px,16vw,76px);line-height:.91}
+  .hero-copy-block>p{font-size:12.5px;line-height:1.72}
+  .hero-kicker{font-size:9.5px;padding:8px 10px}
+  .hero-trust-row{font-size:9.5px;gap:12px}
+  .hero-visual{min-height:355px}
+  .hero-logo-core{width:172px;height:172px}
+  .orbit-a{width:228px;height:228px}
+  .orbit-b{width:292px;height:292px}
+  .orbit-c{width:348px;height:348px}
+  .floating-tag{font-size:9px;padding:9px 10px}
+
+  .public-stats{gap:7px}
+  .public-stats article{
+    min-height:104px;
+    padding:13px;
+    border-radius:17px;
+  }
+  .stat-icon{width:42px;height:42px}
+  .public-stats small,.public-stats em{font-size:8.5px}
+  .public-stats strong{font-size:14px}
+
+  .public-section{margin-top:68px}
+  .section-heading p{font-size:9.5px}
+  .section-heading h2{font-size:clamp(36px,10vw,52px)}
+  .section-heading span{font-size:12px;line-height:1.65}
+
+  .vision-grid{gap:7px;margin-top:22px}
+  .vision-card{
+    min-height:184px;
+    padding:16px;
+    border-radius:17px;
+  }
+  .vision-card h3{font-size:17px;margin-top:24px}
+  .vision-card p{font-size:10.5px;line-height:1.6}
+
+  .leaderboard-card{padding:14px;border-radius:18px}
+  .leaderboard-head h3{font-size:17px}
+  .leader-row{min-height:62px;gap:9px}
+  .avatar-art{width:38px;height:38px}
+  .leader-name strong{font-size:10.5px}
+  .leader-name small{font-size:7.5px}
+  .leader-value{font-size:9.5px}
+
+  .roadmap-track{margin-top:34px;gap:14px}
+  .roadmap-card{min-height:112px;padding:16px}
+  .roadmap-card h3{font-size:17px}
+  .roadmap-card p{font-size:10.5px;line-height:1.6}
+
+  .token-panel{padding:19px;gap:14px}
+  .token-identity img{width:88px;height:88px}
+  .token-identity h2{font-size:36px}
+  .token-identity p{font-size:9.5px}
+  .token-details{gap:7px}
+  .token-details div{padding:11px}
+  .token-details small{font-size:7.5px}
+  .token-details strong{font-size:9px}
+
+  .social-grid{gap:7px}
+  .social-card{min-height:92px;padding:13px}
+  .social-card strong{font-size:10px}
+  .social-card small{font-size:7.5px}
+
+  .final-cta{padding:20px;margin-top:68px}
+  .final-cta h2{font-size:25px}
+
+  /* Auth becomes physically larger on phones without turning into one-field-per-row */
+  .auth-shell{padding:6px}
+  .auth-wrap-new{border-radius:17px}
+  .auth-brand-panel{min-height:228px;padding:19px}
+  .auth-brand-copy{margin:20px 0 0}
+  .auth-brand-copy h1{font-size:36px}
+  .auth-brand-copy em{font-size:10px}
+  .auth-form-panel{padding:20px 16px 22px}
+  .auth-title h2{font-size:28px}
+  .auth-title span{font-size:9.5px}
+  .signup-form{gap:10px}
+  .form-row-two{gap:7px}
+  .field label{font-size:8px}
+  .input-shell{
+    height:44px;
+    padding:0 9px;
+    border-radius:10px;
+  }
+  .input-shell input,.input-shell select{font-size:9px}
+  .dial-code{font-size:8.5px}
+  .terms-line{font-size:8.5px}
+  .auth-submit{min-height:46px;font-size:9.5px}
+  .auth-switch{font-size:8.5px}
+
+  /* Dashboard — larger visual scale and stricter card rhythm */
+  .dash-shell{
+    width:calc(100% - 8px);
+    padding:4px 0 88px;
+  }
+  .dash-topbar{
+    min-height:66px;
+    padding:5px 4px 9px;
+  }
+  .dash-topbar p{font-size:8.5px}
+  .dash-topbar h1{font-size:24px}
+  .icon-square,.user-chip{height:42px}
+  .icon-square{width:42px}
+  .user-chip>span{width:30px;height:30px}
+
+  .dash-hero{
+    padding:20px 16px;
+    border-radius:19px;
+  }
+  .dash-hero-label{font-size:8.5px}
+  .dash-hero p{font-size:9.5px}
+  .dash-hero h2{font-size:48px}
+  .dash-hero>div>span{font-size:8.5px}
+  .dash-hero-actions{
+    margin-top:20px;
+    gap:6px;
+  }
+  .dash-hero-actions button{
+    height:72px;
+    border-radius:13px;
+  }
+  .dash-hero-actions span{font-size:8.5px}
+
+  .dash-metrics{
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+    margin-top:7px;
+  }
+  .dash-metric{
+    min-height:108px;
+    padding:13px;
+    border-radius:15px;
+  }
+  .dash-metric>span{width:36px;height:36px}
+  .dash-metric small{font-size:8px}
+  .dash-metric strong{font-size:15px}
+  .dash-metric em{font-size:7px}
+
+  .dash-two-col,.dash-two-col.lower{
+    gap:7px;
+    margin-top:7px;
+  }
+  .dash-panel{
+    padding:15px;
+    border-radius:16px;
+  }
+  .dash-panel-head p{font-size:8px}
+  .dash-panel-head h3{font-size:17px}
+
+  .staking-cards{
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+    margin-top:14px;
+  }
+  .staking-card{
+    min-height:124px;
+    padding:11px;
+    border-radius:13px;
+  }
+  .staking-badge{width:40px;height:40px}
+  .staking-card strong{font-size:9.5px}
+  .staking-card span{font-size:7.5px;line-height:1.45}
+  .staking-card button{font-size:7.5px}
+
+  .referral-box{padding:13px}
+  .referral-box>span,.referral-box>small{font-size:7.5px}
+  .referral-box strong{font-size:17px}
+
+  .dash-activity>div{min-height:58px}
+  .dash-activity strong{font-size:8.5px}
+  .dash-activity small{font-size:6.5px}
+
+  .profile-lines>div{padding:10px 0;font-size:7.5px}
+
+  .dash-mobile-nav{
+    left:4px;right:4px;bottom:4px;
+    padding:7px 5px;
+    border-radius:16px;
+  }
+  .dash-mobile-nav a{
+    min-height:52px;
+    font-size:7.5px;
+  }
+}
+
+@media (max-width:430px){
+  .public-hero,
+  .public-stats,
+  .public-section,
+  .final-cta,
+  .public-footer{width:calc(100% - 10px)}
+
+  .hero-copy-block h1{font-size:clamp(48px,15.4vw,67px)}
+  .hero-visual{min-height:330px}
+
+  .public-stats article{min-height:100px;padding:11px}
+  .vision-grid{gap:6px}
+  .vision-card{min-height:176px;padding:13px}
+
+  .leaderboard-card{padding:12px}
+  .leader-row{min-height:60px}
+  .rank-num{width:23px}
+  .leader-value{font-size:8.5px}
+
+  .form-row-two{grid-template-columns:1fr 1fr;gap:6px}
+  .country-phone-row{grid-template-columns:1.08fr .92fr}
+  .input-shell{height:42px;padding:0 7px}
+  .input-shell svg{width:13px;height:13px}
+  .input-shell input,.input-shell select{font-size:8px}
+  .dial-code{font-size:7.5px;padding-right:5px}
+
+  .dash-shell{width:calc(100% - 6px)}
+  .dash-hero{padding:18px 13px}
+  .dash-hero h2{font-size:44px}
+  .dash-hero-actions{gap:4px}
+  .dash-hero-actions button{height:68px}
+  .dash-metrics{gap:5px}
+  .dash-metric{min-height:104px;padding:11px}
+  .dash-metric strong{font-size:14px}
+  .staking-cards{gap:5px}
+  .staking-card{min-height:120px;padding:10px}
+}
