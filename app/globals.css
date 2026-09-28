@@ -1256,3 +1256,149 @@ linear-gradient(135deg,rgba(255,238,174,.34),rgba(255,176,0,.10),rgba(255,255,25
     padding:11px;
   }
 }
+
+
+/* MOBILE NATIVE V7 — larger type + no hollow cards */
+@media (max-width:760px){
+  .dash-topbar p{font-size:11px}
+  .dash-topbar h1{font-size:31px}
+
+  .dash-hero p{font-size:13px}
+  .dash-hero h2{font-size:60px}
+  .dash-hero>div>span{font-size:11px}
+
+  .dash-hero-actions button{
+    height:78px;
+    padding:0 15px;
+  }
+  .dash-hero-actions span{
+    font-size:12px;
+  }
+
+  /* Fill metric cards: icon left, all text stacked beside it */
+  .dash-metric{
+    min-height:112px;
+    padding:14px;
+    display:grid;
+    grid-template-columns:46px minmax(0,1fr);
+    align-items:center;
+    column-gap:12px;
+    row-gap:0;
+  }
+
+  .dash-metric>span{
+    position:static;
+    width:46px;
+    height:46px;
+    border-radius:13px;
+    grid-column:1;
+    grid-row:1;
+  }
+
+  .dash-metric>span svg{
+    width:22px;
+    height:22px;
+  }
+
+  .dash-metric>div{
+    min-height:0;
+    width:auto;
+    padding:0;
+    grid-column:2;
+    grid-row:1;
+    display:block;
+  }
+
+  .dash-metric small{
+    font-size:11px;
+    line-height:1.2;
+  }
+
+  .dash-metric strong{
+    margin-top:5px;
+    font-size:22px;
+    line-height:1.05;
+  }
+
+  .dash-metric em{
+    margin-top:6px;
+    font-size:9.5px;
+    line-height:1.3;
+  }
+
+  .dash-panel-head p{font-size:10px}
+  .dash-panel-head h3{font-size:23px}
+
+  .staking-card{
+    min-height:132px;
+    padding:13px;
+  }
+
+  .staking-badge{
+    width:44px;
+    height:44px;
+    font-size:10px;
+  }
+
+  .staking-card strong{
+    font-size:13px;
+  }
+
+  .staking-card span{
+    font-size:10px;
+  }
+
+  .staking-card button{
+    font-size:10.5px;
+  }
+
+  .referral-box>span,
+  .referral-box>small{
+    font-size:10px;
+  }
+
+  .referral-box strong{
+    font-size:21px;
+  }
+
+  .dash-activity strong{font-size:11px}
+  .dash-activity small{font-size:9px}
+
+  .profile-summary strong{font-size:13px}
+  .profile-summary span{font-size:9.5px}
+  .profile-lines>div{font-size:10px}
+
+  .dash-mobile-nav a{
+    font-size:10px;
+  }
+}
+
+@media (max-width:430px){
+  .dash-topbar h1{font-size:29px}
+  .dash-hero h2{font-size:56px}
+
+  .dash-metric{
+    min-height:108px;
+    padding:12px;
+    grid-template-columns:42px minmax(0,1fr);
+    column-gap:10px;
+  }
+
+  .dash-metric>span{
+    width:42px;
+    height:42px;
+  }
+
+  .dash-metric>span svg{
+    width:20px;
+    height:20px;
+  }
+
+  .dash-metric small{font-size:10px}
+  .dash-metric strong{font-size:20px}
+  .dash-metric em{font-size:8.5px}
+
+  .dash-panel-head h3{font-size:21px}
+  .staking-card strong{font-size:12px}
+  .staking-card span{font-size:9px}
+}
