@@ -5,7 +5,6 @@ import {
   CheckCircle2,
   Coins,
   Crown,
-  Github,
   Globe2,
   LockKeyhole,
   MessageCircleMore,
@@ -222,7 +221,7 @@ export default function HomePage() {
 
         <div className="social-grid">
           <a href="#" className="social-card gradient-border"><MessageCircleMore/><div><strong>Telegram</strong><small>Community & updates</small></div><ArrowRight size={16}/></a>
-          <a href="#" className="social-card gradient-border"><Github/><div><strong>GitHub</strong><small>Development</small></div><ArrowRight size={16}/></a>
+          <a href="#" className="social-card gradient-border"><Globe2/><div><strong>GitHub</strong><small>Development</small></div><ArrowRight size={16}/></a>
           <a href="#" className="social-card gradient-border"><BookOpen/><div><strong>Docs</strong><small>Project documentation</small></div><ArrowRight size={16}/></a>
           <a href="#" className="social-card gradient-border"><Globe2/><div><strong>Website</strong><small>Official WADAN portal</small></div><ArrowRight size={16}/></a>
         </div>
