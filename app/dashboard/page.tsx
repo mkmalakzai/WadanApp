@@ -26,26 +26,6 @@ const recent = [
   ["Referral","Community reward","+ 500 WDC","Preview"],
 ];
 
-function MiniSparkline() {
-  return (
-    <svg className="portfolio-sparkline" viewBox="0 0 260 92" role="img" aria-label="Portfolio trend preview">
-      <defs>
-        <linearGradient id="sparkStroke" x1="0" x2="1">
-          <stop offset="0%" stopColor="#b86f00" />
-          <stop offset="55%" stopColor="#ffb000" />
-          <stop offset="100%" stopColor="#ffe08a" />
-        </linearGradient>
-        <linearGradient id="sparkArea" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#ffb000" stopOpacity=".25" />
-          <stop offset="100%" stopColor="#ffb000" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <path d="M0 70 C28 68 38 48 62 54 C84 60 98 35 120 42 C145 50 158 28 182 33 C205 38 222 18 260 15 L260 92 L0 92 Z" fill="url(#sparkArea)" />
-      <path d="M0 70 C28 68 38 48 62 54 C84 60 98 35 120 42 C145 50 158 28 182 33 C205 38 222 18 260 15" fill="none" stroke="url(#sparkStroke)" strokeWidth="4" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 export default function DashboardPage() {
   return (
     <main className="dash-shell">
@@ -89,7 +69,7 @@ export default function DashboardPage() {
           </div>
         </header>
 
-        <section className="portfolio-v2">
+        <section className="portfolio-v2 portfolio-clean">
           <div className="portfolio-v2-copy">
             <div className="dash-hero-label"><Sparkles size={14}/> PORTFOLIO OVERVIEW</div>
             <p>Total portfolio value</p>
@@ -101,14 +81,6 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="portfolio-v2-chart">
-            <div className="chart-heading">
-              <span>Portfolio trend</span>
-              <strong>Preview</strong>
-            </div>
-            <MiniSparkline />
-          </div>
-
           <div className="portfolio-v2-breakdown">
             <div><span>Available</span><strong>0 WDC</strong></div>
             <div><span>Staked</span><strong>0 WDC</strong></div>
@@ -116,17 +88,31 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        <section className="action-section">
+        <section className="wdc-price-strip" aria-label="WDC price">
+          <div className="wdc-price-left">
+            <span className="wdc-price-icon"><Coins size={23}/></span>
+            <div>
+              <small>WDC PRICE</small>
+              <strong>$0.0100</strong>
+            </div>
+          </div>
+          <div className="wdc-price-right">
+            <span>BNB Smart Chain</span>
+            <strong>Reference price</strong>
+          </div>
+        </section>
+
+        <section className="action-section action-section-spaced">
           <div className="section-strip">
             <div><span>QUICK ACTIONS</span><strong>Move your assets</strong></div>
             <small>Fast access</small>
           </div>
 
           <div className="action-dock">
-            <button><span><ArrowDownToLine size={23}/></span><strong>Deposit</strong><small>Add funds</small></button>
-            <button><span><ArrowUpRight size={23}/></span><strong>Withdraw</strong><small>Send funds</small></button>
-            <button><span><Repeat2 size={23}/></span><strong>Swap</strong><small>USDT ⇄ WDC</small></button>
-            <button><span><Coins size={23}/></span><strong>Stake</strong><small>Earn WDC</small></button>
+            <Link href="/wallet/deposit" className="action-link"><span><ArrowDownToLine size={23}/></span><strong>Deposit</strong><small>Add funds</small></Link>
+            <Link href="/wallet/withdraw" className="action-link"><span><ArrowUpRight size={23}/></span><strong>Withdraw</strong><small>Send funds</small></Link>
+            <a href="#" className="action-link"><span><Repeat2 size={23}/></span><strong>Swap</strong><small>USDT ⇄ WDC</small></a>
+            <a href="#" className="action-link"><span><Coins size={23}/></span><strong>Stake</strong><small>Earn WDC</small></a>
           </div>
         </section>
 
@@ -135,8 +121,7 @@ export default function DashboardPage() {
             <div><span>OVERVIEW</span><strong>Account snapshot</strong></div>
           </div>
 
-          <div className="overview-grid-v2">
-            <article><span className="overview-icon"><Coins size={21}/></span><div><small>WDC Price</small><strong>$0.0100</strong><em>Reference price</em></div></article>
+          <div className="overview-grid-v2 overview-grid-three">
             <article><span className="overview-icon"><CircleDollarSign size={21}/></span><div><small>Total Staked</small><strong>0 WDC</strong><em>No active plan</em></div></article>
             <article><span className="overview-icon"><Gift size={21}/></span><div><small>Rewards</small><strong>0 WDC</strong><em>Lifetime earnings</em></div></article>
             <article><span className="overview-icon"><Users size={21}/></span><div><small>Referrals</small><strong>0</strong><em>Community network</em></div></article>
