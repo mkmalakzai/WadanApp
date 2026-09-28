@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   ArrowDownToLine,
+  ArrowDownUp,
   ArrowUpRight,
   Bell,
   CircleDollarSign,
@@ -104,7 +105,7 @@ export default function WalletPage() {
           <div className="wallet-action-dock">
             <Link href="/wallet/deposit" className="wallet-action-link"><span><ArrowDownToLine size={22}/></span><strong>Deposit</strong><small>QR & address</small></Link>
             <Link href="/wallet/withdraw" className="wallet-action-link"><span><ArrowUpRight size={22}/></span><strong>Withdraw</strong><small>Send out</small></Link>
-            <Link href="/wallet/swap" className="wallet-action-link"><span><WalletCards size={22}/></span><strong>Swap</strong><small>USDT ⇄ WDC</small></Link>
+            <Link href="/wallet/swap" className="wallet-action-link"><span><ArrowDownUp size={22}/></span><strong>Swap</strong><small>USDT ⇄ WDC</small></Link>
           </div>
         </section>
 
