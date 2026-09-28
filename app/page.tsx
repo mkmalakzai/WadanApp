@@ -1,257 +1,248 @@
 import Link from "next/link";
 import {
-  ArrowDownToLine,
-  ArrowUpRight,
-  Bell,
-  ChevronRight,
+  ArrowRight,
+  BookOpen,
+  CheckCircle2,
   Coins,
-  CreditCard,
-  History,
-  Home,
-  LayoutDashboard,
-  Repeat2,
+  Crown,
+  Github,
+  Globe2,
+  LockKeyhole,
+  MessageCircleMore,
+  Rocket,
   ShieldCheck,
   Sparkles,
-  TrendingUp,
-  UserRound,
+  Trophy,
+  Users,
   WalletCards,
   Zap,
 } from "lucide-react";
 
-const activities = [
-  { icon: ArrowDownToLine, title: "Deposit", subtitle: "USDT • BNB Smart Chain", amount: "+ $250.00", time: "Preview" },
-  { icon: Repeat2, title: "Swap", subtitle: "USDT → WDC", amount: "25,000 WDC", time: "Preview" },
-  { icon: Coins, title: "Stake", subtitle: "6 month plan", amount: "0 WDC", time: "Not active" },
+const stakers = [
+  ["AK","Ahmad K.","4.82M WDC"],["FM","Farid M.","4.31M WDC"],["SA","Sami A.","3.94M WDC"],
+  ["HM","Hamid M.","3.50M WDC"],["NA","Naveed A.","3.16M WDC"],["ZR","Zubair R.","2.91M WDC"],
+  ["MK","M. Khan","2.68M WDC"],["AR","Arian R.","2.42M WDC"],["YA","Yasir A.","2.18M WDC"],["SK","Sahil K.","1.96M WDC"]
 ];
+
+const referrers = [
+  ["HA","Haroon A.","1,284"],["MR","M. Rahman","1,071"],["FS","Faisal S.","932"],["NA","Noman A.","801"],
+  ["IM","Imran M.","744"],["RK","Rafi K.","689"],["AZ","Aziz Z.","625"],["SA","Sami A.","587"],["FM","Farid M.","544"],["AK","Ahmad K.","501"]
+];
+
+const roadmap = [
+  ["01","Foundation","Token architecture, brand system, core website and user accounts.","active"],
+  ["02","WDC Launch","BEP-20 deployment, token visibility and treasury controls.","next"],
+  ["03","Staking","6-month and 12-month staking with transparent reward tracking.",""],
+  ["04","Swap & Wallet","USDT ⇄ WDC swap, deposits, withdrawals and activity history.",""],
+  ["05","Community","Referral economy, funding tools, rankings and member growth.",""],
+  ["06","WADAN Ecosystem","Games, marketplace, microtasks and new utility products.",""]
+];
+
+function Avatar({ label, index }: { label: string; index: number }) {
+  const palettes = [
+    ["#f9d77a","#745016"],["#8bd7ff","#254768"],["#b59cff","#4d3d78"],["#83efb2","#25533a"],
+    ["#ff9ca9","#6b3340"],["#f6bb7d","#6c4826"],["#9dd7cb","#28554d"],["#dcc58d","#5d5131"],
+    ["#a9b9ff","#3f4a7a"],["#f0a8df","#693b61"]
+  ];
+  const [a,b]=palettes[index % palettes.length];
+  return (
+    <div className="avatar-art" style={{background:`linear-gradient(145deg,${a},${b})`}}>
+      <span>{label}</span>
+    </div>
+  );
+}
 
 export default function HomePage() {
   return (
-    <main className="dashboard-shell">
-      <div className="bg-grid" />
-      <div className="glow glow-a" />
-      <div className="glow glow-b" />
-
-      <div className="dashboard-layout">
-        <aside className="sidebar glass-panel">
-          <Link href="/" className="brand-block">
-            <div className="brand-symbol"><span>W</span></div>
-            <div>
-              <strong>WADAN</strong>
-              <small>Wadan Coin • WDC</small>
-            </div>
+    <main className="public-shell">
+      <div className="public-grid-bg" />
+      <header className="public-nav-wrap">
+        <nav className="public-nav">
+          <Link href="/" className="public-brand">
+            <img src="/wadan-mark.svg" alt="WADAN" />
+            <div><strong>WADAN</strong><span>Wadan Coin • WDC</span></div>
           </Link>
 
-          <nav className="side-nav">
-            <a className="active" href="#"><LayoutDashboard size={19} /><span>Dashboard</span></a>
-            <a href="#"><WalletCards size={19} /><span>Wallet</span></a>
-            <a href="#"><Repeat2 size={19} /><span>Swap</span></a>
-            <a href="#"><Coins size={19} /><span>Staking</span></a>
-            <a href="#"><History size={19} /><span>History</span></a>
-          </nav>
-
-          <div className="side-spacer" />
-
-          <div className="security-mini">
-            <div className="security-icon"><ShieldCheck size={18} /></div>
-            <div>
-              <strong>Security first</strong>
-              <p>Protected account controls and activity monitoring.</p>
-            </div>
+          <div className="public-links">
+            <a href="#about">About</a>
+            <a href="#leaders">Leaders</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="#token">Token</a>
           </div>
 
-          <nav className="side-nav side-nav-bottom">
-            <a href="#"><UserRound size={19} /><span>Profile</span></a>
-          </nav>
-        </aside>
+          <div className="public-auth">
+            <Link href="/login" className="nav-login">Log in</Link>
+            <Link href="/signup" className="nav-signup">Create account <ArrowRight size={15}/></Link>
+          </div>
+        </nav>
+      </header>
 
-        <section className="main-area">
-          <header className="main-header">
-            <div className="mobile-brand">
-              <div className="brand-symbol small"><span>W</span></div>
-              <strong>WADAN</strong>
+      <section className="public-hero">
+        <div className="hero-copy-block">
+          <div className="hero-kicker"><Sparkles size={14}/> BUILT FOR THE NEXT WADAN ECONOMY</div>
+          <h1>One coin.<br/><span>One ecosystem.</span><br/>More utility.</h1>
+          <p>WADAN is a digital ecosystem built around WDC — bringing staking, swap, wallet tools, community rewards and future utility products into one platform.</p>
+          <div className="hero-cta-row">
+            <Link href="/signup" className="gold-cta">Join WADAN <ArrowRight size={17}/></Link>
+            <a href="#roadmap" className="glass-cta">Explore roadmap</a>
+          </div>
+
+          <div className="hero-trust-row">
+            <span><ShieldCheck size={15}/> BNB Smart Chain</span>
+            <span><LockKeyhole size={15}/> Security focused</span>
+            <span><Zap size={15}/> Utility first</span>
+          </div>
+        </div>
+
+        <div className="hero-visual">
+          <div className="hero-orbit orbit-a"/>
+          <div className="hero-orbit orbit-b"/>
+          <div className="hero-orbit orbit-c"/>
+          <div className="hero-logo-core">
+            <img src="/wadan-mark.svg" alt="" />
+          </div>
+          <span className="floating-tag tag-a"><Coins size={14}/> WDC</span>
+          <span className="floating-tag tag-b"><Trophy size={14}/> Staking</span>
+          <span className="floating-tag tag-c"><Users size={14}/> Community</span>
+        </div>
+      </section>
+
+      <section id="about" className="public-stats">
+        <article><span className="stat-icon"><Coins size={20}/></span><div><small>Total Supply</small><strong>1,000,000,000</strong><em>WDC</em></div></article>
+        <article><span className="stat-icon"><WalletCards size={20}/></span><div><small>Network</small><strong>BNB Chain</strong><em>BEP-20</em></div></article>
+        <article><span className="stat-icon"><Crown size={20}/></span><div><small>Staking Plans</small><strong>6M + 12M</strong><em>Planned</em></div></article>
+        <article><span className="stat-icon"><Rocket size={20}/></span><div><small>Build Stage</small><strong>Foundation</strong><em>Phase 01</em></div></article>
+      </section>
+
+      <section className="public-section intro-section">
+        <div className="section-heading">
+          <p>PROJECT VISION</p>
+          <h2>More than a token.</h2>
+          <span>WDC is designed as the core asset of a broader digital platform instead of a single-purpose coin.</span>
+        </div>
+
+        <div className="vision-grid">
+          <article className="vision-card gradient-border"><Coins size={24}/><h3>Stake</h3><p>Lock WDC in structured plans and track rewards directly inside your account.</p></article>
+          <article className="vision-card gradient-border"><Zap size={24}/><h3>Swap</h3><p>Move between USDT and WDC through a simple platform-native exchange flow.</p></article>
+          <article className="vision-card gradient-border"><Users size={24}/><h3>Community</h3><p>Leaderboards, referrals and community utility designed to grow with the ecosystem.</p></article>
+          <article className="vision-card gradient-border"><Globe2 size={24}/><h3>Expand</h3><p>Future modules can include games, marketplace, funding and microtask products.</p></article>
+        </div>
+      </section>
+
+      <section id="leaders" className="public-section leaderboard-section">
+        <div className="section-heading center">
+          <p>COMMUNITY RANKINGS</p>
+          <h2>People powering WADAN.</h2>
+          <span>Preview leaderboards for staking and community referrals.</span>
+        </div>
+
+        <div className="leaderboards-grid">
+          <article className="leaderboard-card gradient-border">
+            <div className="leaderboard-head">
+              <div><span className="board-icon"><Trophy size={20}/></span><div><small>TOP 10</small><h3>Stakers</h3></div></div>
+              <span className="board-chip">By WDC</span>
             </div>
-
-            <div>
-              <p className="overline">WADAN ECOSYSTEM</p>
-              <h1>Dashboard</h1>
+            <div className="leader-list">
+              {stakers.map((row,i)=>(
+                <div className="leader-row" key={row[1]}>
+                  <span className={`rank-num ${i<3?"top-rank":""}`}>{String(i+1).padStart(2,"0")}</span>
+                  <Avatar label={row[0]} index={i}/>
+                  <div className="leader-name"><strong>{row[1]}</strong><small>WADAN member</small></div>
+                  <strong className="leader-value">{row[2]}</strong>
+                </div>
+              ))}
             </div>
+          </article>
 
-            <div className="header-actions">
-              <button className="icon-button" aria-label="Notifications"><Bell size={19} /></button>
-              <Link href="/login" className="button button-ghost">Log in</Link>
-              <Link href="/signup" className="button button-primary">Create account <ArrowUpRight size={16} /></Link>
+          <article className="leaderboard-card gradient-border">
+            <div className="leaderboard-head">
+              <div><span className="board-icon"><Users size={20}/></span><div><small>TOP 10</small><h3>Referrers</h3></div></div>
+              <span className="board-chip">By referrals</span>
             </div>
-          </header>
-
-          <section className="hero-card glass-panel reveal delay-1">
-            <div className="hero-content">
-              <div className="status-badge"><Sparkles size={14} /> WDC PLATFORM PREVIEW</div>
-              <h2>Build wealth inside the <span>WADAN</span> ecosystem.</h2>
-              <p>One premium dashboard for your WDC balance, staking, swaps, deposits, withdrawals and transaction history.</p>
-              <div className="hero-buttons">
-                <Link href="/signup" className="button button-primary button-large">Get started <ChevronRight size={17} /></Link>
-                <a href="#overview" className="button button-ghost button-large">Explore dashboard</a>
-              </div>
+            <div className="leader-list">
+              {referrers.map((row,i)=>(
+                <div className="leader-row" key={row[1]}>
+                  <span className={`rank-num ${i<3?"top-rank":""}`}>{String(i+1).padStart(2,"0")}</span>
+                  <Avatar label={row[0]} index={i+3}/>
+                  <div className="leader-name"><strong>{row[1]}</strong><small>Community builder</small></div>
+                  <strong className="leader-value">{row[2]}</strong>
+                </div>
+              ))}
             </div>
+          </article>
+        </div>
+      </section>
 
-            <div className="hero-coin-wrap" aria-hidden="true">
-              <div className="orbit orbit-one" />
-              <div className="orbit orbit-two" />
-              <div className="premium-coin">
-                <span className="coin-shine" />
-                <strong>W</strong>
-                <small>WDC</small>
-              </div>
-            </div>
-          </section>
+      <section id="roadmap" className="public-section roadmap-section">
+        <div className="section-heading center">
+          <p>ANIMATED ROADMAP</p>
+          <h2>Where WADAN is going.</h2>
+          <span>A staged path from the foundation to a broader utility ecosystem.</span>
+        </div>
 
-          <section id="overview" className="stats-grid reveal delay-2">
-            <article className="metric-card glass-panel">
-              <div className="metric-head">
-                <span className="metric-icon gold"><WalletCards size={19} /></span>
-                <span className="metric-trend neutral">Portfolio</span>
-              </div>
-              <p>Total Balance</p>
-              <h3>$0.00</h3>
-              <small>0.00 WDC available</small>
-            </article>
-
-            <article className="metric-card glass-panel">
-              <div className="metric-head">
-                <span className="metric-icon violet"><Coins size={19} /></span>
-                <span className="metric-trend positive"><TrendingUp size={13} /> Live</span>
-              </div>
-              <p>WDC Price</p>
-              <h3>$0.0100</h3>
-              <small>Reference platform price</small>
-            </article>
-
-            <article className="metric-card glass-panel">
-              <div className="metric-head">
-                <span className="metric-icon cyan"><Zap size={19} /></span>
-                <span className="metric-trend neutral">Staking</span>
-              </div>
-              <p>Total Staked</p>
-              <h3>0 WDC</h3>
-              <small>No active plan yet</small>
-            </article>
-
-            <article className="metric-card glass-panel">
-              <div className="metric-head">
-                <span className="metric-icon green"><CreditCard size={19} /></span>
-                <span className="metric-trend neutral">Rewards</span>
-              </div>
-              <p>Earned</p>
-              <h3>0 WDC</h3>
-              <small>Rewards will appear here</small>
-            </article>
-          </section>
-
-          <section className="content-grid reveal delay-3">
-            <article className="panel-card glass-panel quick-panel">
-              <div className="panel-title">
-                <div>
-                  <p className="overline">QUICK ACTIONS</p>
-                  <h3>Manage your assets</h3>
-                </div>
-                <span className="soft-chip">BNB Chain</span>
-              </div>
-
-              <div className="action-grid">
-                <button><span className="action-icon"><ArrowDownToLine size={21} /></span><strong>Deposit</strong><small>Add funds</small></button>
-                <button><span className="action-icon"><ArrowUpRight size={21} /></span><strong>Withdraw</strong><small>Send funds</small></button>
-                <button><span className="action-icon"><Repeat2 size={21} /></span><strong>Swap</strong><small>USDT ↔ WDC</small></button>
-                <button><span className="action-icon"><Coins size={21} /></span><strong>Stake</strong><small>Earn WDC</small></button>
+        <div className="roadmap-track">
+          <div className="roadmap-line"><span/></div>
+          {roadmap.map((item,i)=>(
+            <article className={`roadmap-step ${item[4]}`} key={item[0]}>
+              <div className="roadmap-node">{item[0]}</div>
+              <div className="roadmap-card gradient-border">
+                <div className="roadmap-top"><small>PHASE {item[0]}</small>{item[4]==="active"&&<span><CheckCircle2 size={13}/> Active</span>}</div>
+                <h3>{item[1]}</h3>
+                <p>{item[2]}</p>
               </div>
             </article>
+          ))}
+        </div>
+      </section>
 
-            <article className="panel-card glass-panel account-panel">
-              <div className="panel-title">
-                <div>
-                  <p className="overline">ACCOUNT</p>
-                  <h3>Your profile</h3>
-                </div>
-                <UserRound size={20} />
-              </div>
+      <section id="token" className="public-section token-section">
+        <div className="token-panel gradient-border">
+          <div className="token-identity">
+            <img src="/wadan-mark.svg" alt="Wadan Coin"/>
+            <div><small>WADAN COIN</small><h2>WDC</h2><p>The native asset powering the WADAN ecosystem.</p></div>
+          </div>
 
-              <div className="profile-preview">
-                <div className="profile-avatar">W</div>
-                <div>
-                  <strong>Guest user</strong>
-                  <small>Sign in to unlock your account</small>
-                </div>
-              </div>
+          <div className="token-details">
+            <div><small>Name</small><strong>Wadan Coin</strong></div>
+            <div><small>Symbol</small><strong>WDC</strong></div>
+            <div><small>Network</small><strong>BNB Smart Chain</strong></div>
+            <div><small>Standard</small><strong>BEP-20</strong></div>
+            <div><small>Total Supply</small><strong>1B WDC</strong></div>
+            <div><small>Contract</small><strong>Coming after deployment</strong></div>
+          </div>
+        </div>
+      </section>
 
-              <div className="info-row"><span>Account status</span><strong className="status-text">Not signed in</strong></div>
-              <div className="info-row"><span>Verification</span><strong>Pending</strong></div>
-              <div className="info-row"><span>Network</span><strong>BNB Smart Chain</strong></div>
+      <section className="public-section social-section">
+        <div className="section-heading center">
+          <p>WADAN COMMUNITY</p>
+          <h2>Stay connected.</h2>
+          <span>Official links will be activated as each channel is launched.</span>
+        </div>
 
-              <Link className="full-link" href="/login">Log in to your account <ChevronRight size={16} /></Link>
-            </article>
-          </section>
+        <div className="social-grid">
+          <a href="#" className="social-card gradient-border"><MessageCircleMore/><div><strong>Telegram</strong><small>Community & updates</small></div><ArrowRight size={16}/></a>
+          <a href="#" className="social-card gradient-border"><Github/><div><strong>GitHub</strong><small>Development</small></div><ArrowRight size={16}/></a>
+          <a href="#" className="social-card gradient-border"><BookOpen/><div><strong>Docs</strong><small>Project documentation</small></div><ArrowRight size={16}/></a>
+          <a href="#" className="social-card gradient-border"><Globe2/><div><strong>Website</strong><small>Official WADAN portal</small></div><ArrowRight size={16}/></a>
+        </div>
+      </section>
 
-          <section className="content-grid bottom-grid reveal delay-4">
-            <article className="panel-card glass-panel">
-              <div className="panel-title">
-                <div>
-                  <p className="overline">STAKING</p>
-                  <h3>WDC staking plans</h3>
-                </div>
-                <Coins size={20} />
-              </div>
+      <section className="final-cta">
+        <div>
+          <p>READY FOR WADAN?</p>
+          <h2>Create your account and enter the ecosystem.</h2>
+        </div>
+        <Link href="/signup" className="gold-cta">Create account <ArrowRight size={17}/></Link>
+      </section>
 
-              <div className="staking-list">
-                <div className="staking-item">
-                  <span className="plan-badge">6M</span>
-                  <div><strong>6 Month Plan</strong><small>Medium-term WDC staking</small></div>
-                  <span className="coming">Coming soon</span>
-                </div>
-                <div className="staking-item featured">
-                  <span className="plan-badge">12M</span>
-                  <div><strong>12 Month Plan</strong><small>Long-term WDC staking</small></div>
-                  <span className="coming">Coming soon</span>
-                </div>
-              </div>
-            </article>
-
-            <article className="panel-card glass-panel">
-              <div className="panel-title">
-                <div>
-                  <p className="overline">RECENT ACTIVITY</p>
-                  <h3>Transaction history</h3>
-                </div>
-                <History size={20} />
-              </div>
-
-              <div className="activity-list">
-                {activities.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <div className="activity-item" key={item.title}>
-                      <span className="activity-icon"><Icon size={18} /></span>
-                      <div><strong>{item.title}</strong><small>{item.subtitle}</small></div>
-                      <div className="activity-amount"><strong>{item.amount}</strong><small>{item.time}</small></div>
-                    </div>
-                  );
-                })}
-              </div>
-            </article>
-          </section>
-
-          <footer className="site-footer">
-            <div><strong>WADAN</strong><span>WDC • Digital Ecosystem</span></div>
-            <p>Preview environment • Blockchain features will be connected after testing.</p>
-          </footer>
-        </section>
-      </div>
-
-      <nav className="mobile-bottom-nav glass-panel">
-        <a className="active" href="#"><Home size={19} /><span>Home</span></a>
-        <a href="#"><WalletCards size={19} /><span>Wallet</span></a>
-        <a href="#"><Repeat2 size={19} /><span>Swap</span></a>
-        <a href="#"><Coins size={19} /><span>Stake</span></a>
-        <Link href="/login"><UserRound size={19} /><span>Account</span></Link>
-      </nav>
+      <footer className="public-footer">
+        <Link href="/" className="public-brand">
+          <img src="/wadan-mark.svg" alt="WADAN"/>
+          <div><strong>WADAN</strong><span>Wadan Coin • WDC</span></div>
+        </Link>
+        <p>WADAN preview website • Token contract and live financial features are not active yet.</p>
+      </footer>
     </main>
   );
 }
