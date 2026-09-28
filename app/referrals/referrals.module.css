@@ -1,0 +1,578 @@
+/* Isolated Referral Center styles — prevents global dashboard overrides */
+
+.main{
+  min-width:0;
+  font-size:16px;
+}
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(220px,.55fr);
+  gap:22px;
+  align-items:center;
+  min-height:290px;
+  padding:26px;
+  border:1px solid rgba(255,176,0,.2);
+  border-radius:26px;
+  background:
+    radial-gradient(circle at 10% 0%,rgba(255,176,0,.18),transparent 23rem),
+    radial-gradient(circle at 88% 10%,rgba(255,216,107,.06),transparent 18rem),
+    linear-gradient(145deg,#111721 0%,#0a0f17 58%,#070b11 100%);
+  box-shadow:0 26px 78px rgba(0,0,0,.32);
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  right:-110px;
+  top:-130px;
+  width:290px;
+  height:290px;
+  border-radius:50%;
+  border:1px solid rgba(255,176,0,.08);
+  box-shadow:0 0 0 48px rgba(255,176,0,.016),0 0 0 96px rgba(255,176,0,.008);
+  pointer-events:none;
+}
+
+.heroCopy,.depthCard{position:relative;z-index:1}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 10px;
+  border:1px solid rgba(255,176,0,.18);
+  border-radius:999px;
+  background:rgba(255,176,0,.055);
+  color:#ffd86b;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.11em;
+}
+
+.hero h2{
+  max-width:760px;
+  margin:17px 0 0;
+  font-size:clamp(44px,5.2vw,66px);
+  line-height:.97;
+  letter-spacing:-.048em;
+  text-wrap:balance;
+}
+
+.heroCopy>p{
+  max-width:650px;
+  margin:14px 0 0;
+  color:#9d968a;
+  font-size:14px;
+  line-height:1.62;
+}
+
+.heroStats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  margin-top:22px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+.heroStats>div{
+  padding-right:14px;
+  border-right:1px solid rgba(255,255,255,.055);
+}
+.heroStats>div+div{padding-left:14px}
+.heroStats>div:last-child{border-right:0}
+
+.heroStats small,.heroStats strong{display:block}
+.heroStats small{color:#777168;font-size:10px}
+.heroStats strong{margin-top:5px;font-size:20px}
+
+.depthCard{
+  min-height:205px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  text-align:center;
+  border:1px solid rgba(255,176,0,.14);
+  border-radius:22px;
+  background:linear-gradient(180deg,rgba(255,176,0,.055),rgba(255,255,255,.012));
+}
+
+.depthIcon{
+  width:76px;
+  height:76px;
+  display:grid;
+  place-items:center;
+  border-radius:23px;
+  color:#ffd86b;
+  background:rgba(255,176,0,.075);
+  border:1px solid rgba(255,176,0,.18);
+}
+
+.depthCard span{margin-top:14px;color:#777168;font-size:10px}
+.depthCard strong{margin-top:4px;font-size:24px}
+.depthCard small{margin-top:5px;color:#8a8378;font-size:9px}
+
+.section{margin-top:30px}
+
+.sectionHead{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:14px;
+  padding:0 3px 11px;
+}
+
+.sectionHead>div>span{
+  display:block;
+  color:#ffb000;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.15em;
+}
+
+.sectionHead>div>strong{
+  display:block;
+  margin-top:4px;
+  font-size:22px;
+}
+
+.sectionHead>small{color:#777168;font-size:9px}
+
+.shareGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.shareCard{
+  min-height:112px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:16px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:19px;
+  background:linear-gradient(180deg,rgba(15,22,33,.88),rgba(8,12,19,.94));
+}
+
+.shareLabel{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  min-width:0;
+}
+
+.shareIcon{
+  width:42px;
+  height:42px;
+  flex:0 0 auto;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  color:#ffd86b;
+  background:rgba(255,176,0,.075);
+  border:1px solid rgba(255,176,0,.14);
+}
+
+.shareLabel small,.shareLabel strong{display:block}
+.shareLabel small{color:#777168;font-size:10px}
+.shareLabel strong{
+  max-width:270px;
+  margin-top:4px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:15px;
+}
+
+.copyBtn,.shareBtn,.iconBtn{
+  min-height:42px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  border-radius:12px;
+  font-size:10px;
+  font-weight:850;
+  cursor:pointer;
+}
+
+.copyBtn,.iconBtn{
+  border:1px solid rgba(255,176,0,.16);
+  background:rgba(255,176,0,.055);
+  color:#ffd86b;
+}
+
+.copyBtn{padding:0 13px}
+.iconBtn{width:42px;padding:0}
+.shareBtn{
+  padding:0 14px;
+  border:0;
+  color:#171006;
+  background:linear-gradient(135deg,#ffe58e,#ffb000 58%,#a86400);
+}
+
+.shareActions{display:flex;gap:7px}
+
+.levelGrid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:8px;
+}
+
+.levelCard{
+  min-height:182px;
+  display:flex;
+  flex-direction:column;
+  padding:15px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:19px;
+  background:linear-gradient(180deg,rgba(14,20,30,.86),rgba(8,12,19,.93));
+}
+
+.levelCard:first-child{
+  border-color:rgba(255,176,0,.25);
+  background:
+    radial-gradient(circle at 92% 0,rgba(255,176,0,.11),transparent 52%),
+    linear-gradient(180deg,rgba(24,22,14,.94),rgba(9,13,20,.96));
+}
+
+.levelTop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.levelBadge{
+  width:35px;
+  height:35px;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  color:#ffd86b;
+  background:rgba(255,176,0,.07);
+  border:1px solid rgba(255,176,0,.15);
+  font-size:11px;
+  font-weight:900;
+}
+
+.levelRate{
+  font-size:23px;
+  line-height:1;
+  color:#fff1c6;
+}
+
+.levelCard h3{
+  margin:17px 0 0;
+  font-size:14px;
+  line-height:1.22;
+}
+
+.levelCard p{
+  margin:6px 0 0;
+  color:#817a70;
+  font-size:9.5px;
+  line-height:1.5;
+}
+
+.levelFoot{
+  margin-top:auto;
+  padding-top:12px;
+  display:flex;
+  align-items:flex-start;
+  gap:6px;
+  border-top:1px solid rgba(255,255,255,.05);
+  color:#776f66;
+}
+
+.levelFoot svg{flex:0 0 auto;color:#ffd86b}
+.levelFoot span{font-size:8px;line-height:1.4}
+
+.ruleNote{
+  margin-top:10px;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:13px 14px;
+  border:1px solid rgba(255,176,0,.12);
+  border-radius:15px;
+  background:rgba(255,176,0,.035);
+}
+
+.ruleNote svg{flex:0 0 auto;margin-top:1px;color:#ffd86b}
+.ruleNote p{margin:0;color:#8f887d;font-size:9.5px;line-height:1.58}
+
+.filterBar{
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  padding:0 2px 10px;
+  scrollbar-width:none;
+}
+.filterBar::-webkit-scrollbar{display:none}
+
+.filterBar button{
+  min-height:38px;
+  padding:0 13px;
+  flex:0 0 auto;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:999px;
+  background:rgba(255,255,255,.022);
+  color:#847d73;
+  font-size:10px;
+  font-weight:800;
+  cursor:pointer;
+}
+.filterBar button.active{
+  color:#171006;
+  border-color:transparent;
+  background:linear-gradient(135deg,#ffe58e,#ffb000 58%,#a86400);
+}
+
+.networkCard{
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:19px;
+  background:linear-gradient(180deg,rgba(14,20,30,.80),rgba(8,12,19,.90));
+}
+
+.tableHead,.tableRow{
+  display:grid;
+  grid-template-columns:minmax(180px,1.25fr) .55fr .8fr .75fr .75fr;
+  gap:14px;
+  align-items:center;
+}
+
+.tableHead{
+  min-height:48px;
+  padding:0 16px;
+  border-bottom:1px solid rgba(255,255,255,.055);
+  color:#6f6960;
+  font-size:9px;
+  font-weight:850;
+}
+
+.tableRow{
+  min-height:66px;
+  padding:0 16px;
+  border-bottom:1px solid rgba(255,255,255,.045);
+}
+
+.tableRow:last-child{border-bottom:0}
+.memberCell{display:flex;align-items:center;gap:9px}
+
+.avatar{
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  color:#ffd86b;
+  background:rgba(255,176,0,.075);
+  border:1px solid rgba(255,176,0,.13);
+  font-size:9px;
+  font-weight:900;
+}
+
+.tableRow strong{font-size:11px}
+.tableRow>span{font-size:10px;color:#8a8379}
+
+.empty{
+  min-height:225px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  text-align:center;
+}
+
+.emptyIcon{
+  width:60px;
+  height:60px;
+  display:grid;
+  place-items:center;
+  border-radius:18px;
+  color:#ffd86b;
+  background:rgba(255,176,0,.065);
+  border:1px solid rgba(255,176,0,.13);
+}
+
+.empty strong{margin-top:14px;font-size:16px}
+.empty p{
+  max-width:560px;
+  margin:8px 0 0;
+  color:#777168;
+  font-size:10px;
+  line-height:1.62;
+}
+
+.summaryGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:12px;
+}
+
+.summaryCard{
+  min-height:124px;
+  padding:14px;
+  border:1px solid rgba(255,255,255,.065);
+  border-radius:17px;
+  background:linear-gradient(180deg,rgba(14,20,30,.76),rgba(8,12,19,.88));
+}
+
+.summaryIcon{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  color:#ffd86b;
+  background:rgba(255,176,0,.07);
+  border:1px solid rgba(255,176,0,.13);
+}
+
+.summaryCard small,.summaryCard strong,.summaryCard span{display:block}
+.summaryCard small{margin-top:12px;color:#746e65;font-size:9px}
+.summaryCard strong{margin-top:4px;font-size:18px}
+.summaryCard span{margin-top:5px;color:#69635b;font-size:8.5px;line-height:1.45}
+
+@media(max-width:1180px){
+  .levelGrid{grid-template-columns:repeat(3,1fr)}
+}
+
+@media(max-width:760px){
+  .main{font-size:16px}
+
+  .hero{
+    min-height:0;
+    grid-template-columns:1fr;
+    gap:12px;
+    padding:17px 14px;
+    border-radius:20px;
+  }
+
+  .eyebrow{font-size:9px}
+
+  .hero h2{
+    max-width:100%;
+    margin-top:13px;
+    font-size:36px;
+    line-height:1.02;
+    letter-spacing:-.038em;
+    text-wrap:pretty;
+  }
+
+  .heroCopy>p{
+    margin-top:12px;
+    font-size:12.5px;
+    line-height:1.55;
+  }
+
+  .heroStats{
+    margin-top:17px;
+    padding-top:13px;
+  }
+  .heroStats>div{padding-right:7px}
+  .heroStats>div+div{padding-left:7px}
+  .heroStats small{font-size:8.5px}
+  .heroStats strong{font-size:16px}
+
+  .depthCard{
+    min-height:112px;
+    display:grid;
+    grid-template-columns:56px 1fr;
+    grid-template-areas:
+      "icon label"
+      "icon title"
+      "icon sub";
+    column-gap:12px;
+    align-items:center;
+    justify-items:start;
+    padding:13px;
+    text-align:left;
+  }
+  .depthIcon{
+    grid-area:icon;
+    width:54px;
+    height:54px;
+    border-radius:16px;
+  }
+  .depthIcon svg{width:26px;height:26px}
+  .depthCard span{grid-area:label;margin:0;font-size:8.5px}
+  .depthCard strong{grid-area:title;margin:1px 0 0;font-size:18px}
+  .depthCard small{grid-area:sub;margin:1px 0 0;font-size:8px}
+
+  .section{margin-top:26px}
+  .sectionHead{padding-bottom:9px}
+  .sectionHead>div>span{font-size:9px}
+  .sectionHead>div>strong{font-size:20px}
+  .sectionHead>small{font-size:8px}
+
+  .shareGrid{grid-template-columns:1fr;gap:7px}
+  .shareCard{min-height:90px;padding:12px;border-radius:16px}
+  .shareIcon{width:38px;height:38px}
+  .shareLabel small{font-size:9px}
+  .shareLabel strong{max-width:180px;font-size:13px}
+  .copyBtn,.shareBtn,.iconBtn{min-height:40px;font-size:9px}
+
+  .levelGrid{
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+  }
+  .levelCard{
+    min-height:154px;
+    padding:11px;
+    border-radius:16px;
+  }
+  .levelCard:last-child{
+    grid-column:1 / -1;
+    min-height:128px;
+  }
+  .levelBadge{width:32px;height:32px;font-size:10px}
+  .levelRate{font-size:20px}
+  .levelCard h3{margin-top:14px;font-size:12px}
+  .levelCard p{font-size:8.5px}
+  .levelFoot span{font-size:7.5px}
+
+  .ruleNote{padding:12px}
+  .ruleNote p{font-size:9px}
+
+  .filterBar button{min-height:38px;padding:0 12px;font-size:9px}
+
+  .tableHead{display:none}
+  .tableRow{
+    margin:8px;
+    padding:12px;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    border:1px solid rgba(255,255,255,.055);
+    border-radius:13px;
+  }
+  .memberCell{grid-column:1 / -1}
+  .empty{min-height:200px;padding:18px 13px}
+  .empty strong{font-size:14px}
+  .empty p{font-size:9.5px}
+
+  .summaryGrid{grid-template-columns:1fr 1fr;gap:7px}
+  .summaryCard{min-height:112px;padding:12px}
+  .summaryCard:last-child{grid-column:1 / -1;min-height:96px}
+  .summaryCard small{font-size:8.5px}
+  .summaryCard strong{font-size:16px}
+  .summaryCard span{font-size:8px}
+}
+
+@media(max-width:430px){
+  .hero h2{font-size:34px}
+  .heroCopy>p{font-size:12px}
+  .shareLabel strong{max-width:145px}
+  .levelCard{min-height:150px;padding:10px}
+  .levelRate{font-size:19px}
+}
