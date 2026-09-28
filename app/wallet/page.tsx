@@ -12,8 +12,8 @@ import {
   LayoutDashboard,
   Settings,
   ShieldCheck,
-  Gift,
   UserRound,
+  Users,
   WalletCards,
 } from "lucide-react";
 
@@ -37,7 +37,7 @@ export default function WalletPage() {
         <nav className="dash-nav">
           <Link href="/dashboard"><LayoutDashboard size={18}/> Dashboard</Link>
           <Link className="active" href="/wallet"><WalletCards size={18}/> Wallet</Link>
-          <Link href="/referrals"><Gift size={18}/> Referrals</Link>
+          <Link href="/referrals"><Users size={18}/> Referrals</Link>
           <a href="#"><Coins size={18}/> Staking</a>
           <a href="#"><History size={18}/> History</a>
         </nav>
@@ -153,7 +153,7 @@ export default function WalletPage() {
         <nav className="dash-mobile-nav gradient-border">
           <Link href="/dashboard"><Home size={19}/><span>Home</span></Link>
           <Link className="active" href="/wallet"><WalletCards size={19}/><span>Wallet</span></Link>
-          <Link href="/referrals"><Gift size={19}/><span>Referral</span></Link>
+          <Link href="/referrals"><Users size={19}/><span>Referral</span></Link>
           <a href="#"><Coins size={19}/><span>Stake</span></a>
           <a href="#"><UserRound size={19}/><span>Profile</span></a>
         </nav>
