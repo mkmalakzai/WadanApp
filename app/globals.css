@@ -1402,3 +1402,198 @@ linear-gradient(135deg,rgba(255,238,174,.34),rgba(255,176,0,.10),rgba(255,255,25
   .staking-card strong{font-size:12px}
   .staking-card span{font-size:9px}
 }
+
+
+/* PORTFOLIO PRO + WALLET */
+.portfolio-pro{
+  min-height:300px;
+  border-radius:24px;
+  padding:28px;
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:24px;
+  align-items:center;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 78% 35%,rgba(255,176,0,.17),transparent 18rem),
+    radial-gradient(circle at 20% 20%,rgba(255,214,107,.07),transparent 15rem),
+    linear-gradient(145deg,rgba(13,20,31,.98),rgba(7,11,18,.98)) padding-box,
+    linear-gradient(135deg,rgba(255,229,150,.58),rgba(255,176,0,.18),rgba(255,255,255,.05)) border-box;
+}
+.portfolio-caption{margin:20px 0 0;color:#948d82;font-size:11px}
+.portfolio-main h2{margin:3px 0 0;font-size:70px;line-height:.92;letter-spacing:-.065em}
+.portfolio-change{margin-top:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.portfolio-change span{padding:5px 8px;border-radius:999px;background:rgba(255,176,0,.07);color:var(--gold2);font-size:8px;font-weight:800}
+.portfolio-change strong{color:#8e887e;font-size:9px;font-weight:600}
+.portfolio-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:24px}
+.portfolio-breakdown div{padding:12px;border:1px solid var(--line);border-radius:13px;background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.012))}
+.portfolio-breakdown small,.portfolio-breakdown strong{display:block}
+.portfolio-breakdown small{color:#6e685f;font-size:7px}
+.portfolio-breakdown strong{margin-top:4px;font-size:11px}
+.portfolio-visual{min-height:230px;position:relative;display:grid;place-items:center}
+.portfolio-coin{width:145px;height:145px;position:relative;z-index:3}
+.portfolio-coin img{width:100%;height:100%;filter:drop-shadow(0 28px 60px rgba(255,176,0,.20));animation:floatCoin 4s ease-in-out infinite}
+.portfolio-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,176,0,.16);animation:pulseOrbit 4s ease-in-out infinite}
+.portfolio-ring.ring-one{width:205px;height:205px}.portfolio-ring.ring-two{width:265px;height:265px;animation-delay:-2s}
+.portfolio-network{position:absolute;bottom:12px;padding:6px 9px;border-radius:999px;border:1px solid rgba(255,176,0,.12);background:rgba(255,176,0,.04);color:#9a8c72;font-size:7px;font-weight:900;letter-spacing:.14em}
+
+.dashboard-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:9px}
+.dashboard-actions button,.wallet-actions button{min-height:92px;padding:15px;border:1px solid rgba(255,176,0,.12);border-radius:16px;background:
+linear-gradient(180deg,rgba(15,22,33,.95),rgba(7,12,19,.95));display:flex;align-items:center;gap:12px;text-align:left;cursor:pointer;transition:.2s}
+.dashboard-actions button:hover,.wallet-actions button:hover{transform:translateY(-2px);border-color:rgba(255,176,0,.28);background:linear-gradient(180deg,rgba(31,25,12,.86),rgba(8,13,21,.96))}
+.dashboard-actions button>span,.wallet-actions button>span{width:42px;height:42px;display:grid;place-items:center;flex:0 0 auto;border-radius:12px;color:var(--gold2);background:linear-gradient(145deg,rgba(255,176,0,.15),rgba(255,176,0,.04));border:1px solid rgba(255,176,0,.12)}
+.dashboard-actions strong,.dashboard-actions small,.wallet-actions strong,.wallet-actions small{display:block}
+.dashboard-actions strong,.wallet-actions strong{font-size:10px}
+.dashboard-actions small,.wallet-actions small{margin-top:4px;color:#6e685f;font-size:7px}
+
+/* WALLET */
+.wallet-main{min-width:0}
+.wallet-balance-card{border-radius:24px;padding:26px;background:
+radial-gradient(circle at 82% 18%,rgba(255,176,0,.16),transparent 18rem),
+linear-gradient(145deg,rgba(13,20,31,.98),rgba(7,11,18,.98)) padding-box,
+linear-gradient(135deg,rgba(255,229,150,.56),rgba(255,176,0,.16),rgba(255,255,255,.05)) border-box}
+.wallet-balance-top{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+.wallet-label{width:fit-content;display:flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;background:rgba(255,176,0,.07);color:var(--gold2);font-size:8px;font-weight:900;letter-spacing:.08em}
+.wallet-balance-top p{margin:18px 0 0;color:#847e74;font-size:9px}
+.wallet-balance-top h2{margin:3px 0 0;font-size:64px;line-height:.95;letter-spacing:-.055em}
+.wallet-balance-top small{display:block;margin-top:6px;color:#716a62;font-size:8px}
+.wallet-eye{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.025);color:#8a8379}
+.wallet-address-box{margin-top:24px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.018)}
+.wallet-address-box small,.wallet-address-box strong{display:block}
+.wallet-address-box small{color:#6f685f;font-size:7px}
+.wallet-address-box strong{margin-top:4px;font-size:9px;letter-spacing:.04em}
+.wallet-address-actions{display:flex;gap:6px}
+.wallet-address-actions button{width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.025);color:var(--gold2)}
+.wallet-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:9px}
+
+.wallet-assets{margin-top:16px}
+.wallet-section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;padding:0 4px 9px}
+.wallet-section-head p{margin:0;color:var(--gold);font-size:7px;font-weight:900;letter-spacing:.14em}
+.wallet-section-head h3{margin:4px 0 0;font-size:20px}
+.wallet-section-head>span{padding:5px 8px;border-radius:999px;background:rgba(255,255,255,.03);color:#706a61;font-size:7px}
+.asset-card{min-height:90px;margin-top:8px;padding:13px 15px;border-radius:16px;display:grid;grid-template-columns:46px minmax(0,1.2fr) .6fr .8fr;gap:12px;align-items:center}
+.asset-logo{width:42px;height:42px;display:grid;place-items:center;border-radius:12px}
+.asset-logo.wdc img{width:42px;height:42px}.asset-logo.usdt{color:#1fd6a2;background:rgba(31,214,162,.08);border:1px solid rgba(31,214,162,.12)}
+.asset-name strong,.asset-name small,.asset-price small,.asset-price strong,.asset-balance small,.asset-balance strong,.asset-balance span{display:block}
+.asset-name strong{font-size:10px}.asset-name small{margin-top:3px;color:#6b655d;font-size:7px}
+.asset-price{text-align:right}.asset-price small,.asset-balance small{color:#686159;font-size:7px}.asset-price strong{margin-top:4px;font-size:9px}
+.asset-balance{text-align:right}.asset-balance strong{margin-top:4px;font-size:10px}.asset-balance span{margin-top:2px;color:#6c665e;font-size:7px}
+.wallet-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:9px;margin-top:9px}
+.wallet-security-list{margin-top:14px}.wallet-security-list>div{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:8px}.wallet-security-list span{color:#6b655d}.wallet-security-list strong{color:#aaa398}
+
+/* MOBILE PORTFOLIO + WALLET */
+@media(max-width:760px){
+  .portfolio-pro{
+    min-height:0;
+    padding:18px 15px;
+    border-radius:20px;
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+  .portfolio-caption{margin-top:15px;font-size:12px}
+  .portfolio-main h2{font-size:58px}
+  .portfolio-change span{font-size:9px}
+  .portfolio-change strong{font-size:9.5px}
+  .portfolio-breakdown{gap:6px;margin-top:18px}
+  .portfolio-breakdown div{padding:11px}
+  .portfolio-breakdown small{font-size:8.5px}
+  .portfolio-breakdown strong{font-size:11px}
+  .portfolio-visual{min-height:190px;margin-top:2px}
+  .portfolio-coin{width:120px;height:120px}
+  .portfolio-ring.ring-one{width:168px;height:168px}
+  .portfolio-ring.ring-two{width:214px;height:214px}
+  .portfolio-network{bottom:3px;font-size:7.5px}
+
+  .dashboard-actions{
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+    margin-top:6px;
+  }
+  .dashboard-actions button{
+    min-height:84px;
+    padding:12px;
+    border-radius:14px;
+  }
+  .dashboard-actions button>span{
+    width:40px;height:40px
+  }
+  .dashboard-actions strong{font-size:11.5px}
+  .dashboard-actions small{font-size:8.5px}
+
+  .wallet-balance-card{
+    padding:18px 15px;
+    border-radius:20px;
+  }
+  .wallet-label{font-size:9px}
+  .wallet-balance-top p{font-size:11px;margin-top:15px}
+  .wallet-balance-top h2{font-size:56px}
+  .wallet-balance-top small{font-size:9px}
+  .wallet-eye{width:42px;height:42px}
+  .wallet-address-box{
+    margin-top:18px;
+    padding:12px;
+  }
+  .wallet-address-box small{font-size:8.5px}
+  .wallet-address-box strong{
+    max-width:210px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:9.5px
+  }
+
+  .wallet-actions{
+    gap:6px;
+    margin-top:6px;
+  }
+  .wallet-actions button{
+    min-height:82px;
+    padding:11px;
+    border-radius:14px;
+    display:block;
+    text-align:center;
+  }
+  .wallet-actions button>span{
+    width:38px;height:38px;margin:0 auto 8px
+  }
+  .wallet-actions strong{font-size:10.5px}
+  .wallet-actions small{font-size:8px}
+
+  .wallet-assets{margin-top:14px}
+  .wallet-section-head p{font-size:8.5px}
+  .wallet-section-head h3{font-size:22px}
+  .wallet-section-head>span{font-size:8px}
+
+  .asset-card{
+    min-height:112px;
+    padding:13px;
+    border-radius:15px;
+    grid-template-columns:44px minmax(0,1fr) auto;
+    gap:10px;
+  }
+  .asset-logo{width:42px;height:42px}
+  .asset-name strong{font-size:11px}
+  .asset-name small{font-size:8px}
+  .asset-price{display:none}
+  .asset-balance{grid-column:3;text-align:right}
+  .asset-balance small{font-size:8px}
+  .asset-balance strong{font-size:11px}
+  .asset-balance span{font-size:8px}
+
+  .wallet-grid{
+    grid-template-columns:1fr;
+    gap:6px;
+    margin-top:6px;
+  }
+  .wallet-security-list>div{font-size:9.5px;padding:10px 0}
+}
+
+@media(max-width:430px){
+  .portfolio-main h2{font-size:54px}
+  .portfolio-breakdown strong{font-size:10px}
+
+  .wallet-balance-top h2{font-size:52px}
+  .wallet-actions button{min-height:78px;padding:10px 6px}
+  .wallet-address-box strong{max-width:170px}
+  .asset-card{min-height:106px;padding:11px}
+}
