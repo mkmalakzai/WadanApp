@@ -925,3 +925,334 @@ linear-gradient(135deg,rgba(255,238,174,.34),rgba(255,176,0,.10),rgba(255,255,25
   .dash-metric strong{font-size:16px}
   .dash-panel-head h3{font-size:19px}
 }
+
+
+/* MOBILE NATIVE V6 — stronger typography + balanced card composition */
+@media (max-width:760px){
+  .dash-shell{
+    width:calc(100% - 8px);
+    padding:4px 0 86px;
+  }
+
+  .dash-topbar{
+    min-height:70px;
+    padding:6px 6px 10px;
+  }
+
+  .dash-topbar p{
+    font-size:10px;
+    letter-spacing:.12em;
+  }
+
+  .dash-topbar h1{
+    font-size:30px;
+    line-height:1.02;
+  }
+
+  .icon-square,.user-chip{
+    height:46px;
+  }
+
+  .icon-square{
+    width:46px;
+    border-radius:14px;
+  }
+
+  .user-chip{
+    border-radius:14px;
+    padding:0 8px;
+  }
+
+  .user-chip>span{
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    font-size:11px;
+  }
+
+  /* Portfolio card */
+  .dash-hero{
+    padding:18px 15px 15px;
+    border-radius:20px;
+  }
+
+  .dash-hero-label{
+    font-size:10px;
+    padding:7px 10px;
+  }
+
+  .dash-hero p{
+    margin-top:16px;
+    font-size:12px;
+  }
+
+  .dash-hero h2{
+    margin-top:4px;
+    font-size:58px;
+    line-height:.92;
+  }
+
+  .dash-hero>div>span{
+    font-size:10.5px;
+  }
+
+  /* 2x2 action layout feels much more native on phone */
+  .dash-hero-actions{
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+    margin-top:18px;
+  }
+
+  .dash-hero-actions button{
+    width:auto;
+    height:76px;
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:10px;
+    padding:0 14px;
+    border-radius:15px;
+    text-align:left;
+  }
+
+  .dash-hero-actions svg{
+    width:24px;
+    height:24px;
+    margin:0;
+    flex:0 0 auto;
+  }
+
+  .dash-hero-actions span{
+    font-size:11px;
+    font-weight:800;
+  }
+
+  /* Equal metric cards, content distributed instead of floating in the middle */
+  .dash-metrics{
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+    margin-top:7px;
+  }
+
+  .dash-metric{
+    min-height:126px;
+    padding:14px;
+    border-radius:17px;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:0;
+    position:relative;
+  }
+
+  .dash-metric>span{
+    width:38px;
+    height:38px;
+    position:absolute;
+    right:12px;
+    top:12px;
+    border-radius:11px;
+  }
+
+  .dash-metric>div{
+    width:100%;
+    min-height:96px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    padding-right:42px;
+  }
+
+  .dash-metric small{
+    font-size:10px;
+    line-height:1.2;
+  }
+
+  .dash-metric strong{
+    margin-top:6px;
+    font-size:20px;
+    line-height:1;
+    letter-spacing:-.02em;
+  }
+
+  .dash-metric em{
+    margin-top:6px;
+    font-size:8.5px;
+    line-height:1.25;
+  }
+
+  /* Section cards */
+  .dash-two-col,
+  .dash-two-col.lower{
+    gap:7px;
+    margin-top:7px;
+  }
+
+  .dash-panel{
+    padding:15px;
+    border-radius:18px;
+  }
+
+  .dash-panel-head p{
+    font-size:9px;
+  }
+
+  .dash-panel-head h3{
+    margin-top:4px;
+    font-size:22px;
+    line-height:1.05;
+  }
+
+  .dash-panel-head>svg{
+    width:22px;
+    height:22px;
+  }
+
+  /* Staking cards fill their own space instead of leaving blank centers */
+  .staking-cards{
+    gap:7px;
+    margin-top:15px;
+  }
+
+  .staking-card{
+    min-height:142px;
+    padding:12px;
+    border-radius:15px;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:space-between;
+  }
+
+  .staking-badge{
+    width:42px;
+    height:42px;
+    margin:0;
+    border-radius:11px;
+  }
+
+  .staking-card>div:nth-child(2){
+    flex:0 0 auto;
+    width:100%;
+  }
+
+  .staking-card strong{
+    font-size:12px;
+    line-height:1.2;
+  }
+
+  .staking-card span{
+    margin-top:4px;
+    font-size:9px;
+    line-height:1.35;
+  }
+
+  .staking-card button{
+    margin-top:8px;
+    padding:0;
+    font-size:9.5px;
+  }
+
+  .referral-box{
+    margin-top:14px;
+    padding:14px;
+    border-radius:14px;
+  }
+
+  .referral-box>span,
+  .referral-box>small{
+    font-size:9px;
+  }
+
+  .referral-box strong{
+    font-size:20px;
+  }
+
+  .dash-activity{
+    margin-top:12px;
+  }
+
+  .dash-activity>div{
+    min-height:58px;
+  }
+
+  .activity-dot{
+    width:30px;
+    height:30px;
+  }
+
+  .dash-activity strong{
+    font-size:10px;
+  }
+
+  .dash-activity small{
+    font-size:8px;
+  }
+
+  .profile-summary strong{
+    font-size:12px;
+  }
+
+  .profile-summary span{
+    font-size:9px;
+  }
+
+  .profile-lines>div{
+    padding:9px 0;
+    font-size:9.5px;
+  }
+
+  .dash-mobile-nav{
+    left:6px;
+    right:6px;
+    bottom:6px;
+    padding:6px 5px;
+    border-radius:18px;
+  }
+
+  .dash-mobile-nav a{
+    min-height:52px;
+    gap:4px;
+    font-size:9px;
+  }
+
+  .dash-mobile-nav svg{
+    width:21px;
+    height:21px;
+  }
+}
+
+@media (max-width:430px){
+  .dash-topbar h1{font-size:28px}
+
+  .dash-hero h2{font-size:54px}
+
+  .dash-hero-actions button{
+    height:72px;
+    padding:0 12px;
+  }
+
+  .dash-metric{
+    min-height:120px;
+    padding:12px;
+  }
+
+  .dash-metric>span{
+    right:10px;
+    top:10px;
+  }
+
+  .dash-metric strong{
+    font-size:18px;
+  }
+
+  .dash-panel-head h3{
+    font-size:20px;
+  }
+
+  .staking-card{
+    min-height:136px;
+    padding:11px;
+  }
+}
