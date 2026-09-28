@@ -26,6 +26,26 @@ const recent = [
   ["Referral","Community reward","+ 500 WDC","Preview"],
 ];
 
+function MiniSparkline() {
+  return (
+    <svg className="portfolio-sparkline" viewBox="0 0 260 92" role="img" aria-label="Portfolio trend preview">
+      <defs>
+        <linearGradient id="sparkStroke" x1="0" x2="1">
+          <stop offset="0%" stopColor="#b86f00" />
+          <stop offset="55%" stopColor="#ffb000" />
+          <stop offset="100%" stopColor="#ffe08a" />
+        </linearGradient>
+        <linearGradient id="sparkArea" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ffb000" stopOpacity=".25" />
+          <stop offset="100%" stopColor="#ffb000" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <path d="M0 70 C28 68 38 48 62 54 C84 60 98 35 120 42 C145 50 158 28 182 33 C205 38 222 18 260 15 L260 92 L0 92 Z" fill="url(#sparkArea)" />
+      <path d="M0 70 C28 68 38 48 62 54 C84 60 98 35 120 42 C145 50 158 28 182 33 C205 38 222 18 260 15" fill="none" stroke="url(#sparkStroke)" strokeWidth="4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export default function DashboardPage() {
   return (
     <main className="dash-shell">
@@ -69,45 +89,61 @@ export default function DashboardPage() {
           </div>
         </header>
 
-        <section className="portfolio-pro gradient-border">
-          <div className="portfolio-main">
-            <div className="dash-hero-label"><Sparkles size={14}/> YOUR WDC PORTFOLIO</div>
-            <p className="portfolio-caption">Total portfolio value</p>
+        <section className="portfolio-v2">
+          <div className="portfolio-v2-copy">
+            <div className="dash-hero-label"><Sparkles size={14}/> PORTFOLIO OVERVIEW</div>
+            <p>Total portfolio value</p>
             <h2>$0.00</h2>
-            <div className="portfolio-change"><span>WDC account</span><strong>0.00 WDC available</strong></div>
-
-            <div className="portfolio-breakdown">
-              <div><small>Available</small><strong>0 WDC</strong></div>
-              <div><small>Staked</small><strong>0 WDC</strong></div>
-              <div><small>Rewards</small><strong>0 WDC</strong></div>
+            <div className="portfolio-v2-meta">
+              <strong>0.00 WDC</strong>
+              <span>Available balance</span>
+              <em>BNB Smart Chain</em>
             </div>
           </div>
 
-          <div className="portfolio-visual">
-            <div className="portfolio-ring ring-one"/>
-            <div className="portfolio-ring ring-two"/>
-            <div className="portfolio-coin">
-              <img src="/wadan-mark.svg" alt="WDC"/>
+          <div className="portfolio-v2-chart">
+            <div className="chart-heading">
+              <span>Portfolio trend</span>
+              <strong>Preview</strong>
             </div>
-            <span className="portfolio-network">BNB SMART CHAIN</span>
+            <MiniSparkline />
+          </div>
+
+          <div className="portfolio-v2-breakdown">
+            <div><span>Available</span><strong>0 WDC</strong></div>
+            <div><span>Staked</span><strong>0 WDC</strong></div>
+            <div><span>Rewards</span><strong>0 WDC</strong></div>
           </div>
         </section>
 
-        <section className="dashboard-actions">
-          <button><span><ArrowDownToLine size={22}/></span><div><strong>Deposit</strong><small>Add USDT or WDC</small></div></button>
-          <button><span><ArrowUpRight size={22}/></span><div><strong>Withdraw</strong><small>Send to external wallet</small></div></button>
-          <button><span><Repeat2 size={22}/></span><div><strong>Swap</strong><small>USDT ⇄ WDC</small></div></button>
-          <button><span><Coins size={22}/></span><div><strong>Stake</strong><small>Start earning WDC</small></div></button>
+        <section className="action-section">
+          <div className="section-strip">
+            <div><span>QUICK ACTIONS</span><strong>Move your assets</strong></div>
+            <small>Fast access</small>
+          </div>
+
+          <div className="action-dock">
+            <button><span><ArrowDownToLine size={23}/></span><strong>Deposit</strong><small>Add funds</small></button>
+            <button><span><ArrowUpRight size={23}/></span><strong>Withdraw</strong><small>Send funds</small></button>
+            <button><span><Repeat2 size={23}/></span><strong>Swap</strong><small>USDT ⇄ WDC</small></button>
+            <button><span><Coins size={23}/></span><strong>Stake</strong><small>Earn WDC</small></button>
+          </div>
         </section>
 
-        <section className="dash-metrics">
-          <article className="dash-metric gradient-border"><span><Coins size={20}/></span><div><small>WDC Price</small><strong>$0.0100</strong><em>Reference price</em></div></article>
-          <article className="dash-metric gradient-border"><span><CircleDollarSign size={20}/></span><div><small>Total Staked</small><strong>0 WDC</strong><em>No active plan</em></div></article>
-          <article className="dash-metric gradient-border"><span><Gift size={20}/></span><div><small>Rewards</small><strong>0 WDC</strong><em>Lifetime earnings</em></div></article>
-          <article className="dash-metric gradient-border"><span><Users size={20}/></span><div><small>Referrals</small><strong>0</strong><em>Community network</em></div></article>
+        <section className="overview-section">
+          <div className="section-strip">
+            <div><span>OVERVIEW</span><strong>Account snapshot</strong></div>
+          </div>
+
+          <div className="overview-grid-v2">
+            <article><span className="overview-icon"><Coins size={21}/></span><div><small>WDC Price</small><strong>$0.0100</strong><em>Reference price</em></div></article>
+            <article><span className="overview-icon"><CircleDollarSign size={21}/></span><div><small>Total Staked</small><strong>0 WDC</strong><em>No active plan</em></div></article>
+            <article><span className="overview-icon"><Gift size={21}/></span><div><small>Rewards</small><strong>0 WDC</strong><em>Lifetime earnings</em></div></article>
+            <article><span className="overview-icon"><Users size={21}/></span><div><small>Referrals</small><strong>0</strong><em>Community network</em></div></article>
+          </div>
         </section>
 
-        <section className="dash-two-col">
+        <section className="dash-two-col content-spacer">
           <article className="dash-panel gradient-border">
             <div className="dash-panel-head">
               <div><p>STAKING</p><h3>Your staking plans</h3></div>
