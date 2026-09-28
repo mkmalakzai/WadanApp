@@ -576,3 +576,239 @@
   .levelCard{min-height:150px;padding:10px}
   .levelRate{font-size:19px}
 }
+
+
+/* V13 — connected reward journey (replaces reward cards) */
+.rewardJourney{
+  position:relative;
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:0;
+  padding:18px 6px 8px;
+}
+
+.rewardTrack{
+  position:absolute;
+  left:9%;
+  right:9%;
+  top:52px;
+  height:2px;
+  background:linear-gradient(90deg,
+    rgba(255,176,0,.18) 0%,
+    rgba(255,176,0,.85) 18%,
+    rgba(255,216,107,.95) 48%,
+    rgba(255,176,0,.62) 72%,
+    rgba(255,176,0,.16) 100%);
+  box-shadow:0 0 24px rgba(255,176,0,.12);
+}
+
+.rewardTrack::before,
+.rewardTrack::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#ffd86b;
+  transform:translateY(-50%);
+  box-shadow:0 0 16px rgba(255,176,0,.45);
+}
+.rewardTrack::before{left:-3px}
+.rewardTrack::after{right:-3px}
+
+.rewardStep{
+  position:relative;
+  z-index:1;
+  min-width:0;
+  padding:0 11px;
+  text-align:center;
+}
+
+.rewardNodeWrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.rewardNode{
+  width:68px;
+  height:68px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  border:1px solid rgba(255,176,0,.30);
+  background:
+    radial-gradient(circle at 35% 25%,rgba(255,236,172,.18),transparent 42%),
+    linear-gradient(145deg,#17140d,#0a0e15 68%);
+  color:#ffd86b;
+  font-size:15px;
+  font-weight:950;
+  letter-spacing:.04em;
+  box-shadow:
+    0 0 0 7px rgba(6,8,12,.92),
+    0 14px 32px rgba(0,0,0,.28),
+    0 0 26px rgba(255,176,0,.08);
+}
+
+.rewardStep:first-of-type .rewardNode{
+  color:#171006;
+  background:linear-gradient(145deg,#ffe690,#ffbd24 55%,#a96300);
+  border-color:rgba(255,222,125,.7);
+  box-shadow:
+    0 0 0 7px rgba(6,8,12,.92),
+    0 16px 34px rgba(255,176,0,.16);
+}
+
+.rewardIndex{
+  margin-top:10px;
+  color:#57524b;
+  font-size:8px;
+  font-weight:850;
+  letter-spacing:.16em;
+}
+
+.rewardStepBody{
+  margin-top:12px;
+}
+
+.rewardStepTop{
+  display:flex;
+  align-items:baseline;
+  justify-content:center;
+  gap:5px;
+}
+
+.rewardPercent{
+  font-size:29px;
+  line-height:1;
+  letter-spacing:-.04em;
+  color:#fff0c4;
+}
+
+.rewardStepTop>span{
+  color:#716b62;
+  font-size:8px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.rewardStepBody h3{
+  margin:10px 0 0;
+  font-size:13px;
+  line-height:1.25;
+}
+
+.rewardStepBody p{
+  max-width:170px;
+  margin:5px auto 0;
+  color:#7b746b;
+  font-size:9px;
+  line-height:1.48;
+}
+
+@media(max-width:760px){
+  .rewardJourney{
+    display:block;
+    padding:4px 0 2px 2px;
+  }
+
+  .rewardTrack{
+    left:31px;
+    right:auto;
+    top:28px;
+    bottom:36px;
+    width:2px;
+    height:auto;
+    background:linear-gradient(180deg,
+      rgba(255,176,0,.85),
+      rgba(255,216,107,.82) 38%,
+      rgba(255,176,0,.48) 74%,
+      rgba(255,176,0,.14));
+  }
+
+  .rewardTrack::before,
+  .rewardTrack::after{
+    left:50%;
+    top:auto;
+    transform:translateX(-50%);
+  }
+  .rewardTrack::before{top:-2px}
+  .rewardTrack::after{bottom:-2px}
+
+  .rewardStep{
+    display:grid;
+    grid-template-columns:62px 1fr;
+    gap:13px;
+    align-items:center;
+    min-height:108px;
+    padding:6px 0;
+    text-align:left;
+  }
+
+  .rewardNodeWrap{
+    align-items:center;
+  }
+
+  .rewardNode{
+    width:58px;
+    height:58px;
+    font-size:13px;
+    box-shadow:
+      0 0 0 6px rgba(6,8,12,.94),
+      0 12px 28px rgba(0,0,0,.26);
+  }
+
+  .rewardStep:first-of-type .rewardNode{
+    box-shadow:
+      0 0 0 6px rgba(6,8,12,.94),
+      0 14px 30px rgba(255,176,0,.12);
+  }
+
+  .rewardIndex{
+    display:none;
+  }
+
+  .rewardStepBody{
+    margin:0;
+    min-width:0;
+    padding:10px 12px 10px 0;
+    border-bottom:1px solid rgba(255,255,255,.055);
+  }
+
+  .rewardStep:last-child .rewardStepBody{
+    border-bottom:0;
+  }
+
+  .rewardStepTop{
+    justify-content:flex-start;
+    gap:6px;
+  }
+
+  .rewardPercent{
+    font-size:25px;
+  }
+
+  .rewardStepTop>span{
+    font-size:8px;
+  }
+
+  .rewardStepBody h3{
+    margin-top:6px;
+    font-size:13px;
+  }
+
+  .rewardStepBody p{
+    max-width:none;
+    margin:4px 0 0;
+    font-size:9px;
+  }
+}
+
+@media(max-width:430px){
+  .rewardTrack{left:29px}
+  .rewardStep{grid-template-columns:58px 1fr;gap:11px}
+  .rewardNode{width:54px;height:54px;font-size:12px}
+  .rewardPercent{font-size:23px}
+}
