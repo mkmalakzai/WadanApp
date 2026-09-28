@@ -1,0 +1,1 @@
+export default function Home(){return <main style={{minHeight:"100vh",display:"grid",placeItems:"center",background:"#090909",color:"#f5c451",fontFamily:"Arial"}}><div style={{textAlign:"center"}}><h1 style={{fontSize:"3rem",margin:0}}>WADAN</h1><p>Wadan Coin • WDC</p><small>Building the WADAN ecosystem.</small></div></main>}
