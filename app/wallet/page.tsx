@@ -9,9 +9,9 @@ import {
   History,
   Home,
   LayoutDashboard,
-  Repeat2,
   Settings,
   ShieldCheck,
+  Gift,
   UserRound,
   WalletCards,
 } from "lucide-react";
@@ -36,7 +36,7 @@ export default function WalletPage() {
         <nav className="dash-nav">
           <Link href="/dashboard"><LayoutDashboard size={18}/> Dashboard</Link>
           <Link className="active" href="/wallet"><WalletCards size={18}/> Wallet</Link>
-          <a href="#"><Repeat2 size={18}/> Swap</a>
+          <Link href="/referrals"><Gift size={18}/> Referrals</Link>
           <a href="#"><Coins size={18}/> Staking</a>
           <a href="#"><History size={18}/> History</a>
         </nav>
@@ -104,7 +104,7 @@ export default function WalletPage() {
           <div className="wallet-action-dock">
             <Link href="/wallet/deposit" className="wallet-action-link"><span><ArrowDownToLine size={22}/></span><strong>Deposit</strong><small>QR & address</small></Link>
             <Link href="/wallet/withdraw" className="wallet-action-link"><span><ArrowUpRight size={22}/></span><strong>Withdraw</strong><small>Send out</small></Link>
-            <a href="#" className="wallet-action-link"><span><Repeat2 size={22}/></span><strong>Swap</strong><small>USDT ⇄ WDC</small></a>
+            <Link href="/wallet/swap" className="wallet-action-link"><span><WalletCards size={22}/></span><strong>Swap</strong><small>USDT ⇄ WDC</small></Link>
           </div>
         </section>
 
@@ -152,7 +152,7 @@ export default function WalletPage() {
         <nav className="dash-mobile-nav gradient-border">
           <Link href="/dashboard"><Home size={19}/><span>Home</span></Link>
           <Link className="active" href="/wallet"><WalletCards size={19}/><span>Wallet</span></Link>
-          <a href="#"><Repeat2 size={19}/><span>Swap</span></a>
+          <Link href="/referrals"><Gift size={19}/><span>Referral</span></Link>
           <a href="#"><Coins size={19}/><span>Stake</span></a>
           <a href="#"><UserRound size={19}/><span>Profile</span></a>
         </nav>
