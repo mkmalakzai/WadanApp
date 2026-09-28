@@ -10,7 +10,7 @@ import {
   Home,
   Info,
   QrCode,
-  Repeat2,
+  Gift,
   ShieldCheck,
   UserRound,
   WalletCards,
@@ -133,7 +133,7 @@ export default function DepositPage() {
         <nav className="dash-mobile-nav gradient-border flow-mobile-nav">
           <Link href="/dashboard"><Home size={19}/><span>Home</span></Link>
           <Link className="active" href="/wallet"><WalletCards size={19}/><span>Wallet</span></Link>
-          <a href="#"><Repeat2 size={19}/><span>Swap</span></a>
+          <Link href="/referrals"><Gift size={19}/><span>Referral</span></Link>
           <a href="#"><ShieldCheck size={19}/><span>Stake</span></a>
           <a href="#"><UserRound size={19}/><span>Profile</span></a>
         </nav>
