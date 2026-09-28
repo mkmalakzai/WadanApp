@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   ArrowDownToLine,
+  ArrowDownUp,
   ArrowUpRight,
   Bell,
   CircleDollarSign,
@@ -109,7 +110,7 @@ export default function DashboardPage() {
           <div className="action-dock">
             <Link href="/wallet/deposit" className="action-link"><span><ArrowDownToLine size={23}/></span><strong>Deposit</strong><small>Add funds</small></Link>
             <Link href="/wallet/withdraw" className="action-link"><span><ArrowUpRight size={23}/></span><strong>Withdraw</strong><small>Send funds</small></Link>
-            <Link href="/wallet/swap" className="action-link"><span><WalletCards size={23}/></span><strong>Swap</strong><small>USDT ⇄ WDC</small></Link>
+            <Link href="/wallet/swap" className="action-link"><span><ArrowDownUp size={23}/></span><strong>Swap</strong><small>USDT ⇄ WDC</small></Link>
             <a href="#" className="action-link"><span><Coins size={23}/></span><strong>Stake</strong><small>Earn WDC</small></a>
           </div>
         </section>
