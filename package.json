@@ -12,7 +12,8 @@
     "next": "15.5.9",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-phone-number-input": "latest"
+    "react-phone-number-input": "latest",
+    "react-qr-code": "^2.0.15"
   },
   "devDependencies": {
     "typescript": "^5",
