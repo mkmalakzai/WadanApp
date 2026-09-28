@@ -5,12 +5,10 @@ import {
   Bell,
   CircleDollarSign,
   Coins,
-  Copy,
   Eye,
   History,
   Home,
   LayoutDashboard,
-  QrCode,
   Repeat2,
   Settings,
   ShieldCheck,
@@ -104,24 +102,17 @@ export default function WalletPage() {
             <small>BNB Chain</small>
           </div>
           <div className="wallet-action-dock">
-            <button><span><ArrowDownToLine size={22}/></span><strong>Deposit</strong><small>Add funds</small></button>
-            <button><span><ArrowUpRight size={22}/></span><strong>Withdraw</strong><small>Send out</small></button>
-            <button><span><Repeat2 size={22}/></span><strong>Swap</strong><small>USDT ⇄ WDC</small></button>
+            <Link href="/wallet/deposit" className="wallet-action-link"><span><ArrowDownToLine size={22}/></span><strong>Deposit</strong><small>QR & address</small></Link>
+            <Link href="/wallet/withdraw" className="wallet-action-link"><span><ArrowUpRight size={22}/></span><strong>Withdraw</strong><small>Send out</small></Link>
+            <a href="#" className="wallet-action-link"><span><Repeat2 size={22}/></span><strong>Swap</strong><small>USDT ⇄ WDC</small></a>
           </div>
         </section>
 
-        <section className="wallet-receive-panel">
-          <div className="receive-copy">
-            <span>RECEIVE FUNDS</span>
-            <strong>Your WADAN deposit address</strong>
-            <small>BNB Smart Chain • BEP-20</small>
-          </div>
-          <div className="receive-address">
-            <code>0x••••••••••••••••••••••••A7C2</code>
-            <div>
-              <button aria-label="Copy address"><Copy size={16}/></button>
-              <button aria-label="Show QR code"><QrCode size={17}/></button>
-            </div>
+        <section className="wallet-flow-hint">
+          <ShieldCheck size={20}/>
+          <div>
+            <strong>Network-aware transfers</strong>
+            <span>Deposit and withdrawal flows now include asset selection, BNB Smart Chain context and review guidance.</span>
           </div>
         </section>
 
