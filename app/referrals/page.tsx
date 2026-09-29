@@ -20,6 +20,7 @@ import {
   WalletCards,
   Coins,
 } from "lucide-react";
+import MobileDock from "../components/MobileDock";
 import styles from "./referrals.module.css";
 
 const referralCode = "WDC-MK7A2";
@@ -285,13 +286,7 @@ export default function ReferralsPage() {
           </div>
         </section>
 
-        <nav className="dash-mobile-nav gradient-border">
-          <Link href="/dashboard"><Home size={19}/><span>Home</span></Link>
-          <Link href="/wallet"><WalletCards size={19}/><span>Wallet</span></Link>
-          <Link className="active" href="/referrals"><Users size={19}/><span>Referral</span></Link>
-          <Link href="/staking"><Coins size={19}/><span>Stake</span></Link>
-          <Link href="/account"><UserRound size={19}/><span>Profile</span></Link>
-        </nav>
+        <MobileDock active="/referrals" />
       </section>
     </main>
   );
