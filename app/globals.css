@@ -4584,3 +4584,67 @@ linear-gradient(135deg,rgba(255,229,150,.56),rgba(255,176,0,.16),rgba(255,255,25
     animation:none!important;
   }
 }
+
+
+/* =========================================================
+   WADAN EXPERIENCE V17
+   Keep bottom dock viewport-fixed while preserving route motion
+   ========================================================= */
+
+.route-transition-frame{
+  position:relative;
+  min-height:100%;
+  transform:none!important;
+  filter:none!important;
+  will-change:opacity;
+  animation:wadanRouteFade .24s ease-out both!important;
+}
+
+.route-transition-frame::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:1100;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 0,rgba(255,176,0,.055),transparent 34%),
+    rgba(4,7,11,.10);
+  animation:wadanRouteVeil .30s ease-out both;
+}
+
+@keyframes wadanRouteFade{
+  from{opacity:.28}
+  to{opacity:1}
+}
+
+@keyframes wadanRouteVeil{
+  0%{opacity:1}
+  100%{opacity:0}
+}
+
+@media(max-width:760px){
+  .dash-mobile-nav{
+    position:fixed!important;
+    left:12px!important;
+    right:12px!important;
+    top:auto!important;
+    bottom:max(10px,env(safe-area-inset-bottom))!important;
+    width:auto!important;
+    max-width:none!important;
+    margin:0!important;
+    z-index:1300!important;
+    transform:none!important;
+  }
+
+  .dash-main,
+  .flow-page{
+    padding-bottom:118px!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .route-transition-frame,
+  .route-transition-frame::before{
+    animation:none!important;
+  }
+}
