@@ -41,7 +41,7 @@ export default function DashboardPage() {
           <Link className="active" href="/dashboard"><LayoutDashboard size={18}/> Dashboard</Link>
           <Link href="/wallet"><WalletCards size={18}/> Wallet</Link>
           <Link href="/referrals"><Users size={18}/> Referrals</Link>
-          <a href="#"><Coins size={18}/> Staking</a>
+          <Link href="/staking"><Coins size={18}/> Staking</Link>
           <a href="#"><History size={18}/> History</a>
         </nav>
 
@@ -111,7 +111,7 @@ export default function DashboardPage() {
             <Link href="/wallet/deposit" className="action-link"><span><ArrowDownToLine size={23}/></span><strong>Deposit</strong><small>Add funds</small></Link>
             <Link href="/wallet/withdraw" className="action-link"><span><ArrowUpRight size={23}/></span><strong>Withdraw</strong><small>Send funds</small></Link>
             <Link href="/wallet/swap" className="action-link"><span><ArrowDownUp size={23}/></span><strong>Swap</strong><small>USDT ⇄ WDC</small></Link>
-            <a href="#" className="action-link"><span><Coins size={23}/></span><strong>Stake</strong><small>Earn WDC</small></a>
+            <Link href="/staking" className="action-link"><span><Coins size={23}/></span><strong>Stake</strong><small>Earn WDC</small></Link>
           </div>
         </section>
 
@@ -200,7 +200,7 @@ export default function DashboardPage() {
           <Link className="active" href="/dashboard"><Home size={19}/><span>Home</span></Link>
           <Link href="/wallet"><WalletCards size={19}/><span>Wallet</span></Link>
           <Link href="/referrals"><Users size={19}/><span>Referral</span></Link>
-          <a href="#"><Coins size={19}/><span>Stake</span></a>
+          <Link href="/staking"><Coins size={19}/><span>Stake</span></Link>
           <a href="#"><UserRound size={19}/><span>Profile</span></a>
         </nav>
       </section>
