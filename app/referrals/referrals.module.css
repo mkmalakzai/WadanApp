@@ -812,3 +812,330 @@
   .rewardNode{width:54px;height:54px;font-size:12px}
   .rewardPercent{font-size:23px}
 }
+
+
+/* V14 — premium referral spotlight + journey moved to page end */
+.hero{
+  grid-template-columns:1fr;
+  min-height:220px;
+}
+.heroCopy{
+  max-width:840px;
+}
+.heroCopy>p{
+  max-width:720px;
+}
+
+.spotlightSection{
+  margin-top:18px;
+}
+
+.referralSpotlight{
+  position:relative;
+  overflow:hidden;
+  min-height:260px;
+  display:grid;
+  grid-template-columns:minmax(220px,.9fr) minmax(360px,1.25fr) minmax(170px,.55fr);
+  gap:18px;
+  align-items:stretch;
+  padding:22px;
+  border:1px solid rgba(255,176,0,.24);
+  border-radius:26px;
+  background:
+    radial-gradient(circle at 6% 15%,rgba(255,176,0,.20),transparent 24rem),
+    radial-gradient(circle at 92% 14%,rgba(255,224,138,.08),transparent 18rem),
+    linear-gradient(145deg,#15150f 0%,#0d121a 46%,#080c12 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.045),
+    0 28px 78px rgba(0,0,0,.30);
+}
+
+.referralSpotlight::before{
+  content:"";
+  position:absolute;
+  width:280px;
+  height:280px;
+  right:-120px;
+  bottom:-140px;
+  border-radius:50%;
+  border:1px solid rgba(255,176,0,.08);
+  box-shadow:
+    0 0 0 42px rgba(255,176,0,.015),
+    0 0 0 84px rgba(255,176,0,.008);
+  pointer-events:none;
+}
+
+.spotlightLead,
+.spotlightMetrics,
+.spotlightReward{
+  position:relative;
+  z-index:1;
+}
+
+.spotlightLead{
+  min-width:0;
+  padding:4px 8px 4px 2px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.spotlightEyebrow{
+  width:fit-content;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 10px;
+  border:1px solid rgba(255,176,0,.16);
+  border-radius:999px;
+  background:rgba(255,176,0,.055);
+  color:#ffd86b;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.13em;
+}
+
+.spotlightLead>small{
+  margin-top:22px;
+  color:#8a8378;
+  font-size:11px;
+}
+
+.spotlightLead>strong{
+  margin-top:2px;
+  font-size:70px;
+  line-height:.92;
+  letter-spacing:-.06em;
+  color:#fff7e5;
+}
+
+.spotlightLead>p{
+  max-width:260px;
+  margin:10px 0 0;
+  color:#7e776d;
+  font-size:10px;
+  line-height:1.55;
+}
+
+.spotlightMetrics{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  align-content:center;
+}
+
+.spotlightMetrics>div{
+  min-height:96px;
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:16px;
+  background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.012));
+}
+
+.spotlightMetrics span,
+.spotlightMetrics strong,
+.spotlightMetrics small{
+  display:block;
+}
+
+.spotlightMetrics span{
+  color:#7b746a;
+  font-size:9px;
+  font-weight:700;
+}
+
+.spotlightMetrics strong{
+  margin-top:5px;
+  color:#eee7dc;
+  font-size:18px;
+  line-height:1.05;
+}
+
+.spotlightMetrics small{
+  margin-top:5px;
+  color:#5f5a53;
+  font-size:8px;
+}
+
+.spotlightReward{
+  min-height:100%;
+  padding:18px 15px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  border:1px solid rgba(255,176,0,.18);
+  border-radius:19px;
+  background:
+    radial-gradient(circle at 50% 18%,rgba(255,214,107,.12),transparent 42%),
+    linear-gradient(180deg,rgba(255,176,0,.07),rgba(255,176,0,.025));
+}
+
+.spotlightReward>span{
+  color:#8b8377;
+  font-size:9px;
+}
+
+.spotlightReward>strong{
+  margin-top:8px;
+  font-size:48px;
+  line-height:.9;
+  letter-spacing:-.05em;
+  color:#ffd86b;
+  text-shadow:0 10px 28px rgba(255,176,0,.14);
+}
+
+.spotlightReward>small{
+  max-width:120px;
+  margin-top:9px;
+  color:#736c63;
+  font-size:8px;
+  line-height:1.45;
+}
+
+@media(max-width:1050px){
+  .referralSpotlight{
+    grid-template-columns:.8fr 1.2fr;
+    grid-template-areas:
+      "lead metrics"
+      "reward metrics";
+  }
+  .spotlightLead{grid-area:lead}
+  .spotlightMetrics{grid-area:metrics}
+  .spotlightReward{
+    grid-area:reward;
+    min-height:108px;
+  }
+}
+
+@media(max-width:760px){
+  .hero{
+    min-height:0;
+  }
+
+  .spotlightSection{
+    margin-top:12px;
+  }
+
+  .referralSpotlight{
+    min-height:0;
+    grid-template-columns:1fr;
+    grid-template-areas:
+      "lead"
+      "metrics"
+      "reward";
+    gap:9px;
+    padding:16px;
+    border-radius:21px;
+  }
+
+  .spotlightLead{
+    padding:0;
+  }
+
+  .spotlightEyebrow{
+    font-size:8.5px;
+  }
+
+  .spotlightLead>small{
+    margin-top:18px;
+    font-size:10px;
+  }
+
+  .spotlightLead>strong{
+    font-size:58px;
+  }
+
+  .spotlightLead>p{
+    max-width:100%;
+    font-size:9.5px;
+  }
+
+  .spotlightMetrics{
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+  }
+
+  .spotlightMetrics>div{
+    min-height:88px;
+    padding:12px;
+    border-radius:14px;
+  }
+
+  .spotlightMetrics span{
+    font-size:8.5px;
+  }
+
+  .spotlightMetrics strong{
+    font-size:16px;
+  }
+
+  .spotlightMetrics small{
+    font-size:7.5px;
+  }
+
+  .spotlightReward{
+    min-height:116px;
+    padding:14px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    grid-template-areas:
+      "label value"
+      "sub value";
+    column-gap:14px;
+    align-items:center;
+    justify-items:start;
+    text-align:left;
+  }
+
+  .spotlightReward>span{
+    grid-area:label;
+    font-size:9px;
+  }
+
+  .spotlightReward>strong{
+    grid-area:value;
+    margin:0;
+    font-size:42px;
+  }
+
+  .spotlightReward>small{
+    grid-area:sub;
+    max-width:180px;
+    margin:2px 0 0;
+    font-size:8px;
+  }
+
+  /* final reward journey gets a little more breathing room at the page end */
+  .rewardJourney{
+    margin-top:4px;
+    padding-bottom:8px;
+  }
+}
+
+@media(max-width:430px){
+  .referralSpotlight{
+    padding:14px;
+  }
+
+  .spotlightLead>strong{
+    font-size:54px;
+  }
+
+  .spotlightMetrics>div{
+    min-height:84px;
+    padding:10px;
+  }
+
+  .spotlightMetrics strong{
+    font-size:15px;
+  }
+
+  .spotlightReward>strong{
+    font-size:38px;
+  }
+}
