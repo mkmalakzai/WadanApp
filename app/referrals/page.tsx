@@ -89,7 +89,7 @@ export default function ReferralsPage() {
           <Link href="/dashboard"><LayoutDashboard size={18}/> Dashboard</Link>
           <Link href="/wallet"><WalletCards size={18}/> Wallet</Link>
           <Link className="active" href="/referrals"><Users size={18}/> Referrals</Link>
-          <a href="#"><Coins size={18}/> Staking</a>
+          <Link href="/staking"><Coins size={18}/> Staking</Link>
           <a href="#"><History size={18}/> History</a>
         </nav>
 
@@ -289,7 +289,7 @@ export default function ReferralsPage() {
           <Link href="/dashboard"><Home size={19}/><span>Home</span></Link>
           <Link href="/wallet"><WalletCards size={19}/><span>Wallet</span></Link>
           <Link className="active" href="/referrals"><Users size={19}/><span>Referral</span></Link>
-          <a href="#"><Coins size={19}/><span>Stake</span></a>
+          <Link href="/staking"><Coins size={19}/><span>Stake</span></Link>
           <a href="#"><UserRound size={19}/><span>Profile</span></a>
         </nav>
       </section>
