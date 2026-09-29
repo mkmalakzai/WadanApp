@@ -3,15 +3,14 @@ import {
   BadgeCheck,
   Bell,
   BookOpen,
+  ChevronRight,
   CircleHelp,
   Coins,
   Gift,
   Grid2X2,
   History,
-  Home,
   LayoutDashboard,
   Megaphone,
-  Rocket,
   Settings,
   ShieldCheck,
   Sparkles,
@@ -20,57 +19,7 @@ import {
   WalletCards,
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
-import type { LucideIcon } from "lucide-react";
 import styles from "./explore.module.css";
-
-type ExploreItem = {
-  id?: string;
-  icon: LucideIcon;
-  title: string;
-  text: string;
-  status: string;
-  href?: string;
-};
-
-type ExploreGroup = {
-  id: string;
-  eyebrow: string;
-  title: string;
-  items: ExploreItem[];
-};
-
-const groups: ExploreGroup[] = [
-  {
-    id:"earn",
-    eyebrow:"EARN",
-    title:"Grow your WADAN balance",
-    items:[
-      {id:"earnings",icon:Gift,title:"Free Earnings",text:"Tasks, campaigns and future earning opportunities.",status:"Coming next"},
-      {icon:Coins,title:"Staking",text:"Lock WDC and track projected rewards.",href:"/staking",status:"Live preview"},
-      {icon:Users,title:"Referral",text:"Build your five-level referral network.",href:"/referrals",status:"Live preview"},
-    ]
-  },
-  {
-    id:"account",
-    eyebrow:"ACCOUNT",
-    title:"Identity & protection",
-    items:[
-      {id:"kyc",icon:BadgeCheck,title:"KYC Verification",text:"Identity verification and account eligibility.",status:"Coming next"},
-      {icon:ShieldCheck,title:"Security Center",text:"Password, 2FA, sessions and security controls.",href:"/account?tab=security",status:"Available"},
-      {icon:UserRound,title:"Account Center",text:"Profile, preferences and account settings.",href:"/account",status:"Available"},
-    ]
-  },
-  {
-    id:"discover",
-    eyebrow:"DISCOVER",
-    title:"Learn, updates & support",
-    items:[
-      {id:"learn",icon:BookOpen,title:"WADAN Learn",text:"Simple guides for WDC, staking and wallet basics.",status:"Planned"},
-      {icon:Megaphone,title:"Announcements",text:"Product releases, maintenance and ecosystem updates.",status:"Planned"},
-      {id:"support",icon:CircleHelp,title:"Support",text:"Help center, FAQs and future support tickets.",status:"Planned"},
-    ]
-  },
-];
 
 export default function ExplorePage(){
   return (
@@ -93,7 +42,7 @@ export default function ExplorePage(){
 
         <div className="dash-security">
           <Grid2X2 size={19}/>
-          <div><strong>Explore WADAN</strong><span>More tools without cluttering navigation</span></div>
+          <div><strong>Explore WADAN</strong><span>Extra ecosystem tools</span></div>
         </div>
 
         <nav className="dash-nav bottom">
@@ -115,49 +64,123 @@ export default function ExplorePage(){
         </header>
 
         <section className={styles.hero}>
-          <div>
-            <span className={styles.eyebrow}><Sparkles size={15}/> MORE FROM WADAN</span>
-            <h2>One place for everything beyond the main wallet.</h2>
-            <p>Keep the dashboard clean while still giving fast access to earning, verification, security, learning and future ecosystem tools.</p>
+          <div className={styles.heroIcon}><Sparkles size={23}/></div>
+          <div className={styles.heroCopy}>
+            <span>MORE FROM WADAN</span>
+            <h2>Tools beyond the main wallet.</h2>
+            <p>Earn, verify, secure, learn and access future WADAN services without crowding the core app.</p>
           </div>
-          <div className={styles.heroMark}><Rocket size={36}/><strong>Explore</strong><span>Expandable ecosystem hub</span></div>
+          <div className={styles.heroMeta}>
+            <div><strong>9</strong><span>Tools</span></div>
+            <div><strong>3</strong><span>Groups</span></div>
+          </div>
         </section>
 
-        {groups.map((group)=>(
-          <section className={styles.section} id={group.id} key={group.id}>
-            <div className={styles.sectionHead}>
-              <div><span>{group.eyebrow}</span><strong>{group.title}</strong></div>
-              <small>{group.items.length} tools</small>
-            </div>
+        <section className={styles.quickStrip}>
+          <a href="#earn"><Gift size={17}/><span>Earn</span></a>
+          <a href="#identity"><BadgeCheck size={17}/><span>KYC</span></a>
+          <Link href="/account?tab=security"><ShieldCheck size={17}/><span>Security</span></Link>
+          <a href="#learn"><BookOpen size={17}/><span>Learn</span></a>
+        </section>
 
-            <div className={styles.grid}>
-              {group.items.map((item)=>{
-                const Icon=item.icon;
-                const body=(
-                  <>
-                    <div className={styles.cardTop}>
-                      <span className={styles.icon}><Icon size={22}/></span>
-                      <em>{item.status}</em>
-                    </div>
-                    <h3>{item.title}</h3>
-                    <p>{item.text}</p>
-                    <div className={styles.cardFoot}><span>{item.href ? "Open tool" : "Preview module"}</span><strong>→</strong></div>
-                  </>
-                );
+        <section className={styles.featured}>
+          <div className={styles.sectionHead}>
+            <div><span>FEATURED</span><strong>Next WADAN modules</strong></div>
+            <small>Preview</small>
+          </div>
 
-                return item.href ? (
-                  <Link id={item.id} className={styles.card} href={item.href} key={item.title}>{body}</Link>
-                ) : (
-                  <article id={item.id} className={styles.card+" "+styles.planned} key={item.title}>{body}</article>
-                );
-              })}
+          <div className={styles.featuredGrid}>
+            <article>
+              <div className={styles.featureIcon}><Gift size={20}/></div>
+              <div><small>EARN</small><strong>Free Earnings</strong><p>Tasks, campaigns and bonus opportunities.</p></div>
+              <em>Coming soon</em>
+            </article>
+
+            <article>
+              <div className={styles.featureIcon}><BadgeCheck size={20}/></div>
+              <div><small>VERIFY</small><strong>KYC Verification</strong><p>Identity checks for protected account features.</p></div>
+              <em>Coming soon</em>
+            </article>
+          </div>
+        </section>
+
+        <section className={styles.groups}>
+          <article className={styles.group} id="earn">
+            <header><div><span>EARN</span><strong>Earnings</strong></div><small>3</small></header>
+            <div className={styles.rows}>
+              <div className={styles.row}>
+                <span className={styles.rowIcon}><Gift size={18}/></span>
+                <div><strong>Free Earnings</strong><small>Tasks and earning campaigns</small></div>
+                <em>Soon</em>
+                <ChevronRight size={17}/>
+              </div>
+              <Link className={styles.row} href="/staking">
+                <span className={styles.rowIcon}><Coins size={18}/></span>
+                <div><strong>Staking</strong><small>Lock WDC and track rewards</small></div>
+                <em>Preview</em>
+                <ChevronRight size={17}/>
+              </Link>
+              <Link className={styles.row} href="/referrals">
+                <span className={styles.rowIcon}><Users size={18}/></span>
+                <div><strong>Referral</strong><small>Five-level network rewards</small></div>
+                <em>Preview</em>
+                <ChevronRight size={17}/>
+              </Link>
             </div>
-          </section>
-        ))}
+          </article>
+
+          <article className={styles.group} id="identity">
+            <header><div><span>ACCOUNT</span><strong>Identity & protection</strong></div><small>3</small></header>
+            <div className={styles.rows}>
+              <div className={styles.row}>
+                <span className={styles.rowIcon}><BadgeCheck size={18}/></span>
+                <div><strong>KYC Verification</strong><small>Identity and eligibility checks</small></div>
+                <em>Soon</em>
+                <ChevronRight size={17}/>
+              </div>
+              <Link className={styles.row} href="/account?tab=security">
+                <span className={styles.rowIcon}><ShieldCheck size={18}/></span>
+                <div><strong>Security Center</strong><small>Password, 2FA and sessions</small></div>
+                <em>Open</em>
+                <ChevronRight size={17}/>
+              </Link>
+              <Link className={styles.row} href="/account">
+                <span className={styles.rowIcon}><UserRound size={18}/></span>
+                <div><strong>Account Center</strong><small>Profile and preferences</small></div>
+                <em>Open</em>
+                <ChevronRight size={17}/>
+              </Link>
+            </div>
+          </article>
+
+          <article className={styles.group} id="learn">
+            <header><div><span>DISCOVER</span><strong>Learn & support</strong></div><small>3</small></header>
+            <div className={styles.rows}>
+              <div className={styles.row}>
+                <span className={styles.rowIcon}><BookOpen size={18}/></span>
+                <div><strong>WADAN Learn</strong><small>Guides for WDC, wallet and staking</small></div>
+                <em>Planned</em>
+                <ChevronRight size={17}/>
+              </div>
+              <div className={styles.row}>
+                <span className={styles.rowIcon}><Megaphone size={18}/></span>
+                <div><strong>Announcements</strong><small>Releases and ecosystem updates</small></div>
+                <em>Planned</em>
+                <ChevronRight size={17}/>
+              </div>
+              <div className={styles.row}>
+                <span className={styles.rowIcon}><CircleHelp size={18}/></span>
+                <div><strong>Support</strong><small>FAQs and future support tickets</small></div>
+                <em>Planned</em>
+                <ChevronRight size={17}/>
+              </div>
+            </div>
+          </article>
+        </section>
 
         <section className={styles.future}>
-          <div><span>FUTURE MODULES</span><strong>Built to expand</strong></div>
-          <p>Games, marketplace, governance, community funding and other WADAN services can be added here later without changing the core navigation.</p>
+          <Grid2X2 size={19}/>
+          <div><strong>Built to expand</strong><span>Games, marketplace, governance and more can be added here later.</span></div>
         </section>
 
         <MobileDock />
