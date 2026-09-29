@@ -132,7 +132,7 @@ export default function WalletSwapPage() {
           <Link href="/dashboard"><Home size={19}/><span>Home</span></Link>
           <Link className="active" href="/wallet"><WalletCards size={19}/><span>Wallet</span></Link>
           <Link href="/referrals"><Users size={19}/><span>Referral</span></Link>
-          <a href="#"><Coins size={19}/><span>Stake</span></a>
+          <Link href="/staking"><Coins size={19}/><span>Stake</span></Link>
           <a href="#"><UserRound size={19}/><span>Profile</span></a>
         </nav>
       </section>
