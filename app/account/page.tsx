@@ -25,6 +25,7 @@ import {
   Users,
   WalletCards,
 } from "lucide-react";
+import MobileDock from "../components/MobileDock";
 import styles from "./account.module.css";
 
 type Tab = "overview" | "profile" | "security" | "preferences";
@@ -283,13 +284,7 @@ export default function AccountPage() {
           </section>
         )}
 
-        <nav className="dash-mobile-nav gradient-border">
-          <Link href="/dashboard"><Home size={19}/><span>Home</span></Link>
-          <Link href="/wallet"><WalletCards size={19}/><span>Wallet</span></Link>
-          <Link href="/referrals"><Users size={19}/><span>Referral</span></Link>
-          <Link href="/staking"><Coins size={19}/><span>Stake</span></Link>
-          <Link className="active" href="/account"><UserRound size={19}/><span>Profile</span></Link>
-        </nav>
+        <MobileDock active="/account" />
       </section>
     </main>
   );
