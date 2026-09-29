@@ -135,7 +135,7 @@ export default function DepositPage() {
           <Link className="active" href="/wallet"><WalletCards size={19}/><span>Wallet</span></Link>
           <Link href="/referrals"><Users size={19}/><span>Referral</span></Link>
           <a href="#"><ShieldCheck size={19}/><span>Stake</span></a>
-          <a href="#"><UserRound size={19}/><span>Profile</span></a>
+          <Link href="/account"><UserRound size={19}/><span>Profile</span></Link>
         </nav>
       </section>
     </main>
