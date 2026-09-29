@@ -15,6 +15,7 @@ import {
   Users,
   WalletCards,
 } from "lucide-react";
+import MobileDock from "../../components/MobileDock";
 
 type Asset = "WDC" | "USDT";
 type Unit = "coin" | "usd";
@@ -171,13 +172,7 @@ export default function WithdrawPage() {
           </section>
         )}
 
-        <nav className="dash-mobile-nav gradient-border flow-mobile-nav">
-          <Link href="/dashboard"><Home size={19}/><span>Home</span></Link>
-          <Link className="active" href="/wallet"><WalletCards size={19}/><span>Wallet</span></Link>
-          <Link href="/referrals"><Users size={19}/><span>Referral</span></Link>
-          <a href="#"><ShieldCheck size={19}/><span>Stake</span></a>
-          <Link href="/account"><UserRound size={19}/><span>Profile</span></Link>
-        </nav>
+        <MobileDock active="/wallet" />
       </section>
     </main>
   );
