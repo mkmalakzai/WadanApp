@@ -1,4 +1,4 @@
-import { getAdminOverview } from "@/lib/backend/admin";
+import { getAdminOverview } from "../../lib/backend/admin";
 import AdminPanel from "./AdminPanel";
 
 export const dynamic = "force-dynamic";
