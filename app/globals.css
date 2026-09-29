@@ -4648,3 +4648,172 @@ linear-gradient(135deg,rgba(255,229,150,.56),rgba(255,176,0,.16),rgba(255,255,25
     animation:none!important;
   }
 }
+
+
+/* =========================================================
+   WADAN EXPERIENCE V18
+   Portal dock + visible route motion + compact Explore launcher
+   ========================================================= */
+
+/* legacy in-page mobile nav is retired */
+.dash-mobile-nav{
+  display:none!important;
+}
+
+.wadan-mobile-dock{
+  display:none;
+}
+
+.route-transition-frame{
+  min-height:100%;
+  opacity:1;
+  transform-origin:50% 0;
+  animation:wadanRouteEnter .30s cubic-bezier(.22,.82,.24,1) both!important;
+  will-change:opacity,transform,filter;
+}
+
+.route-transition-frame::before{
+  display:none!important;
+}
+
+@keyframes wadanRouteEnter{
+  0%{
+    opacity:0;
+    transform:translate3d(14px,0,0) scale(.996);
+    filter:blur(4px);
+  }
+  58%{
+    opacity:1;
+    filter:blur(0);
+  }
+  100%{
+    opacity:1;
+    transform:translate3d(0,0,0) scale(1);
+    filter:blur(0);
+  }
+}
+
+@media(max-width:760px){
+  .wadan-mobile-dock{
+    position:fixed;
+    left:12px;
+    right:12px;
+    bottom:max(10px,env(safe-area-inset-bottom));
+    z-index:5000;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:2px;
+    padding:7px 6px;
+    border:1px solid rgba(255,214,111,.13);
+    border-radius:21px;
+    background:
+      linear-gradient(rgba(8,13,20,.94),rgba(8,13,20,.94)) padding-box,
+      linear-gradient(135deg,rgba(255,224,132,.34),rgba(255,176,0,.08),rgba(255,255,255,.04)) border-box;
+    box-shadow:
+      0 20px 55px rgba(0,0,0,.58),
+      0 0 30px rgba(255,176,0,.035);
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+  }
+
+  .wadan-mobile-dock a{
+    min-height:54px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    border-radius:14px;
+    color:#706a61;
+    text-decoration:none;
+    font-size:8.5px;
+    font-weight:700;
+    transition:background .16s ease,color .16s ease,transform .16s ease;
+  }
+
+  .wadan-mobile-dock a svg{
+    width:20px;
+    height:20px;
+  }
+
+  .wadan-mobile-dock a.active{
+    color:#ffd86b;
+    background:linear-gradient(180deg,rgba(255,176,0,.10),rgba(255,176,0,.025));
+  }
+
+  .wadan-mobile-dock a:active{
+    transform:scale(.96);
+  }
+
+  .dash-main,
+  .flow-page{
+    padding-bottom:112px!important;
+  }
+
+  /* dashboard launcher: compact app shortcuts, not oversized cards */
+  .explore-section{
+    margin-top:24px!important;
+  }
+
+  .explore-section-head strong{
+    font-size:18px!important;
+  }
+
+  .explore-slider{
+    gap:7px!important;
+    margin-right:-12px!important;
+    padding:1px 12px 8px 1px!important;
+    scroll-snap-type:x mandatory;
+  }
+
+  .explore-card{
+    min-width:104px!important;
+    max-width:104px!important;
+    min-height:100px!important;
+    padding:10px 9px!important;
+    border-radius:15px!important;
+    scroll-snap-align:start;
+  }
+
+  .explore-card-icon{
+    width:34px!important;
+    height:34px!important;
+    border-radius:10px!important;
+  }
+
+  .explore-card-icon svg{
+    width:18px!important;
+    height:18px!important;
+  }
+
+  .explore-card>div{
+    margin-top:14px!important;
+  }
+
+  .explore-card small{
+    display:none!important;
+  }
+
+  .explore-card strong{
+    font-size:10.5px!important;
+    line-height:1.1!important;
+  }
+
+  .explore-card p{
+    margin-top:3px!important;
+    font-size:7.1px!important;
+    line-height:1.3!important;
+  }
+
+  .route-transition-frame{
+    animation-duration:.26s!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .route-transition-frame{
+    animation:none!important;
+    filter:none!important;
+    transform:none!important;
+  }
+}
