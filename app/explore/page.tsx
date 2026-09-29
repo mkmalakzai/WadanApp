@@ -19,9 +19,26 @@ import {
   Users,
   WalletCards,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import styles from "./explore.module.css";
 
-const groups = [
+type ExploreItem = {
+  id?: string;
+  icon: LucideIcon;
+  title: string;
+  text: string;
+  status: string;
+  href?: string;
+};
+
+type ExploreGroup = {
+  id: string;
+  eyebrow: string;
+  title: string;
+  items: ExploreItem[];
+};
+
+const groups: ExploreGroup[] = [
   {
     id:"earn",
     eyebrow:"EARN",
