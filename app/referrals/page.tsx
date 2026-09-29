@@ -6,7 +6,6 @@ import {
   Bell,
   Check,
   Copy,
-  Gift,
   History,
   Home,
   LayoutDashboard,
@@ -15,7 +14,6 @@ import {
   Send,
   Settings,
   ShieldCheck,
-  Trophy,
   UserPlus,
   UserRound,
   Users,
@@ -122,21 +120,48 @@ export default function ReferralsPage() {
           <div className={styles.heroCopy}>
             <span className={styles.eyebrow}><Users size={15}/> BUILD YOUR NETWORK</span>
             <h2>Invite people. Grow WADAN.</h2>
-            <p>One referral link, five reward levels, and a clear view of your full WADAN network.</p>
+            <p>One referral link, one premium network overview, and five reward levels working together.</p>
+          </div>
+        </section>
 
-            <div className={styles.heroStats}>
-              <div><small>Total referrals</small><strong>0</strong></div>
-              <div><small>Qualified</small><strong>0</strong></div>
-              <div><small>Total rewards</small><strong>0 WDC</strong></div>
+        <section className={styles.spotlightSection}>
+          <article className={styles.referralSpotlight}>
+            <div className={styles.spotlightLead}>
+              <span className={styles.spotlightEyebrow}><Network size={16}/> REFERRAL OVERVIEW</span>
+              <small>Total referrals</small>
+              <strong>0</strong>
+              <p>Your complete WADAN network across all five levels.</p>
             </div>
-          </div>
 
-          <div className={styles.depthCard}>
-            <div className={styles.depthIcon}><Network size={36}/></div>
-            <span>Network depth</span>
-            <strong>5 Levels</strong>
-            <small>Multi-level referral rewards</small>
-          </div>
+            <div className={styles.spotlightMetrics}>
+              <div>
+                <span>Qualified</span>
+                <strong>0</strong>
+                <small>Eligible members</small>
+              </div>
+              <div>
+                <span>Lifetime rewards</span>
+                <strong>0 WDC</strong>
+                <small>Referral earnings</small>
+              </div>
+              <div>
+                <span>Active level</span>
+                <strong>Level 1</strong>
+                <small>Direct network</small>
+              </div>
+              <div>
+                <span>Network depth</span>
+                <strong>5 Levels</strong>
+                <small>Full reward structure</small>
+              </div>
+            </div>
+
+            <div className={styles.spotlightReward}>
+              <span>Current direct reward</span>
+              <strong>5%</strong>
+              <small>Level 1 eligible reward share</small>
+            </div>
+          </article>
         </section>
 
         <section className={styles.section}>
@@ -172,39 +197,7 @@ export default function ReferralsPage() {
           </div>
         </section>
 
-        <section className={styles.section}>
-          <div className={styles.sectionHead}>
-            <div><span>REWARD SYSTEM</span><strong>5-level referral rewards</strong></div>
-            <small>Preview rates</small>
-          </div>
 
-          <div className={styles.rewardJourney}>
-            <div className={styles.rewardTrack} aria-hidden="true"><span /></div>
-
-            {rewardLevels.map((item,index)=>(
-              <div className={styles.rewardStep} key={item.level}>
-                <div className={styles.rewardNodeWrap}>
-                  <div className={styles.rewardNode}>L{item.level}</div>
-                  <span className={styles.rewardIndex}>0{index+1}</span>
-                </div>
-
-                <div className={styles.rewardStepBody}>
-                  <div className={styles.rewardStepTop}>
-                    <strong className={styles.rewardPercent}>{item.rate}</strong>
-                    <span>reward share</span>
-                  </div>
-                  <h3>{item.relation}</h3>
-                  <p>{item.note}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className={styles.ruleNote}>
-            <ShieldCheck size={19}/>
-            <p>The rates above are preview settings. Final eligibility, anti-abuse rules and payout logic will be enforced by the backend before launch.</p>
-          </div>
-        </section>
 
         <section className={styles.section}>
           <div className={styles.sectionHead}>
@@ -256,25 +249,39 @@ export default function ReferralsPage() {
             )}
           </div>
 
-          <div className={styles.summaryGrid}>
-            <article className={styles.summaryCard}>
-              <div className={styles.summaryIcon}><Trophy size={20}/></div>
-              <small>Highest active level</small>
-              <strong>Level 1</strong>
-              <span>Starts with your first qualified referral</span>
-            </article>
-            <article className={styles.summaryCard}>
-              <div className={styles.summaryIcon}><Gift size={20}/></div>
-              <small>Lifetime referral rewards</small>
-              <strong>0 WDC</strong>
-              <span>No referral reward credited yet</span>
-            </article>
-            <article className={styles.summaryCard}>
-              <div className={styles.summaryIcon}><Users size={20}/></div>
-              <small>Network size</small>
-              <strong>0</strong>
-              <span>Across all five levels</span>
-            </article>
+        </section>
+
+        <section className={styles.section}>
+          <div className={styles.sectionHead}>
+            <div><span>REWARD SYSTEM</span><strong>5-level referral rewards</strong></div>
+            <small>Preview rates</small>
+          </div>
+
+          <div className={styles.rewardJourney}>
+            <div className={styles.rewardTrack} aria-hidden="true"><span /></div>
+
+            {rewardLevels.map((item,index)=>(
+              <div className={styles.rewardStep} key={item.level}>
+                <div className={styles.rewardNodeWrap}>
+                  <div className={styles.rewardNode}>L{item.level}</div>
+                  <span className={styles.rewardIndex}>0{index+1}</span>
+                </div>
+
+                <div className={styles.rewardStepBody}>
+                  <div className={styles.rewardStepTop}>
+                    <strong className={styles.rewardPercent}>{item.rate}</strong>
+                    <span>reward share</span>
+                  </div>
+                  <h3>{item.relation}</h3>
+                  <p>{item.note}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.ruleNote}>
+            <ShieldCheck size={19}/>
+            <p>The rates above are preview settings. Final eligibility, anti-abuse rules and payout logic will be enforced by the backend before launch.</p>
           </div>
         </section>
 
