@@ -3,19 +3,14 @@ import {
   ArrowDownToLine,
   ArrowDownUp,
   ArrowUpRight,
-  BadgeCheck,
   Bell,
-  BookOpen,
   CircleDollarSign,
-  CircleHelp,
   Coins,
   Copy,
   Gift,
   History,
   Home,
-  Grid2X2,
   LayoutDashboard,
-  Megaphone,
   Settings,
   ShieldCheck,
   Sparkles,
@@ -25,6 +20,7 @@ import {
   WalletCards,
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
+import ExploreShortcuts from "../components/ExploreShortcuts";
 
 const recent = [
   ["Deposit","USDT • BNB Chain","+ $250.00","Completed"],
@@ -121,54 +117,7 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        <section className="explore-section">
-          <div className="section-strip explore-section-head">
-            <div><span>EXPLORE WADAN</span><strong>More tools & opportunities</strong></div>
-            <Link href="/explore">View all <Grid2X2 size={14}/></Link>
-          </div>
-
-          <div className="explore-slider" aria-label="Explore WADAN tools">
-            <Link href="/explore#earnings" className="explore-card explore-card-featured">
-              <span className="explore-card-icon"><Gift size={22}/></span>
-              <div><small>EARN</small><strong>Free Earnings</strong><p>Tasks & campaigns</p></div>
-            </Link>
-
-            <Link href="/explore#kyc" className="explore-card">
-              <span className="explore-card-icon"><BadgeCheck size={22}/></span>
-              <div><small>ACCOUNT</small><strong>KYC</strong><p>Verify identity</p></div>
-            </Link>
-
-            <Link href="/account?tab=security" className="explore-card">
-              <span className="explore-card-icon"><ShieldCheck size={22}/></span>
-              <div><small>PROTECT</small><strong>Security</strong><p>2FA & sessions</p></div>
-            </Link>
-
-            <Link href="/staking" className="explore-card">
-              <span className="explore-card-icon"><Sparkles size={22}/></span>
-              <div><small>REWARDS</small><strong>Rewards</strong><p>Track earnings</p></div>
-            </Link>
-
-            <Link href="/explore#learn" className="explore-card">
-              <span className="explore-card-icon"><BookOpen size={22}/></span>
-              <div><small>LEARN</small><strong>WADAN Learn</strong><p>Guides & basics</p></div>
-            </Link>
-
-            <Link href="/explore#support" className="explore-card">
-              <span className="explore-card-icon"><CircleHelp size={22}/></span>
-              <div><small>HELP</small><strong>Support</strong><p>FAQs & assistance</p></div>
-            </Link>
-
-            <Link href="/explore#discover" className="explore-card">
-              <span className="explore-card-icon"><Megaphone size={22}/></span>
-              <div><small>UPDATES</small><strong>Announcements</strong><p>WADAN news</p></div>
-            </Link>
-
-            <Link href="/explore" className="explore-card explore-view-all">
-              <span className="explore-card-icon"><Grid2X2 size={22}/></span>
-              <div><small>ALL TOOLS</small><strong>View All</strong><p>Open ecosystem hub</p></div>
-            </Link>
-          </div>
-        </section>
+        <ExploreShortcuts />
 
         <section className="overview-section">
           <div className="section-strip">
