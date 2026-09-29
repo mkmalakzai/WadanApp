@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Bell,
   Check,
@@ -35,6 +35,13 @@ export default function AccountPage() {
   const [twoFactor, setTwoFactor] = useState(false);
   const [emailAlerts, setEmailAlerts] = useState(true);
   const [securityAlerts, setSecurityAlerts] = useState(true);
+
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("tab");
+    if (requested === "overview" || requested === "profile" || requested === "security" || requested === "preferences") {
+      setTab(requested);
+    }
+  }, []);
 
   function savePreview() {
     setSaved(true);
