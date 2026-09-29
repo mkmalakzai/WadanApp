@@ -89,8 +89,8 @@ export default function StakingPage() {
         </div>
 
         <nav className="dash-nav bottom">
-          <a href="#"><UserRound size={18}/> Profile</a>
-          <a href="#"><Settings size={18}/> Settings</a>
+          <Link href="/account"><UserRound size={18}/> Profile</Link>
+          <Link href="/account"><Settings size={18}/> Settings</Link>
         </nav>
       </aside>
 
@@ -288,7 +288,7 @@ export default function StakingPage() {
           <Link href="/wallet"><WalletCards size={19}/><span>Wallet</span></Link>
           <Link href="/referrals"><Users size={19}/><span>Referral</span></Link>
           <Link className="active" href="/staking"><Coins size={19}/><span>Stake</span></Link>
-          <a href="#"><UserRound size={19}/><span>Profile</span></a>
+          <Link href="/account"><UserRound size={19}/><span>Profile</span></Link>
         </nav>
       </section>
     </main>
