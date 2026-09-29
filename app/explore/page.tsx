@@ -19,6 +19,7 @@ import {
   Users,
   WalletCards,
 } from "lucide-react";
+import MobileDock from "../components/MobileDock";
 import type { LucideIcon } from "lucide-react";
 import styles from "./explore.module.css";
 
@@ -159,13 +160,7 @@ export default function ExplorePage(){
           <p>Games, marketplace, governance, community funding and other WADAN services can be added here later without changing the core navigation.</p>
         </section>
 
-        <nav className="dash-mobile-nav gradient-border">
-          <Link href="/dashboard"><Home size={19}/><span>Home</span></Link>
-          <Link href="/wallet"><WalletCards size={19}/><span>Wallet</span></Link>
-          <Link href="/referrals"><Users size={19}/><span>Referral</span></Link>
-          <Link href="/staking"><Coins size={19}/><span>Stake</span></Link>
-          <Link href="/account"><UserRound size={19}/><span>Profile</span></Link>
-        </nav>
+        <MobileDock />
       </section>
     </main>
   );
