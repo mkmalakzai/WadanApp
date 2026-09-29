@@ -337,3 +337,265 @@ a.toolRow:hover{
   .commandCopy h2{font-size:22px}
   .toolRow em{display:none}
 }
+
+
+/* V2 — compact professional command-center treatment */
+.hero{
+  min-height:170px;
+  grid-template-columns:minmax(0,1fr) 180px;
+  gap:16px;
+  padding:18px;
+  border-radius:20px;
+}
+
+.eyebrow{
+  padding:6px 9px;
+  font-size:8.5px;
+}
+
+.hero h2{
+  max-width:620px;
+  margin-top:10px;
+  font-size:34px;
+  line-height:1;
+  letter-spacing:-.04em;
+}
+
+.hero p{
+  max-width:640px;
+  margin-top:10px;
+  font-size:10.5px;
+  line-height:1.5;
+}
+
+.heroMark{
+  min-height:118px;
+  border-radius:16px;
+}
+
+.heroMark svg{
+  width:27px;
+  height:27px;
+}
+
+.heroMark strong{
+  margin-top:8px;
+  font-size:16px;
+}
+
+.heroMark span{
+  margin-top:3px;
+  font-size:7.5px;
+}
+
+.section{
+  margin-top:22px;
+}
+
+.sectionHead{
+  padding-bottom:8px;
+}
+
+.sectionHead>div>span{
+  font-size:8px;
+}
+
+.sectionHead>div>strong{
+  margin-top:3px;
+  font-size:18px;
+}
+
+.grid{
+  gap:7px;
+}
+
+.card{
+  min-height:132px;
+  padding:12px;
+  border-radius:16px;
+}
+
+.icon{
+  width:37px;
+  height:37px;
+  border-radius:11px;
+}
+
+.cardTop em{
+  padding:4px 6px;
+  font-size:7px;
+}
+
+.card h3{
+  margin-top:17px;
+  font-size:13px;
+}
+
+.card p{
+  margin-top:5px;
+  font-size:8.5px;
+  line-height:1.45;
+}
+
+.cardFoot{
+  padding-top:10px;
+}
+
+.cardFoot span{
+  font-size:7.8px;
+}
+
+.future{
+  margin-top:22px;
+  padding:14px;
+}
+
+@media(max-width:760px){
+  .hero{
+    grid-template-columns:1fr auto;
+    gap:10px;
+    padding:13px;
+    border-radius:17px;
+  }
+
+  .eyebrow{
+    font-size:7.5px;
+  }
+
+  .hero h2{
+    max-width:280px;
+    margin-top:8px;
+    font-size:25px;
+    line-height:1.02;
+  }
+
+  .hero p{
+    max-width:330px;
+    margin-top:7px;
+    font-size:8.7px;
+  }
+
+  .heroMark{
+    width:74px;
+    min-height:92px;
+    display:flex;
+    padding:8px;
+    border-radius:14px;
+  }
+
+  .heroMark svg{
+    width:22px;
+    height:22px;
+  }
+
+  .heroMark strong{
+    margin-top:6px;
+    font-size:11px;
+  }
+
+  .heroMark span{
+    display:none;
+  }
+
+  .section{
+    margin-top:20px;
+  }
+
+  .sectionHead>div>strong{
+    font-size:17px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+    gap:6px;
+  }
+
+  .card{
+    min-height:84px;
+    padding:10px;
+    display:grid;
+    grid-template-columns:38px minmax(0,1fr) auto;
+    grid-template-areas:
+      "icon title status"
+      "icon desc foot";
+    column-gap:9px;
+    row-gap:2px;
+    align-items:center;
+    border-radius:14px;
+  }
+
+  .cardTop{
+    display:contents;
+  }
+
+  .icon{
+    grid-area:icon;
+    width:36px;
+    height:36px;
+  }
+
+  .icon svg{
+    width:18px;
+    height:18px;
+  }
+
+  .cardTop em{
+    grid-area:status;
+    justify-self:end;
+    font-size:6.5px;
+  }
+
+  .card h3{
+    grid-area:title;
+    align-self:end;
+    margin:0;
+    font-size:11.5px;
+  }
+
+  .card p{
+    grid-area:desc;
+    align-self:start;
+    margin:1px 0 0;
+    max-width:230px;
+    font-size:7.7px;
+    line-height:1.35;
+  }
+
+  .cardFoot{
+    grid-area:foot;
+    align-self:start;
+    justify-self:end;
+    margin:0;
+    padding:0;
+    border:0;
+  }
+
+  .cardFoot span{
+    display:none;
+  }
+
+  .cardFoot strong{
+    font-size:14px;
+  }
+
+  .future{
+    margin-top:18px;
+    padding:11px 2px;
+  }
+}
+
+@media(max-width:430px){
+  .hero{
+    grid-template-columns:1fr 66px;
+  }
+
+  .hero h2{
+    max-width:250px;
+    font-size:23px;
+  }
+
+  .heroMark{
+    width:66px;
+    min-height:82px;
+  }
+}
