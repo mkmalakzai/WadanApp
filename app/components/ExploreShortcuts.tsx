@@ -12,13 +12,13 @@ import {
 import styles from "./ExploreShortcuts.module.css";
 
 const shortcuts = [
-  { label:"Free Earn", icon:Gift, href:"/explore?focus=earn" },
-  { label:"KYC", icon:BadgeCheck, href:"/explore?focus=kyc" },
+  { label:"Free Earn", icon:Gift, href:"/explore#earn" },
+  { label:"KYC", icon:BadgeCheck, href:"/explore#identity" },
   { label:"Security", icon:ShieldCheck, href:"/account?tab=security" },
   { label:"Rewards", icon:Sparkles, href:"/staking" },
   { label:"Referral", icon:Users, href:"/referrals" },
-  { label:"Learn", icon:BookOpen, href:"/explore?focus=learn" },
-  { label:"Support", icon:CircleHelp, href:"/explore?focus=support" },
+  { label:"Learn", icon:BookOpen, href:"/explore#discover" },
+  { label:"Support", icon:CircleHelp, href:"/explore#discover" },
 ];
 
 export default function ExploreShortcuts(){
