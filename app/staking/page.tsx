@@ -80,7 +80,7 @@ export default function StakingPage() {
           <Link href="/wallet"><WalletCards size={18}/> Wallet</Link>
           <Link href="/referrals"><Users size={18}/> Referrals</Link>
           <Link className="active" href="/staking"><Coins size={18}/> Staking</Link>
-          <a href="#"><History size={18}/> History</a>
+          <Link href="/history"><History size={18}/> History</Link>
         </nav>
 
         <div className="dash-security">
