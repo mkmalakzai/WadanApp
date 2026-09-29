@@ -17,7 +17,7 @@ import {
   Users,
   WalletCards,
 } from "lucide-react";
-import type { AdminOverview } from "@/lib/backend/admin";
+import type { AdminOverview } from "../../lib/backend/admin";
 import styles from "./admin.module.css";
 
 type Tab =
