@@ -4467,3 +4467,120 @@ linear-gradient(135deg,rgba(255,229,150,.56),rgba(255,176,0,.16),rgba(255,255,25
     transition:none!important;
   }
 }
+
+
+/* =========================================================
+   WADAN EXPERIENCE V16
+   Fixed mobile dock + reliable route transitions
+   ========================================================= */
+
+.dash-main,
+.flow-page,
+.auth-wrap-new{
+  animation:none!important;
+}
+
+.route-transition-frame{
+  min-height:100%;
+  animation:wadanRouteIn .28s cubic-bezier(.22,.8,.22,1) both;
+  transform-origin:50% 0;
+}
+
+@keyframes wadanRouteIn{
+  0%{
+    opacity:0;
+    transform:translateY(12px) scale(.995);
+    filter:blur(5px);
+  }
+  62%{
+    opacity:1;
+    filter:blur(0);
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0) scale(1);
+    filter:blur(0);
+  }
+}
+
+.wallet-route-transition{
+  animation-duration:.23s;
+}
+
+@media(max-width:760px){
+  .dash-mobile-nav{
+    position:fixed!important;
+    left:12px!important;
+    right:12px!important;
+    bottom:max(10px,env(safe-area-inset-bottom))!important;
+    width:auto!important;
+    margin:0!important;
+    z-index:1200!important;
+    transform:none!important;
+    box-shadow:0 18px 50px rgba(0,0,0,.48)!important;
+    backdrop-filter:blur(22px)!important;
+    -webkit-backdrop-filter:blur(22px)!important;
+  }
+
+  .dash-main,
+  .flow-page{
+    padding-bottom:118px!important;
+  }
+
+  .route-transition-frame{
+    animation-duration:.24s;
+  }
+
+  /* make dashboard explore carousel compact and app-like */
+  .explore-section{
+    margin-top:25px!important;
+  }
+
+  .explore-section-head strong{
+    font-size:18px!important;
+  }
+
+  .explore-slider{
+    gap:7px!important;
+    margin-right:-14px!important;
+    padding-right:14px!important;
+  }
+
+  .explore-card{
+    min-width:126px!important;
+    max-width:126px!important;
+    min-height:112px!important;
+    padding:10px!important;
+    border-radius:15px!important;
+  }
+
+  .explore-card-icon{
+    width:34px!important;
+    height:34px!important;
+    border-radius:10px!important;
+  }
+
+  .explore-card-icon svg{
+    width:18px!important;
+    height:18px!important;
+  }
+
+  .explore-card small{
+    font-size:6.8px!important;
+  }
+
+  .explore-card strong{
+    font-size:11.5px!important;
+  }
+
+  .explore-card p{
+    margin-top:3px!important;
+    font-size:7.5px!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .route-transition-frame{
+    animation:none!important;
+  }
+}
