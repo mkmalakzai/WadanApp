@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAdminOverview } from "@/lib/backend/admin";
+import { getAdminOverview } from "../../../../lib/backend/admin";
 
 export const dynamic = "force-dynamic";
 
