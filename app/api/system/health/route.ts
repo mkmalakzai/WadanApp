@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getBackendConfig } from "@/lib/backend/supabase";
+import { getBackendConfig } from "../../../../lib/backend/supabase";
 
 export const dynamic = "force-dynamic";
 
