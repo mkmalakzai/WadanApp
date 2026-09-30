@@ -11,12 +11,12 @@ function trimSlash(value: string) {
 
 export function getBackendConfig() {
   const url = process.env.SUPABASE_URL?.trim();
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  const secretKey = process.env.SUPABASE_SECRET_KEY?.trim();
 
   return {
     url: url ? trimSlash(url) : "",
-    serviceRoleKey: serviceRoleKey ?? "",
-    configured: Boolean(url && serviceRoleKey),
+    secretKey: secretKey ?? "",
+    configured: Boolean(url && secretKey),
   };
 }
 
@@ -39,8 +39,7 @@ export async function supabaseRest<T>(
   const response = await fetch(`${config.url}/rest/v1/${path}`, {
     method: options.method ?? "GET",
     headers: {
-      apikey: config.serviceRoleKey,
-      Authorization: `Bearer ${config.serviceRoleKey}`,
+      apikey: config.secretKey,
       "Content-Type": "application/json",
       ...(options.prefer ? { Prefer: options.prefer } : {}),
     },
