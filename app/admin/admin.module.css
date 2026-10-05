@@ -715,3 +715,33 @@
     font-size:7.4px;
   }
 }
+
+
+/* ADMIN V3 — viewport dock + compact workspaces */
+@media(max-width:760px){
+  .shell{
+    padding-bottom:112px!important;
+  }
+
+  .workspace{
+    min-height:330px!important;
+    padding:30px 18px!important;
+    justify-content:flex-start!important;
+    padding-top:72px!important;
+  }
+
+  .mobileDock{
+    left:12px!important;
+    right:12px!important;
+    bottom:max(14px,env(safe-area-inset-bottom))!important;
+    z-index:9999!important;
+    transform:none!important;
+  }
+}
+
+@media(max-width:390px){
+  .workspace{
+    min-height:300px!important;
+    padding-top:58px!important;
+  }
+}
