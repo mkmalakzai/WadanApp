@@ -5,8 +5,9 @@ export class BackendNotConfiguredError extends Error {
   }
 }
 
-function trimSlash(value: string) {
-  return value.replace(/\/+$/, "");
+function normalizeSupabaseUrl(value: string) {
+  const trimmed = value.trim().replace(/\/+$/, "");
+  return trimmed.replace(/\/rest\/v1(?:\/.*)?$/, "");
 }
 
 export function getBackendConfig() {
@@ -14,7 +15,7 @@ export function getBackendConfig() {
   const secretKey = process.env.SUPABASE_SECRET_KEY?.trim();
 
   return {
-    url: url ? trimSlash(url) : "",
+    url: url ? normalizeSupabaseUrl(url) : "",
     secretKey: secretKey ?? "",
     configured: Boolean(url && secretKey),
   };
@@ -36,7 +37,9 @@ export async function supabaseRest<T>(
     throw new BackendNotConfiguredError();
   }
 
-  const response = await fetch(`${config.url}/rest/v1/${path}`, {
+  const cleanPath = path.replace(/^\\/+/, "");
+
+  const response = await fetch(`${config.url}/rest/v1/${cleanPath}`, {
     method: options.method ?? "GET",
     headers: {
       apikey: config.secretKey,
