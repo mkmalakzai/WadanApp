@@ -37,7 +37,7 @@ export async function supabaseRest<T>(
     throw new BackendNotConfiguredError();
   }
 
-  const cleanPath = path.replace(/^\\/+/, "");
+  const cleanPath = path.startsWith("/") ? path.slice(1) : path;
 
   const response = await fetch(`${config.url}/rest/v1/${cleanPath}`, {
     method: options.method ?? "GET",
