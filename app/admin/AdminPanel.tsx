@@ -75,7 +75,7 @@ export default function AdminPanel({
           </div>
         </div>
 
-        <nav className={styles.nav}>
+        <nav className={styles.nav+" "+styles.desktopNav}>
           {nav.map((item) => {
             const Icon = item.icon;
             return (
@@ -110,6 +110,7 @@ export default function AdminPanel({
 
           <div className={styles.topActions}>
             <button type="button" aria-label="Search"><Search size={18} /></button>
+            <button type="button" aria-label="Settings" onClick={() => setTab("settings")}><Settings size={18} /></button>
             <button type="button" aria-label="Notifications"><Bell size={18} /></button>
             <div className={styles.adminChip}>
               <span>AD</span>
@@ -224,6 +225,24 @@ export default function AdminPanel({
           </section>
         )}
       </section>
+
+      <nav className={styles.mobileDock} aria-label="Admin navigation">
+        <button type="button" className={tab === "overview" ? styles.mobileActive : ""} onClick={() => setTab("overview")}>
+          <LayoutDashboard size={20}/><span>Home</span>
+        </button>
+        <button type="button" className={tab === "users" ? styles.mobileActive : ""} onClick={() => setTab("users")}>
+          <Users size={20}/><span>Users</span>
+        </button>
+        <button type="button" className={tab === "deposits" ? styles.mobileActive : ""} onClick={() => setTab("deposits")}>
+          <CircleDollarSign size={20}/><span>Deposit</span>
+        </button>
+        <button type="button" className={tab === "withdrawals" ? styles.mobileActive : ""} onClick={() => setTab("withdrawals")}>
+          <WalletCards size={20}/><span>Withdraw</span>
+        </button>
+        <button type="button" className={tab === "staking" ? styles.mobileActive : ""} onClick={() => setTab("staking")}>
+          <Coins size={20}/><span>Stake</span>
+        </button>
+      </nav>
     </main>
   );
 }
