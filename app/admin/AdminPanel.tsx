@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   Activity,
   BadgeDollarSign,
@@ -51,6 +52,12 @@ export default function AdminPanel({
   const [tab, setTab] = useState<Tab>("overview");
   const [overview, setOverview] = useState(initialOverview);
   const [refreshing, setRefreshing] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
   async function refreshOverview() {
     setRefreshing(true);
@@ -226,23 +233,26 @@ export default function AdminPanel({
         )}
       </section>
 
-      <nav className={styles.mobileDock} aria-label="Admin navigation">
-        <button type="button" className={tab === "overview" ? styles.mobileActive : ""} onClick={() => setTab("overview")}>
-          <LayoutDashboard size={20}/><span>Home</span>
-        </button>
-        <button type="button" className={tab === "users" ? styles.mobileActive : ""} onClick={() => setTab("users")}>
-          <Users size={20}/><span>Users</span>
-        </button>
-        <button type="button" className={tab === "deposits" ? styles.mobileActive : ""} onClick={() => setTab("deposits")}>
-          <CircleDollarSign size={20}/><span>Deposit</span>
-        </button>
-        <button type="button" className={tab === "withdrawals" ? styles.mobileActive : ""} onClick={() => setTab("withdrawals")}>
-          <WalletCards size={20}/><span>Withdraw</span>
-        </button>
-        <button type="button" className={tab === "staking" ? styles.mobileActive : ""} onClick={() => setTab("staking")}>
-          <Coins size={20}/><span>Stake</span>
-        </button>
-      </nav>
+      {mounted && createPortal(
+        <nav className={styles.mobileDock} aria-label="Admin navigation">
+          <button type="button" className={tab === "overview" ? styles.mobileActive : ""} onClick={() => setTab("overview")}>
+            <LayoutDashboard size={20}/><span>Home</span>
+          </button>
+          <button type="button" className={tab === "users" ? styles.mobileActive : ""} onClick={() => setTab("users")}>
+            <Users size={20}/><span>Users</span>
+          </button>
+          <button type="button" className={tab === "deposits" ? styles.mobileActive : ""} onClick={() => setTab("deposits")}>
+            <CircleDollarSign size={20}/><span>Deposit</span>
+          </button>
+          <button type="button" className={tab === "withdrawals" ? styles.mobileActive : ""} onClick={() => setTab("withdrawals")}>
+            <WalletCards size={20}/><span>Withdraw</span>
+          </button>
+          <button type="button" className={tab === "staking" ? styles.mobileActive : ""} onClick={() => setTab("staking")}>
+            <Coins size={20}/><span>Stake</span>
+          </button>
+        </nav>,
+        document.body
+      )}
     </main>
   );
 }
