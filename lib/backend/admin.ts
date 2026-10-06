@@ -82,3 +82,48 @@ export async function getAdminOverview(): Promise<AdminOverview> {
     };
   }
 }
+
+
+export type AdminUser = {
+  id: string;
+  externalUserId: string;
+  displayName: string;
+  email: string;
+  phone: string;
+  country: string;
+  status: string;
+  kycStatus: string;
+  createdAt: string;
+};
+
+type UserRow = {
+  id?: string;
+  external_user_id?: string;
+  display_name?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  country?: string | null;
+  status?: string | null;
+  kyc_status?: string | null;
+  created_at?: string | null;
+};
+
+export async function getAdminUsers(): Promise<AdminUser[]> {
+  if (!getBackendConfig().configured) return [];
+
+  const rows = await supabaseRest<UserRow[]>(
+    "users?select=id,external_user_id,display_name,email,phone,country,status,kyc_status,created_at&order=created_at.desc&limit=100"
+  );
+
+  return rows.map((row) => ({
+    id: row.id ?? "",
+    externalUserId: row.external_user_id ?? "",
+    displayName: row.display_name ?? "",
+    email: row.email ?? "",
+    phone: row.phone ?? "",
+    country: row.country ?? "",
+    status: row.status ?? "active",
+    kycStatus: row.kyc_status ?? "not_started",
+    createdAt: row.created_at ?? "",
+  }));
+}
