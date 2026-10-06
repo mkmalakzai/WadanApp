@@ -1,48 +1,92 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
   ArrowUpRight,
   CheckCircle2,
   CircleDollarSign,
   Coins,
-  Home,
   Info,
   ShieldCheck,
-  UserRound,
-  Users,
-  WalletCards,
 } from "lucide-react";
 import MobileDock from "../../components/MobileDock";
 
 type Asset = "WDC" | "USDT";
 type Unit = "coin" | "usd";
 
-const meta: Record<Asset, { name: string; price: number; network: string }> = {
-  WDC: { name: "Wadan Coin", price: 0.01, network: "BNB Smart Chain • BEP-20" },
-  USDT: { name: "Tether USD", price: 1, network: "BNB Smart Chain • BEP-20" },
+type Summary = {
+  profile: { wdcBalance:number; usdtBalance:number; };
+  wdcPrice:number;
+  flags:{ withdrawals:boolean };
 };
 
 export default function WithdrawPage() {
-  const [asset, setAsset] = useState<Asset>("WDC");
-  const [unit, setUnit] = useState<Unit>("coin");
-  const [amount, setAmount] = useState("");
-  const [address, setAddress] = useState("");
-  const [review, setReview] = useState(false);
+  const [summary,setSummary]=useState<Summary | null>(null);
+  const [asset,setAsset]=useState<Asset>("WDC");
+  const [unit,setUnit]=useState<Unit>("coin");
+  const [amount,setAmount]=useState("");
+  const [address,setAddress]=useState("");
+  const [review,setReview]=useState(false);
+  const [submitting,setSubmitting]=useState(false);
+  const [message,setMessage]=useState("");
+  const [error,setError]=useState("");
 
-  const value = Number(amount || 0);
-  const selected = meta[asset];
+  useEffect(()=>{
+    void (async()=>{
+      const response=await fetch("/api/wallet/summary",{cache:"no-store"});
+      const data=await response.json();
+      if(response.ok) setSummary(data);
+      else setError(data.error || "Unable to load wallet.");
+    })();
+  },[]);
 
-  const converted = useMemo(() => {
-    if (!Number.isFinite(value)) return 0;
-    return unit === "coin" ? value * selected.price : value / selected.price;
-  }, [value, unit, selected.price]);
+  const price=asset==="WDC" ? summary?.wdcPrice ?? 0.01 : 1;
+  const balance=asset==="WDC" ? summary?.profile.wdcBalance ?? 0 : summary?.profile.usdtBalance ?? 0;
+  const value=Number(amount || 0);
 
-  const coinAmount = unit === "coin" ? value : converted;
-  const usdAmount = unit === "usd" ? value : converted;
-  const canReview = address.trim().length >= 8 && value > 0;
+  const converted=useMemo(()=>{
+    if(!Number.isFinite(value)) return 0;
+    return unit==="coin" ? value*price : value/price;
+  },[value,unit,price]);
+
+  const coinAmount=unit==="coin" ? value : converted;
+  const usdAmount=unit==="usd" ? value : converted;
+  const canReview=/^0x[a-fA-F0-9]{40}$/.test(address.trim()) && coinAmount>0 && coinAmount<=balance;
+
+  async function confirmWithdrawal(){
+    setSubmitting(true);
+    setMessage("");
+    setError("");
+
+    try{
+      const response=await fetch("/api/wallet/withdraw",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({asset,amount:coinAmount,address:address.trim()}),
+      });
+      const data=await response.json();
+
+      if(!response.ok) throw new Error(data.error || "Unable to request withdrawal.");
+
+      setMessage("Withdrawal request created and balance reserved for admin review.");
+      setReview(false);
+      setAmount("");
+      setAddress("");
+    }catch(err){
+      setError(err instanceof Error ? err.message : "Unable to request withdrawal.");
+    }finally{
+      setSubmitting(false);
+    }
+  }
+
+  function max(){
+    setUnit("coin");
+    setAmount(String(balance));
+  }
+
+  const enabled=Boolean(summary?.flags.withdrawals);
 
   return (
     <main className="flow-shell">
@@ -57,8 +101,15 @@ export default function WithdrawPage() {
         <div className="flow-heading">
           <p>SEND FUNDS</p>
           <h1>Withdraw</h1>
-          <span>Choose an asset, enter the destination and review every detail before sending.</span>
+          <span>Create a withdrawal request on BNB Smart Chain. Funds are locked until admin review.</span>
         </div>
+
+        {!enabled && (
+          <div className="flow-warning">
+            <Info size={20}/>
+            <p><strong>Withdrawals are currently disabled.</strong> The admin can enable them from platform settings.</p>
+          </div>
+        )}
 
         {!review ? (
           <section className="withdraw-form">
@@ -70,18 +121,18 @@ export default function WithdrawPage() {
                     type="button"
                     key={item}
                     className={asset===item ? "active" : ""}
-                    onClick={()=>setAsset(item)}
+                    onClick={()=>{setAsset(item);setAmount("");}}
                     aria-pressed={asset===item}
                   >
                     <span>{item==="WDC" ? <Coins size={20}/> : <CircleDollarSign size={20}/>}</span>
-                    <div><strong>{item}</strong><small>{meta[item].name}</small></div>
+                    <div><strong>{item}</strong><small>{item==="WDC" ? "Wadan Coin" : "Tether USD"}</small></div>
                   </button>
                 ))}
               </div>
             </div>
 
             <div className="withdraw-balance-strip">
-              <div><small>Available balance</small><strong>0.00 {asset}</strong></div>
+              <div><small>Available balance</small><strong>{balance.toLocaleString("en-US",{maximumFractionDigits:6})} {asset}</strong></div>
               <div><small>Network</small><strong>BNB Smart Chain</strong></div>
             </div>
 
@@ -105,8 +156,8 @@ export default function WithdrawPage() {
                 <span>{unit==="coin" ? asset : "USD"}</span>
               </div>
               <div className="amount-equivalent">
-                <span>≈ {unit==="coin" ? "$" + usdAmount.toFixed(2) : coinAmount.toFixed(4) + " " + asset}</span>
-                <button type="button" onClick={()=>setAmount("0")}>MAX</button>
+                <span>≈ {unit==="coin" ? "$"+usdAmount.toFixed(2) : coinAmount.toFixed(4)+" "+asset}</span>
+                <button type="button" onClick={max}>MAX</button>
               </div>
             </div>
 
@@ -126,20 +177,18 @@ export default function WithdrawPage() {
 
             <div className="withdraw-summary">
               <div><span>Asset</span><strong>{asset}</strong></div>
-              <div><span>Network</span><strong>{selected.network}</strong></div>
-              <div><span>Estimated fee</span><strong>Calculated at confirmation</strong></div>
-              <div><span>Recipient receives</span><strong>{coinAmount.toFixed(4)} {asset}</strong></div>
+              <div><span>Network</span><strong>BNB Smart Chain • BEP-20</strong></div>
+              <div><span>Amount</span><strong>{coinAmount.toFixed(4)} {asset}</strong></div>
+              <div><span>USD estimate</span><strong>{"$"+usdAmount.toFixed(2)}</strong></div>
             </div>
 
-            <div className="flow-warning">
-              <Info size={20}/>
-              <p>Withdrawal processing is still a frontend preview. Live balance checks, fees, security verification and blockchain sending will be connected to the backend later.</p>
-            </div>
+            {error && <div className="auth-live-message error">{error}</div>}
+            {message && <div className="auth-live-message success">{message}</div>}
 
             <button
               type="button"
               className="flow-primary"
-              disabled={!canReview}
+              disabled={!enabled || !canReview}
               onClick={()=>setReview(true)}
             >
               Review withdrawal <ArrowUpRight size={20}/>
@@ -156,19 +205,17 @@ export default function WithdrawPage() {
               <div><span>Network</span><strong>BNB Smart Chain</strong></div>
               <div><span>Destination</span><strong className="review-address">{address}</strong></div>
               <div><span>Amount</span><strong>{coinAmount.toFixed(4)} {asset}</strong></div>
-              <div><span>USD estimate</span><strong>{"$" + usdAmount.toFixed(2)}</strong></div>
-              <div><span>Fee</span><strong>Pending backend quote</strong></div>
+              <div><span>USD estimate</span><strong>{"$"+usdAmount.toFixed(2)}</strong></div>
+              <div><span>Status after submit</span><strong>Pending admin review</strong></div>
             </div>
 
-            <button type="button" className="flow-primary disabled-look">
-              Confirm withdrawal <ShieldCheck size={20}/>
+            {error && <div className="auth-live-message error">{error}</div>}
+            {message && <div className="auth-live-message success">{message}</div>}
+
+            <button type="button" className="flow-primary" disabled={submitting} onClick={confirmWithdrawal}>
+              {submitting ? "Submitting..." : "Confirm withdrawal"} <ShieldCheck size={20}/>
             </button>
             <button type="button" className="flow-secondary" onClick={()=>setReview(false)}>Go back and edit</button>
-
-            <div className="flow-warning">
-              <Info size={20}/>
-              <p>Confirmation is intentionally disabled until authentication, live balances, fees and transaction signing are connected.</p>
-            </div>
           </section>
         )}
 
