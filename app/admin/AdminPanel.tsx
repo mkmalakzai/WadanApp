@@ -18,7 +18,7 @@ import {
   Users,
   WalletCards,
 } from "lucide-react";
-import type { AdminOverview, AdminUser } from "../../lib/backend/admin";
+import type { AdminDeposit, AdminOverview, AdminSettings, AdminStakingPlan, AdminUser, AdminWithdrawal } from "../../lib/backend/admin";
 import styles from "./admin.module.css";
 
 type Tab =
@@ -56,6 +56,12 @@ export default function AdminPanel({
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [usersLoading, setUsersLoading] = useState(false);
   const [userQuery, setUserQuery] = useState("");
+  const [deposits, setDeposits] = useState<AdminDeposit[]>([]);
+  const [withdrawals, setWithdrawals] = useState<AdminWithdrawal[]>([]);
+  const [plans, setPlans] = useState<AdminStakingPlan[]>([]);
+  const [settingsData, setSettingsData] = useState<AdminSettings | null>(null);
+  const [moduleLoading, setModuleLoading] = useState(false);
+  const [moduleMessage, setModuleMessage] = useState("");
 
   useEffect(() => {
     setMounted(true);
@@ -63,9 +69,11 @@ export default function AdminPanel({
   }, []);
 
   useEffect(() => {
-    if (tab === "users") {
-      void loadUsers();
-    }
+    if (tab === "users") void loadUsers();
+    if (tab === "deposits") void loadDeposits();
+    if (tab === "withdrawals") void loadWithdrawals();
+    if (tab === "staking") void loadPlans();
+    if (tab === "settings") void loadSettings();
   }, [tab]);
 
   async function loadUsers() {
@@ -77,6 +85,110 @@ export default function AdminPanel({
     } finally {
       setUsersLoading(false);
     }
+  }
+
+  async function loadDeposits() {
+    setModuleLoading(true);
+    try {
+      const response = await fetch("/api/admin/deposits", { cache: "no-store" });
+      const data = await response.json();
+      setDeposits(Array.isArray(data.deposits) ? data.deposits : []);
+    } finally {
+      setModuleLoading(false);
+    }
+  }
+
+  async function actDeposit(id: string, action: "confirm" | "reject") {
+    setModuleMessage("");
+    const response = await fetch("/api/admin/deposits", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, action }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      setModuleMessage(data.error || "Deposit action failed.");
+      return;
+    }
+    setModuleMessage("Deposit updated.");
+    await Promise.all([loadDeposits(), refreshOverview()]);
+  }
+
+  async function loadWithdrawals() {
+    setModuleLoading(true);
+    try {
+      const response = await fetch("/api/admin/withdrawals", { cache: "no-store" });
+      const data = await response.json();
+      setWithdrawals(Array.isArray(data.withdrawals) ? data.withdrawals : []);
+    } finally {
+      setModuleLoading(false);
+    }
+  }
+
+  async function actWithdrawal(id: string, action: "approve" | "reject" | "sent") {
+    let txHash = "";
+    if (action === "sent") {
+      txHash = window.prompt("Enter blockchain transaction hash") || "";
+      if (!txHash) return;
+    }
+
+    setModuleMessage("");
+    const response = await fetch("/api/admin/withdrawals", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, action, txHash }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      setModuleMessage(data.error || "Withdrawal action failed.");
+      return;
+    }
+    setModuleMessage("Withdrawal updated.");
+    await Promise.all([loadWithdrawals(), refreshOverview()]);
+  }
+
+  async function loadPlans() {
+    setModuleLoading(true);
+    try {
+      const response = await fetch("/api/admin/staking-plans", { cache: "no-store" });
+      const data = await response.json();
+      setPlans(Array.isArray(data.plans) ? data.plans : []);
+    } finally {
+      setModuleLoading(false);
+    }
+  }
+
+  async function savePlan(plan: AdminStakingPlan) {
+    const response = await fetch("/api/admin/staking-plans", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: plan.id, dailyRate: plan.dailyRate, enabled: plan.enabled }),
+    });
+    const data = await response.json();
+    setModuleMessage(response.ok ? "Staking plan saved." : data.error || "Unable to save plan.");
+    if (response.ok) await loadPlans();
+  }
+
+  async function loadSettings() {
+    setModuleLoading(true);
+    try {
+      const response = await fetch("/api/admin/settings", { cache: "no-store" });
+      const data = await response.json();
+      if (response.ok) setSettingsData(data.settings);
+    } finally {
+      setModuleLoading(false);
+    }
+  }
+
+  async function saveSetting(key: keyof AdminSettings, value: string | number | boolean) {
+    const response = await fetch("/api/admin/settings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key, value }),
+    });
+    const data = await response.json();
+    setModuleMessage(response.ok ? "Setting saved." : data.error || "Unable to save setting.");
+    if (response.ok) await loadSettings();
   }
 
   async function refreshOverview() {
@@ -302,23 +414,109 @@ export default function AdminPanel({
           </section>
         )}
 
-        {tab !== "overview" && tab !== "users" && (
-          <section className={styles.workspace}>
-            <div className={styles.workspaceIcon}>
-              {tab === "deposits" ? <CircleDollarSign size={28} /> :
-               tab === "withdrawals" ? <WalletCards size={28} /> :
-               tab === "staking" ? <Coins size={28} /> :
-               <Settings size={28} />}
+        {tab === "deposits" && (
+          <section className={styles.usersWorkspace}>
+            <div className={styles.usersToolbar}>
+              <div><span>LIVE DEPOSITS</span><strong>Deposit review queue</strong></div>
+              <button type="button" onClick={loadDeposits} disabled={moduleLoading}><RefreshCw size={15}/> Refresh</button>
             </div>
-            <span>{tab.toUpperCase()}</span>
-            <h2>{nav.find((item) => item.id === tab)?.label} workspace</h2>
-            <p>
-              The database model for this module is included in the backend foundation.
-              Live tables, review actions and filters will be wired in the next backend pass.
-            </p>
-            <div className={styles.workspaceState}>
-              <Database size={16} />
-              {overview.connected ? "Database connected" : "Waiting for database connection"}
+            {moduleMessage && <div className={styles.workspaceState}>{moduleMessage}</div>}
+            <div className={styles.usersList}>
+              {deposits.length ? deposits.map((item)=>(
+                <article className={styles.userRow} key={item.id}>
+                  <div className={styles.userAvatar}>{item.asset}</div>
+                  <div className={styles.userIdentity}><strong>{item.userName}</strong><span>{item.email || item.txHash}</span></div>
+                  <div className={styles.userMeta}><span>{item.amount} {item.asset}</span><em>{item.status}</em></div>
+                  <div className={styles.opsActions}>
+                    {item.status !== "confirmed" && item.status !== "rejected" && <>
+                      <button type="button" onClick={()=>actDeposit(item.id,"confirm")}>Confirm</button>
+                      <button type="button" onClick={()=>actDeposit(item.id,"reject")}>Reject</button>
+                    </>}
+                  </div>
+                </article>
+              )) : <div className={styles.usersEmpty}><CircleDollarSign size={24}/><strong>No deposits</strong><span>Submitted deposit transactions will appear here.</span></div>}
+            </div>
+          </section>
+        )}
+
+        {tab === "withdrawals" && (
+          <section className={styles.usersWorkspace}>
+            <div className={styles.usersToolbar}>
+              <div><span>LIVE WITHDRAWALS</span><strong>Withdrawal review queue</strong></div>
+              <button type="button" onClick={loadWithdrawals} disabled={moduleLoading}><RefreshCw size={15}/> Refresh</button>
+            </div>
+            {moduleMessage && <div className={styles.workspaceState}>{moduleMessage}</div>}
+            <div className={styles.usersList}>
+              {withdrawals.length ? withdrawals.map((item)=>(
+                <article className={styles.userRow} key={item.id}>
+                  <div className={styles.userAvatar}>{item.asset}</div>
+                  <div className={styles.userIdentity}><strong>{item.userName}</strong><span>{item.address}</span></div>
+                  <div className={styles.userMeta}><span>{item.amount} {item.asset}</span><em>{item.status}</em></div>
+                  <div className={styles.opsActions}>
+                    {item.status === "pending" && <>
+                      <button type="button" onClick={()=>actWithdrawal(item.id,"approve")}>Approve</button>
+                      <button type="button" onClick={()=>actWithdrawal(item.id,"reject")}>Reject</button>
+                    </>}
+                    {item.status === "approved" && <button type="button" onClick={()=>actWithdrawal(item.id,"sent")}>Mark sent</button>}
+                  </div>
+                </article>
+              )) : <div className={styles.usersEmpty}><WalletCards size={24}/><strong>No withdrawals</strong><span>User withdrawal requests will appear here.</span></div>}
+            </div>
+          </section>
+        )}
+
+        {tab === "staking" && (
+          <section className={styles.usersWorkspace}>
+            <div className={styles.usersToolbar}>
+              <div><span>STAKING PLANS</span><strong>Rates & availability</strong></div>
+              <button type="button" onClick={loadPlans} disabled={moduleLoading}><RefreshCw size={15}/> Refresh</button>
+            </div>
+            {moduleMessage && <div className={styles.workspaceState}>{moduleMessage}</div>}
+            <div className={styles.usersList}>
+              {plans.map((plan)=>(
+                <article className={styles.userRow} key={plan.id}>
+                  <div className={styles.userAvatar}>{plan.id.toUpperCase()}</div>
+                  <div className={styles.userIdentity}><strong>{plan.title}</strong><span>{plan.durationDays} days</span></div>
+                  <div className={styles.planControls}>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={plan.dailyRate}
+                      onChange={(e)=>setPlans((current)=>current.map((item)=>item.id===plan.id ? {...item,dailyRate:Number(e.target.value)} : item))}
+                    />
+                    <button type="button" onClick={()=>setPlans((current)=>current.map((item)=>item.id===plan.id ? {...item,enabled:!item.enabled} : item))}>{plan.enabled ? "Enabled" : "Disabled"}</button>
+                    <button type="button" onClick={()=>savePlan(plan)}>Save</button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {tab === "settings" && settingsData && (
+          <section className={styles.usersWorkspace}>
+            <div className={styles.usersToolbar}>
+              <div><span>PLATFORM SETTINGS</span><strong>Core financial controls</strong></div>
+              <button type="button" onClick={loadSettings} disabled={moduleLoading}><RefreshCw size={15}/> Refresh</button>
+            </div>
+            {moduleMessage && <div className={styles.workspaceState}>{moduleMessage}</div>}
+            <div className={styles.settingsGrid}>
+              <label><span>WDC reference price (USD)</span><input type="number" step="0.0001" value={settingsData.wdcReferencePrice} onChange={(e)=>setSettingsData({...settingsData,wdcReferencePrice:Number(e.target.value)})}/><button type="button" onClick={()=>saveSetting("wdcReferencePrice",settingsData.wdcReferencePrice)}>Save</button></label>
+              <label><span>BNB deposit address</span><input value={settingsData.depositAddressBsc} onChange={(e)=>setSettingsData({...settingsData,depositAddressBsc:e.target.value})}/><button type="button" onClick={()=>saveSetting("depositAddressBsc",settingsData.depositAddressBsc)}>Save</button></label>
+              <label><span>WDC withdrawal fee</span><input type="number" step="0.0001" value={settingsData.withdrawFeeWdc} onChange={(e)=>setSettingsData({...settingsData,withdrawFeeWdc:Number(e.target.value)})}/><button type="button" onClick={()=>saveSetting("withdrawFeeWdc",settingsData.withdrawFeeWdc)}>Save</button></label>
+              <label><span>USDT withdrawal fee</span><input type="number" step="0.0001" value={settingsData.withdrawFeeUsdt} onChange={(e)=>setSettingsData({...settingsData,withdrawFeeUsdt:Number(e.target.value)})}/><button type="button" onClick={()=>saveSetting("withdrawFeeUsdt",settingsData.withdrawFeeUsdt)}>Save</button></label>
+            </div>
+            <div className={styles.toggleGrid}>
+              {([
+                ["depositsEnabled","Deposits",settingsData.depositsEnabled],
+                ["withdrawalsEnabled","Withdrawals",settingsData.withdrawalsEnabled],
+                ["swapsEnabled","Swaps",settingsData.swapsEnabled],
+                ["stakingEnabled","Staking",settingsData.stakingEnabled],
+              ] as const).map(([key,label,value])=>(
+                <button type="button" key={key} className={value ? styles.activeToggle : ""} onClick={()=>saveSetting(key,!value)}>
+                  <span>{label}</span><strong>{value ? "Enabled" : "Disabled"}</strong>
+                </button>
+              ))}
             </div>
           </section>
         )}
