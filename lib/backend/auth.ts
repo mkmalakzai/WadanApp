@@ -232,3 +232,93 @@ export async function loginWithEmail(email: string, password: string): Promise<A
     user: auth.user,
   };
 }
+
+
+export type CurrentAccountProfile = {
+  appUserId: string;
+  authUserId: string;
+  displayName: string;
+  email: string;
+  phone: string;
+  country: string;
+  status: string;
+  kycStatus: string;
+  emailConfirmed: boolean;
+  wdcBalance: number;
+  usdtBalance: number;
+};
+
+type AuthUserDetails = AuthUser & {
+  email_confirmed_at?: string | null;
+};
+
+export async function getCurrentAccountProfile(accessToken: string): Promise<CurrentAccountProfile> {
+  const config = getAuthConfig();
+
+  const userResponse = await fetch(`${config.url}/auth/v1/user`, {
+    method: "GET",
+    headers: {
+      apikey: config.publishableKey,
+      Authorization: `Bearer ${accessToken}`,
+    },
+    cache: "no-store",
+  });
+
+  if (!userResponse.ok) {
+    throw new Error("Session expired. Please log in again.");
+  }
+
+  const authUser = (await userResponse.json()) as AuthUserDetails;
+  const meta = authUser.user_metadata ?? {};
+
+  const users = await supabaseRest<Array<{
+    id: string;
+    display_name?: string | null;
+    email?: string | null;
+    phone?: string | null;
+    country?: string | null;
+    status?: string | null;
+    kyc_status?: string | null;
+  }>>(
+    `users?external_user_id=eq.${encodeURIComponent(authUser.id)}&select=id,display_name,email,phone,country,status,kyc_status&limit=1`
+  );
+
+  const appUser = users?.[0];
+
+  if (!appUser?.id) {
+    throw new Error("WADAN profile not found.");
+  }
+
+  const wallets = await supabaseRest<Array<{
+    asset: "WDC" | "USDT";
+    balance?: number | string | null;
+  }>>(
+    `wallets?user_id=eq.${encodeURIComponent(appUser.id)}&select=asset,balance`
+  );
+
+  const wdc = wallets.find((item) => item.asset === "WDC");
+  const usdt = wallets.find((item) => item.asset === "USDT");
+
+  return {
+    appUserId: appUser.id,
+    authUserId: authUser.id,
+    displayName:
+      appUser.display_name ??
+      (typeof meta.display_name === "string" ? meta.display_name : "") ??
+      "",
+    email: appUser.email ?? authUser.email ?? "",
+    phone:
+      appUser.phone ??
+      (typeof meta.phone === "string" ? meta.phone : authUser.phone ?? "") ??
+      "",
+    country:
+      appUser.country ??
+      (typeof meta.country === "string" ? meta.country : "") ??
+      "",
+    status: appUser.status ?? "active",
+    kycStatus: appUser.kyc_status ?? "not_started",
+    emailConfirmed: Boolean(authUser.email_confirmed_at),
+    wdcBalance: Number(wdc?.balance ?? 0) || 0,
+    usdtBalance: Number(usdt?.balance ?? 0) || 0,
+  };
+}
