@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Bell,
   CalendarDays,
@@ -9,7 +9,6 @@ import {
   ChevronRight,
   Coins,
   History,
-  Home,
   Info,
   LayoutDashboard,
   LockKeyhole,
@@ -24,47 +23,136 @@ import {
 import MobileDock from "../components/MobileDock";
 import styles from "./staking.module.css";
 
-type PlanId = "6M" | "12M";
+type Plan = {
+  id:string;
+  title:string;
+  duration_days:number;
+  dailyRate:number;
+  enabled:boolean;
+};
 
-const plans = {
-  "6M": {
-    id: "6M" as PlanId,
-    title: "6 Month",
-    days: 180,
-    dailyRate: 0.6,
-    label: "Balanced lock",
-    note: "Medium-term WDC staking",
-  },
-  "12M": {
-    id: "12M" as PlanId,
-    title: "12 Month",
-    days: 365,
-    dailyRate: 0.7,
-    label: "Long-term",
-    note: "Higher preview reward rate",
-  },
+type Position = {
+  id:string;
+  plan_id:string;
+  principal:number;
+  started_at:string;
+  unlock_at:string;
+  status:string;
+  planTitle:string;
+  dailyRate:number;
+  durationDays:number;
+  projectedReward:number;
+  matured:boolean;
+};
+
+type Overview = {
+  profile:{
+    displayName:string;
+    wdcBalance:number;
+  };
+  plans:Plan[];
+  positions:Position[];
 };
 
 export default function StakingPage() {
-  const [planId, setPlanId] = useState<PlanId>("6M");
-  const [amount, setAmount] = useState("");
-  const [review, setReview] = useState(false);
+  const [data,setData]=useState<Overview | null>(null);
+  const [planId,setPlanId]=useState("");
+  const [amount,setAmount]=useState("");
+  const [review,setReview]=useState(false);
+  const [loading,setLoading]=useState(false);
+  const [message,setMessage]=useState("");
+  const [error,setError]=useState("");
 
-  const plan = plans[planId];
-  const numericAmount = Number(amount || 0);
+  async function load(){
+    const response=await fetch("/api/staking/overview",{cache:"no-store"});
+    const body=await response.json();
+    if(response.ok){
+      setData(body);
+      setPlanId((current)=>current || body.plans?.find((p:Plan)=>p.enabled)?.id || body.plans?.[0]?.id || "");
+    }else{
+      setError(body.error || "Unable to load staking.");
+    }
+  }
 
-  const estimate = useMemo(() => {
-    if (!Number.isFinite(numericAmount) || numericAmount <= 0) return 0;
-    return numericAmount * (plan.dailyRate / 100) * plan.days;
-  }, [numericAmount, plan]);
+  useEffect(()=>{void load();},[]);
 
-  const totalAtEnd = numericAmount + estimate;
-  const canReview = numericAmount > 0;
+  const plan=data?.plans.find((item)=>item.id===planId) || data?.plans[0];
+  const balance=data?.profile.wdcBalance ?? 0;
+  const numericAmount=Number(amount || 0);
 
-  function choosePlan(next: PlanId) {
+  const estimate=useMemo(()=>{
+    if(!plan || !Number.isFinite(numericAmount) || numericAmount<=0) return 0;
+    return numericAmount*(plan.dailyRate/100)*plan.duration_days;
+  },[numericAmount,plan]);
+
+  const totalAtEnd=numericAmount+estimate;
+  const totalStaked=(data?.positions || []).filter((p)=>p.status==="active").reduce((sum,p)=>sum+p.principal,0);
+  const rewardEstimate=(data?.positions || []).filter((p)=>p.status==="active").reduce((sum,p)=>sum+p.projectedReward,0);
+  const activeCount=(data?.positions || []).filter((p)=>p.status==="active").length;
+
+  function choosePlan(next:string){
     setPlanId(next);
     setReview(false);
+    setMessage("");
+    setError("");
   }
+
+  function shortcut(percent:number){
+    setAmount(String((balance*percent).toFixed(6)));
+  }
+
+  async function confirmStake(){
+    if(!plan) return;
+    setLoading(true);
+    setMessage("");
+    setError("");
+
+    try{
+      const response=await fetch("/api/staking/create",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({planId:plan.id,amount:numericAmount}),
+      });
+      const body=await response.json();
+
+      if(!response.ok) throw new Error(body.error || "Unable to create stake.");
+
+      setMessage("Staking position created successfully.");
+      setReview(false);
+      setAmount("");
+      await load();
+    }catch(err){
+      setError(err instanceof Error ? err.message : "Unable to create stake.");
+    }finally{
+      setLoading(false);
+    }
+  }
+
+  async function claim(stakeId:string){
+    setLoading(true);
+    setMessage("");
+    setError("");
+
+    try{
+      const response=await fetch("/api/staking/claim",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({stakeId}),
+      });
+      const body=await response.json();
+      if(!response.ok) throw new Error(body.error || "Unable to claim stake.");
+      setMessage("Matured staking position settled to your WDC wallet.");
+      await load();
+    }catch(err){
+      setError(err instanceof Error ? err.message : "Unable to claim stake.");
+    }finally{
+      setLoading(false);
+    }
+  }
+
+  const name=data?.profile.displayName || "Member";
+  const initials=name.slice(0,2).toUpperCase();
+  const canReview=Boolean(plan?.enabled && numericAmount>0 && numericAmount<=balance);
 
   return (
     <main className="dash-shell">
@@ -86,7 +174,7 @@ export default function StakingPage() {
 
         <div className="dash-security">
           <ShieldCheck size={19}/>
-          <div><strong>Staking controls</strong><span>Rates and rewards are verified by backend rules</span></div>
+          <div><strong>Staking controls</strong><span>Backend plans and wallet ledger connected</span></div>
         </div>
 
         <nav className="dash-nav bottom">
@@ -95,7 +183,7 @@ export default function StakingPage() {
         </nav>
       </aside>
 
-      <section className={"dash-main " + styles.main}>
+      <section className={"dash-main "+styles.main}>
         <header className="dash-topbar">
           <div>
             <p>WDC STAKING</p>
@@ -103,7 +191,7 @@ export default function StakingPage() {
           </div>
           <div className="dash-top-actions">
             <button className="icon-square" aria-label="Notifications"><Bell size={18}/></button>
-            <button className="user-chip"><span>MK</span><div><strong>Malakzai</strong><small>Member</small></div></button>
+            <button className="user-chip"><span>{initials}</span><div><strong>{name}</strong><small>Member</small></div></button>
           </div>
         </header>
 
@@ -111,24 +199,24 @@ export default function StakingPage() {
           <div className={styles.heroCopy}>
             <span className={styles.eyebrow}><Sparkles size={15}/> WDC REWARD VAULT</span>
             <h2>Lock WDC. Track rewards. Stay in control.</h2>
-            <p>Choose a staking period, review the projected reward, and manage every position from one place.</p>
+            <p>Plans, balances and positions are now loaded from the WADAN backend.</p>
           </div>
 
           <div className={styles.heroStats}>
-            <div><small>Total staked</small><strong>0 WDC</strong><span>$0.00</span></div>
-            <div><small>Claimable rewards</small><strong>0 WDC</strong><span>No active position</span></div>
-            <div><small>Active positions</small><strong>0</strong><span>Nothing locked yet</span></div>
+            <div><small>Total staked</small><strong>{totalStaked.toLocaleString("en-US",{maximumFractionDigits:4})} WDC</strong><span>Active principal</span></div>
+            <div><small>Projected accrued</small><strong>{rewardEstimate.toLocaleString("en-US",{maximumFractionDigits:4})} WDC</strong><span>Current estimate</span></div>
+            <div><small>Active positions</small><strong>{activeCount}</strong><span>{activeCount ? "Backend tracked" : "Nothing locked yet"}</span></div>
           </div>
         </section>
 
         <section className={styles.section}>
           <div className={styles.sectionHead}>
             <div><span>CHOOSE PLAN</span><strong>Select your lock period</strong></div>
-            <small>Preview rates</small>
+            <small>Backend controlled</small>
           </div>
 
           <div className={styles.planRail}>
-            {(Object.values(plans) as Array<(typeof plans)[PlanId]>).map((item)=>(
+            {(data?.plans || []).map((item)=>(
               <button
                 type="button"
                 key={item.id}
@@ -136,18 +224,18 @@ export default function StakingPage() {
                 className={planId===item.id ? styles.activePlan : ""}
               >
                 <div className={styles.planPeriod}>
-                  <span>{item.id}</span>
-                  <div><strong>{item.title}</strong><small>{item.note}</small></div>
+                  <span>{item.id.toUpperCase()}</span>
+                  <div><strong>{item.title}</strong><small>{item.enabled ? "Available" : "Disabled by admin"}</small></div>
                 </div>
 
                 <div className={styles.planRate}>
-                  <small>Preview daily rate</small>
+                  <small>Daily rate</small>
                   <strong>{item.dailyRate.toFixed(2)}%</strong>
                 </div>
 
                 <div className={styles.planMeta}>
-                  <span><CalendarDays size={15}/>{item.days} days</span>
-                  <span><LockKeyhole size={15}/>{item.label}</span>
+                  <span><CalendarDays size={15}/>{item.duration_days} days</span>
+                  <span><LockKeyhole size={15}/>{item.enabled ? "Enabled" : "Disabled"}</span>
                 </div>
 
                 <ChevronRight size={20} className={styles.planArrow}/>
@@ -156,20 +244,20 @@ export default function StakingPage() {
           </div>
         </section>
 
-        {!review ? (
+        {plan && !review ? (
           <section className={styles.stakeBuilder}>
             <div className={styles.builderMain}>
               <div className={styles.builderHead}>
                 <div>
                   <span>STAKE BUILDER</span>
-                  <strong>{plan.title} Plan</strong>
+                  <strong>{plan.title}</strong>
                 </div>
-                <em>{plan.dailyRate.toFixed(2)}% / day preview</em>
+                <em>{plan.dailyRate.toFixed(2)}% / day</em>
               </div>
 
               <div className={styles.balanceLine}>
                 <span>Available WDC</span>
-                <strong>0.00 WDC</strong>
+                <strong>{balance.toLocaleString("en-US",{maximumFractionDigits:6})} WDC</strong>
               </div>
 
               <div className={styles.amountBox}>
@@ -184,34 +272,29 @@ export default function StakingPage() {
                   <span>WDC</span>
                 </div>
                 <div className={styles.amountFoot}>
-                  <span>≈ {"$" + (numericAmount * 0.01).toFixed(2)}</span>
+                  <span>Balance-backed amount</span>
                   <div>
-                    {["25%","50%","75%","MAX"].map((item)=>(
-                      <button key={item} type="button" onClick={()=>setAmount("0")}>{item}</button>
-                    ))}
+                    <button type="button" onClick={()=>shortcut(.25)}>25%</button>
+                    <button type="button" onClick={()=>shortcut(.5)}>50%</button>
+                    <button type="button" onClick={()=>shortcut(.75)}>75%</button>
+                    <button type="button" onClick={()=>shortcut(1)}>MAX</button>
                   </div>
                 </div>
               </div>
 
               <div className={styles.projection}>
-                <div>
-                  <span>Lock period</span>
-                  <strong>{plan.days} days</strong>
-                </div>
-                <div>
-                  <span>Projected reward</span>
-                  <strong>{estimate.toFixed(2)} WDC</strong>
-                </div>
-                <div>
-                  <span>Projected total</span>
-                  <strong>{totalAtEnd.toFixed(2)} WDC</strong>
-                </div>
+                <div><span>Lock period</span><strong>{plan.duration_days} days</strong></div>
+                <div><span>Projected reward</span><strong>{estimate.toFixed(2)} WDC</strong></div>
+                <div><span>Projected total</span><strong>{totalAtEnd.toFixed(2)} WDC</strong></div>
               </div>
 
               <div className={styles.notice}>
                 <Info size={19}/>
-                <p>Reward figures are illustrative frontend estimates based on the preview daily rate. Final rates, eligibility, claim rules and payout logic will be enforced by the backend before launch.</p>
+                <p>Reward estimates follow the current backend plan rate. The plan must be enabled by the admin before a position can be created.</p>
               </div>
+
+              {error && <div className="auth-live-message error">{error}</div>}
+              {message && <div className="auth-live-message success">{message}</div>}
 
               <button type="button" className={styles.primary} disabled={!canReview} onClick={()=>setReview(true)}>
                 Review staking position <ChevronRight size={20}/>
@@ -222,17 +305,17 @@ export default function StakingPage() {
               <div className={styles.sideIcon}><Trophy size={30}/></div>
               <span>Selected plan</span>
               <strong>{plan.title}</strong>
-              <small>{plan.dailyRate.toFixed(2)}% daily preview</small>
+              <small>{plan.dailyRate.toFixed(2)}% daily rate</small>
 
               <div className={styles.sideFacts}>
-                <div><span>Duration</span><strong>{plan.days} days</strong></div>
+                <div><span>Duration</span><strong>{plan.duration_days} days</strong></div>
                 <div><span>Compounding</span><strong>Off</strong></div>
                 <div><span>Early unlock</span><strong>Not enabled</strong></div>
-                <div><span>Asset</span><strong>WDC</strong></div>
+                <div><span>Status</span><strong>{plan.enabled ? "Live" : "Disabled"}</strong></div>
               </div>
             </aside>
           </section>
-        ) : (
+        ) : plan ? (
           <section className={styles.review}>
             <div className={styles.reviewIcon}><CheckCircle2 size={34}/></div>
             <p>REVIEW POSITION</p>
@@ -241,47 +324,49 @@ export default function StakingPage() {
             <div className={styles.reviewGrid}>
               <div><span>Plan</span><strong>{plan.title}</strong></div>
               <div><span>Stake amount</span><strong>{numericAmount.toFixed(2)} WDC</strong></div>
-              <div><span>Lock period</span><strong>{plan.days} days</strong></div>
-              <div><span>Preview daily rate</span><strong>{plan.dailyRate.toFixed(2)}%</strong></div>
+              <div><span>Lock period</span><strong>{plan.duration_days} days</strong></div>
+              <div><span>Daily rate</span><strong>{plan.dailyRate.toFixed(2)}%</strong></div>
               <div><span>Projected reward</span><strong>{estimate.toFixed(2)} WDC</strong></div>
               <div><span>Projected total</span><strong>{totalAtEnd.toFixed(2)} WDC</strong></div>
             </div>
 
-            <button type="button" className={styles.primary + " " + styles.disabledLook}>
-              Confirm staking <ShieldCheck size={20}/>
+            {error && <div className="auth-live-message error">{error}</div>}
+
+            <button type="button" className={styles.primary} disabled={loading} onClick={confirmStake}>
+              {loading ? "Creating..." : "Confirm staking"} <ShieldCheck size={20}/>
             </button>
             <button type="button" className={styles.secondary} onClick={()=>setReview(false)}>Go back and edit</button>
-
-            <div className={styles.notice}>
-              <Info size={19}/>
-              <p>Final confirmation is disabled until live balances, authentication, staking ledger rules and backend settlement are connected.</p>
-            </div>
           </section>
-        )}
+        ) : null}
 
         <section className={styles.section}>
           <div className={styles.sectionHead}>
-            <div><span>YOUR POSITIONS</span><strong>Active staking</strong></div>
-            <small>0 positions</small>
+            <div><span>YOUR POSITIONS</span><strong>Staking positions</strong></div>
+            <small>{data?.positions.length || 0} positions</small>
           </div>
 
-          <div className={styles.emptyPositions}>
-            <div className={styles.emptyIcon}><LockKeyhole size={30}/></div>
-            <strong>No active staking positions</strong>
-            <p>Your active plan, principal, accrued rewards, start date and unlock date will appear here.</p>
-          </div>
-        </section>
-
-        <section className={styles.howItWorks}>
-          <div className={styles.sectionHead}>
-            <div><span>HOW IT WORKS</span><strong>Three simple steps</strong></div>
-          </div>
-
-          <div className={styles.steps}>
-            <div><span>01</span><div><strong>Choose a plan</strong><p>Select 6 months or 12 months.</p></div></div>
-            <div><span>02</span><div><strong>Lock WDC</strong><p>Review the amount and staking conditions.</p></div></div>
-            <div><span>03</span><div><strong>Track rewards</strong><p>Follow accrued rewards and unlock timing.</p></div></div>
-          </div>
+          {data?.positions.length ? (
+            <div className={styles.planRail}>
+              {data.positions.map((position)=>(
+                <div key={position.id} className={styles.emptyPositions}>
+                  <div className={styles.emptyIcon}><LockKeyhole size={26}/></div>
+                  <strong>{position.planTitle} • {position.principal.toLocaleString("en-US",{maximumFractionDigits:4})} WDC</strong>
+                  <p>Unlock: {new Date(position.unlock_at).toLocaleDateString()} • Status: {position.status} • Estimated accrued: {position.projectedReward.toFixed(2)} WDC</p>
+                  {position.status==="active" && position.matured && (
+                    <button type="button" className={styles.primary} disabled={loading} onClick={()=>claim(position.id)}>
+                      Claim matured position
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className={styles.emptyPositions}>
+              <div className={styles.emptyIcon}><LockKeyhole size={30}/></div>
+              <strong>No staking positions</strong>
+              <p>Your live positions will appear here after you stake WDC.</p>
+            </div>
+          )}
         </section>
 
         <MobileDock active="/staking" />
