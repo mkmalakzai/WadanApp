@@ -4817,3 +4817,27 @@ linear-gradient(135deg,rgba(255,229,150,.56),rgba(255,176,0,.16),rgba(255,255,25
     transform:none!important;
   }
 }
+
+
+/* AUTH LIVE V1 */
+.auth-live-message{
+  margin-top:2px;
+  padding:9px 11px;
+  border-radius:11px;
+  font-size:8.5px;
+  line-height:1.45;
+}
+.auth-live-message.error{
+  color:#ffb4a8;
+  border:1px solid rgba(255,98,77,.18);
+  background:rgba(255,98,77,.055);
+}
+.auth-live-message.success{
+  color:#7ee7bd;
+  border:1px solid rgba(88,217,169,.18);
+  background:rgba(88,217,169,.055);
+}
+.auth-submit:disabled{
+  opacity:.62;
+  cursor:not-allowed;
+}
