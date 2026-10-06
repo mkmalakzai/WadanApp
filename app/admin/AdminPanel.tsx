@@ -305,8 +305,7 @@ export default function AdminPanel({
         {tab !== "overview" && tab !== "users" && (
           <section className={styles.workspace}>
             <div className={styles.workspaceIcon}>
-              {tab === "users" ? <Users size={28} /> :
-               tab === "deposits" ? <CircleDollarSign size={28} /> :
+              {tab === "deposits" ? <CircleDollarSign size={28} /> :
                tab === "withdrawals" ? <WalletCards size={28} /> :
                tab === "staking" ? <Coins size={28} /> :
                <Settings size={28} />}
