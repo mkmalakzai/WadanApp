@@ -2,50 +2,90 @@
 
 import Link from "next/link";
 import QRCode from "react-qr-code";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowLeft,
   Check,
   Copy,
-  Home,
   Info,
   QrCode,
   ShieldCheck,
-  UserRound,
-  Users,
-  WalletCards,
 } from "lucide-react";
 import MobileDock from "../../components/MobileDock";
 
 type Asset = "WDC" | "USDT";
 
-const depositData: Record<Asset, { name: string; network: string; address: string }> = {
-  WDC: {
-    name: "Wadan Coin",
-    network: "BNB Smart Chain • BEP-20",
-    address: "0x1111111111111111111111111111111111111111",
-  },
-  USDT: {
-    name: "Tether USD",
-    network: "BNB Smart Chain • BEP-20",
-    address: "0x1111111111111111111111111111111111111111",
-  },
+type DepositConfig = {
+  enabled: boolean;
+  address: string;
+  network: string;
+};
+
+const names: Record<Asset,string> = {
+  WDC: "Wadan Coin",
+  USDT: "Tether USD",
 };
 
 export default function DepositPage() {
-  const [asset, setAsset] = useState<Asset>("WDC");
-  const [copied, setCopied] = useState(false);
-  const current = depositData[asset];
+  const [asset,setAsset]=useState<Asset>("WDC");
+  const [config,setConfig]=useState<DepositConfig | null>(null);
+  const [copied,setCopied]=useState(false);
+  const [amount,setAmount]=useState("");
+  const [txHash,setTxHash]=useState("");
+  const [message,setMessage]=useState("");
+  const [error,setError]=useState("");
+  const [submitting,setSubmitting]=useState(false);
 
-  async function copyAddress() {
-    try {
-      await navigator.clipboard.writeText(current.address);
+  useEffect(()=>{
+    void (async()=>{
+      const response=await fetch("/api/wallet/deposit",{cache:"no-store"});
+      const data=await response.json();
+      if(response.ok) setConfig(data);
+      else setError(data.error || "Unable to load deposit settings.");
+    })();
+  },[]);
+
+  async function copyAddress(){
+    if(!config?.address) return;
+    try{
+      await navigator.clipboard.writeText(config.address);
       setCopied(true);
-      window.setTimeout(() => setCopied(false), 1800);
-    } catch {
+      window.setTimeout(()=>setCopied(false),1800);
+    }catch{
       setCopied(false);
     }
   }
+
+  async function submit(){
+    setMessage("");
+    setError("");
+    setSubmitting(true);
+
+    try{
+      const response=await fetch("/api/wallet/deposit",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          asset,
+          amount:Number(amount),
+          txHash:txHash.trim(),
+        }),
+      });
+      const data=await response.json();
+
+      if(!response.ok) throw new Error(data.error || "Unable to submit deposit.");
+
+      setMessage("Deposit submitted for review. Your balance will update after confirmation.");
+      setAmount("");
+      setTxHash("");
+    }catch(err){
+      setError(err instanceof Error ? err.message : "Unable to submit deposit.");
+    }finally{
+      setSubmitting(false);
+    }
+  }
+
+  const ready=Boolean(config?.enabled && config?.address);
 
   return (
     <main className="flow-shell">
@@ -60,7 +100,7 @@ export default function DepositPage() {
         <div className="flow-heading">
           <p>RECEIVE FUNDS</p>
           <h1>Deposit</h1>
-          <span>Select an asset, then scan the QR code or copy the full address.</span>
+          <span>Send funds on BNB Smart Chain, then submit the transaction hash for confirmation.</span>
         </div>
 
         <section className="asset-selector" aria-label="Deposit asset">
@@ -73,7 +113,7 @@ export default function DepositPage() {
               aria-pressed={asset===item}
             >
               <span>{item==="WDC" ? "W" : "$"}</span>
-              <div><strong>{item}</strong><small>{depositData[item].name}</small></div>
+              <div><strong>{item}</strong><small>{names[item]}</small></div>
             </button>
           ))}
         </section>
@@ -82,40 +122,84 @@ export default function DepositPage() {
           <div className="deposit-network">
             <div>
               <small>Selected network</small>
-              <strong>{current.network}</strong>
+              <strong>{config?.network || "BNB Smart Chain • BEP-20"}</strong>
             </div>
             <ShieldCheck size={22}/>
           </div>
 
-          <div className="flow-warning">
-            <Info size={20}/>
-            <p><strong>Preview address only.</strong> Do not send real funds yet. Production deposit addresses will be connected after wallet/backend setup.</p>
-          </div>
-
-          <div className="qr-stage">
-            <div className="qr-frame">
-              <QRCode
-                value={current.address}
-                size={256}
-                viewBox="0 0 256 256"
-                bgColor="#FFFFFF"
-                fgColor="#090D13"
-                level="M"
-                title={`${asset} deposit address on BNB Smart Chain`}
-                style={{ width: "100%", height: "auto" }}
-              />
+          {!ready ? (
+            <div className="flow-warning">
+              <Info size={20}/>
+              <p><strong>Deposits are not live yet.</strong> The admin must configure the BNB Chain deposit address and enable deposits first.</p>
             </div>
-            <div className="qr-caption"><QrCode size={18}/><span>Scan with your sending wallet</span></div>
-          </div>
+          ) : (
+            <>
+              <div className="qr-stage">
+                <div className="qr-frame">
+                  <QRCode
+                    value={config?.address || ""}
+                    size={256}
+                    viewBox="0 0 256 256"
+                    bgColor="#FFFFFF"
+                    fgColor="#090D13"
+                    level="M"
+                    title={asset+" deposit address on BNB Smart Chain"}
+                    style={{width:"100%",height:"auto"}}
+                  />
+                </div>
+                <div className="qr-caption"><QrCode size={18}/><span>Scan with your sending wallet</span></div>
+              </div>
 
-          <div className="full-address-card">
-            <small>{asset} deposit address</small>
-            <code>{current.address}</code>
-            <button type="button" onClick={copyAddress}>
-              {copied ? <Check size={20}/> : <Copy size={20}/>}
-              {copied ? "Address copied" : "Copy full address"}
-            </button>
-          </div>
+              <div className="full-address-card">
+                <small>{asset} deposit address</small>
+                <code>{config?.address}</code>
+                <button type="button" onClick={copyAddress}>
+                  {copied ? <Check size={20}/> : <Copy size={20}/>}
+                  {copied ? "Address copied" : "Copy full address"}
+                </button>
+              </div>
+
+              <div className="withdraw-form">
+                <div className="flow-field-group">
+                  <label>Amount sent</label>
+                  <div className="destination-input">
+                    <input
+                      inputMode="decimal"
+                      value={amount}
+                      onChange={(e)=>setAmount(e.target.value.replace(/[^0-9.]/g,""))}
+                      placeholder={"0.00 "+asset}
+                    />
+                  </div>
+                </div>
+
+                <div className="flow-field-group">
+                  <label>Transaction hash</label>
+                  <div className="destination-input">
+                    <input
+                      value={txHash}
+                      onChange={(e)=>setTxHash(e.target.value.trim())}
+                      placeholder="0x..."
+                      autoCapitalize="none"
+                      autoCorrect="off"
+                      spellCheck={false}
+                    />
+                  </div>
+                </div>
+
+                {error && <div className="auth-live-message error">{error}</div>}
+                {message && <div className="auth-live-message success">{message}</div>}
+
+                <button
+                  type="button"
+                  className="flow-primary"
+                  disabled={submitting || Number(amount)<=0 || !/^0x[a-fA-F0-9]{64}$/.test(txHash)}
+                  onClick={submit}
+                >
+                  {submitting ? "Submitting..." : "Submit deposit for confirmation"}
+                </button>
+              </div>
+            </>
+          )}
         </section>
 
         <section className="flow-instructions">
@@ -124,10 +208,10 @@ export default function DepositPage() {
             <strong>Follow these steps</strong>
           </div>
           <ol>
-            <li><span>1</span><div><strong>Select {asset}</strong><p>Open the wallet or exchange you are sending from.</p></div></li>
-            <li><span>2</span><div><strong>Choose BNB Smart Chain</strong><p>Use BEP-20 and make sure the network matches exactly.</p></div></li>
-            <li><span>3</span><div><strong>Scan or copy</strong><p>Use the QR code or copy the complete address above.</p></div></li>
-            <li><span>4</span><div><strong>Review before sending</strong><p>Verify the asset, network and destination before confirming.</p></div></li>
+            <li><span>1</span><div><strong>Select {asset}</strong><p>Choose the same asset in the wallet or exchange you are sending from.</p></div></li>
+            <li><span>2</span><div><strong>Use BNB Smart Chain</strong><p>The transfer must use BEP-20.</p></div></li>
+            <li><span>3</span><div><strong>Send to the shown address</strong><p>Double-check the address before sending.</p></div></li>
+            <li><span>4</span><div><strong>Submit the transaction hash</strong><p>Admin confirmation credits your WADAN balance.</p></div></li>
           </ol>
         </section>
 
