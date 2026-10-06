@@ -745,3 +745,289 @@
     padding-top:58px!important;
   }
 }
+
+
+/* ADMIN USERS V1 — live user directory */
+.usersWorkspace{
+  margin-top:12px;
+  padding:14px;
+  border:1px solid rgba(255,255,255,.065);
+  border-radius:17px;
+  background:linear-gradient(180deg,rgba(13,19,28,.78),rgba(8,12,18,.92));
+}
+
+.usersToolbar{
+  display:grid;
+  grid-template-columns:minmax(150px,1fr) minmax(220px,.8fr) auto;
+  gap:10px;
+  align-items:center;
+}
+
+.usersToolbar>div:first-child span,
+.usersToolbar>div:first-child strong{
+  display:block;
+}
+
+.usersToolbar>div:first-child span{
+  color:#ffb000;
+  font-size:7.5px;
+  font-weight:900;
+  letter-spacing:.14em;
+}
+
+.usersToolbar>div:first-child strong{
+  margin-top:3px;
+  font-size:15px;
+}
+
+.userSearch{
+  min-height:38px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:0 10px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:11px;
+  background:rgba(255,255,255,.018);
+  color:#706a61;
+}
+
+.userSearch input{
+  width:100%;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:#e8e0d5;
+  font-size:9px;
+}
+
+.usersToolbar>button{
+  min-height:38px;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:0 11px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:11px;
+  background:rgba(255,255,255,.02);
+  color:#a39c91;
+  font-size:8px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.usersSummary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin-top:10px;
+}
+
+.usersSummary>div{
+  min-height:72px;
+  padding:11px;
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:13px;
+  background:rgba(255,255,255,.014);
+}
+
+.usersSummary small,
+.usersSummary strong{
+  display:block;
+}
+
+.usersSummary small{
+  color:#746e65;
+  font-size:8px;
+}
+
+.usersSummary strong{
+  margin-top:6px;
+  font-size:18px;
+}
+
+.usersList{
+  margin-top:10px;
+  display:grid;
+  gap:6px;
+}
+
+.userRow{
+  min-height:70px;
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto auto;
+  gap:10px;
+  align-items:center;
+  padding:9px 11px;
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:13px;
+  background:rgba(255,255,255,.012);
+}
+
+.userAvatar{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  color:#ffd86b;
+  background:rgba(255,176,0,.07);
+  border:1px solid rgba(255,176,0,.13);
+  font-size:9px;
+  font-weight:900;
+}
+
+.userIdentity strong,
+.userIdentity span,
+.userKyc small,
+.userKyc strong{
+  display:block;
+}
+
+.userIdentity strong{
+  font-size:10px;
+}
+
+.userIdentity span{
+  margin-top:3px;
+  color:#736d64;
+  font-size:7.5px;
+}
+
+.userMeta{
+  text-align:right;
+}
+
+.userMeta span,
+.userMeta em{
+  display:block;
+}
+
+.userMeta span{
+  color:#746e65;
+  font-size:7.5px;
+}
+
+.userMeta em{
+  margin-top:4px;
+  color:#58d9a9;
+  font-size:7px;
+  font-style:normal;
+  text-transform:capitalize;
+}
+
+.userKyc{
+  min-width:72px;
+  padding-left:10px;
+  border-left:1px solid rgba(255,255,255,.05);
+}
+
+.userKyc small{
+  color:#6e685f;
+  font-size:6.8px;
+}
+
+.userKyc strong{
+  margin-top:3px;
+  color:#c9c1b6;
+  font-size:7.5px;
+  text-transform:capitalize;
+}
+
+.usersEmpty{
+  min-height:220px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#ffd86b;
+}
+
+.usersEmpty strong,
+.usersEmpty span{
+  display:block;
+}
+
+.usersEmpty strong{
+  margin-top:8px;
+  color:#d7d0c5;
+  font-size:13px;
+}
+
+.usersEmpty span{
+  max-width:420px;
+  margin-top:5px;
+  color:#716b62;
+  font-size:8.5px;
+  line-height:1.5;
+}
+
+@media(max-width:760px){
+  .usersWorkspace{
+    margin-top:8px;
+    padding:10px;
+    border-radius:15px;
+  }
+
+  .usersToolbar{
+    grid-template-columns:1fr auto;
+    gap:7px;
+  }
+
+  .usersToolbar>div:first-child{
+    grid-column:1/-1;
+  }
+
+  .userSearch{
+    min-height:36px;
+  }
+
+  .usersToolbar>button{
+    min-height:36px;
+    padding:0 9px;
+  }
+
+  .usersSummary{
+    grid-template-columns:repeat(3,1fr);
+    gap:5px;
+  }
+
+  .usersSummary>div{
+    min-height:64px;
+    padding:9px;
+  }
+
+  .usersSummary small{
+    font-size:7px;
+  }
+
+  .usersSummary strong{
+    font-size:16px;
+  }
+
+  .userRow{
+    min-height:66px;
+    grid-template-columns:36px minmax(0,1fr) auto;
+    gap:8px;
+    padding:8px;
+  }
+
+  .userAvatar{
+    width:36px;
+    height:36px;
+  }
+
+  .userMeta{
+    display:none;
+  }
+
+  .userKyc{
+    min-width:62px;
+    padding-left:8px;
+  }
+
+  .usersEmpty{
+    min-height:180px;
+  }
+}
