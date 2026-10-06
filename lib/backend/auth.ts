@@ -65,12 +65,14 @@ async function authFetch<T>(path: string, body: unknown): Promise<T> {
   return payload as T;
 }
 
-type SignupResponse = {
+type SignupTokenResponse = {
   access_token?: string;
   refresh_token?: string;
   expires_in?: number;
   user?: AuthUser | null;
 };
+
+type SignupResponse = SignupTokenResponse | AuthUser;
 
 type LoginResponse = {
   access_token: string;
@@ -153,25 +155,47 @@ export async function signupWithEmail(input: {
     },
   });
 
-  if (!auth.user?.id) {
+  const authUser =
+    "user" in auth && auth.user?.id
+      ? auth.user
+      : "id" in auth && auth.id
+        ? auth
+        : null;
+
+  if (!authUser?.id) {
     throw new Error("Signup did not return a user account.");
   }
 
-  const appUserId = await ensureAppProfile({
-    authUser: auth.user,
-    displayName,
-    email: input.email,
-    phone: input.phone,
-    country: input.country,
-  });
+  const accessToken =
+    "access_token" in auth ? auth.access_token : undefined;
+  const refreshToken =
+    "refresh_token" in auth ? auth.refresh_token : undefined;
+  const expiresIn =
+    "expires_in" in auth ? auth.expires_in : undefined;
+
+  // With email confirmation enabled, Supabase returns the User object directly
+  // and no session token. In that case we wait until the first verified login
+  // before creating the app profile/wallets, which avoids creating records for
+  // obfuscated signup responses of already-registered emails.
+  let appUserId: string | undefined;
+
+  if (accessToken) {
+    appUserId = await ensureAppProfile({
+      authUser,
+      displayName,
+      email: input.email,
+      phone: input.phone,
+      country: input.country,
+    });
+  }
 
   return {
     appUserId,
-    user: auth.user,
-    accessToken: auth.access_token,
-    refreshToken: auth.refresh_token,
-    expiresIn: auth.expires_in,
-    requiresEmailConfirmation: !auth.access_token,
+    user: authUser,
+    accessToken,
+    refreshToken,
+    expiresIn,
+    requiresEmailConfirmation: !accessToken,
   };
 }
 
