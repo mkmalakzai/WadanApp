@@ -47,7 +47,12 @@ export default function SignupPage() {
     setLoading(true);
 
     try {
-      const nationalPhone = String(form.get("phone") || "").replace(/[^0-9]/g, "");
+      let nationalPhone = String(form.get("phone") || "").replace(/[^0-9]/g, "");
+      nationalPhone = nationalPhone.replace(/^0+/, "");
+      if (nationalPhone.startsWith(callingCode)) {
+        nationalPhone = nationalPhone.slice(callingCode.length);
+      }
+
       const response = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
