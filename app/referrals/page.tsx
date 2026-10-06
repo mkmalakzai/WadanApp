@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Bell,
   Check,
   Copy,
   History,
-  Home,
   LayoutDashboard,
   Link2,
   Network,
@@ -23,58 +22,86 @@ import {
 import MobileDock from "../components/MobileDock";
 import styles from "./referrals.module.css";
 
-const referralCode = "WDC-MK7A2";
-const referralLink = "https://wadan.app/signup?ref=WDC-MK7A2";
+type Member = {
+  id:string;
+  name:string;
+  level:number;
+  status:string;
+  joined:string;
+};
 
-const rewardLevels = [
-  { level: 1, rate: "5%", relation: "Direct referrals", note: "People you invite personally" },
-  { level: 2, rate: "3%", relation: "2nd generation", note: "Referrals invited by Level 1" },
-  { level: 3, rate: "2%", relation: "3rd generation", note: "Network depth Level 3" },
-  { level: 4, rate: "1%", relation: "4th generation", note: "Network depth Level 4" },
-  { level: 5, rate: "0.5%", relation: "5th generation", note: "Network depth Level 5" },
+type ReferralData = {
+  code?:string;
+  total?:number;
+  qualified?:number;
+  lifetime_rewards?:number | string;
+  rates?:Array<number | string>;
+  members?:Member[];
+};
+
+const relations = [
+  ["Direct referrals","People you invite personally"],
+  ["2nd generation","Referrals invited by Level 1"],
+  ["3rd generation","Network depth Level 3"],
+  ["4th generation","Network depth Level 4"],
+  ["5th generation","Network depth Level 5"],
 ];
 
-const referralRows: Array<{
-  id: string;
-  name: string;
-  level: number;
-  joined: string;
-  status: "Qualified" | "Pending";
-  reward: string;
-}> = [];
-
 export default function ReferralsPage() {
-  const [copied, setCopied] = useState<"code" | "link" | null>(null);
-  const [filter, setFilter] = useState<"all" | "1" | "2" | "3" | "4" | "5">("all");
+  const [data,setData]=useState<ReferralData>({});
+  const [copied,setCopied]=useState<"code" | "link" | null>(null);
+  const [filter,setFilter]=useState<"all"|"1"|"2"|"3"|"4"|"5">("all");
 
-  const visibleRows = useMemo(() => {
-    if (filter === "all") return referralRows;
-    return referralRows.filter((row) => String(row.level) === filter);
-  }, [filter]);
+  useEffect(()=>{
+    void (async()=>{
+      const response=await fetch("/api/referrals/overview",{cache:"no-store"});
+      if(response.ok) setData(await response.json());
+    })();
+  },[]);
 
-  async function copy(value: string, type: "code" | "link") {
-    try {
+  const code=data.code || "Loading...";
+  const referralLink=typeof window!=="undefined" && data.code
+    ? window.location.origin+"/signup?ref="+encodeURIComponent(data.code)
+    : "";
+
+  const members=Array.isArray(data.members) ? data.members : [];
+  const visibleRows=useMemo(()=>{
+    if(filter==="all") return members;
+    return members.filter((row)=>String(row.level)===filter);
+  },[members,filter]);
+
+  const rates=Array.isArray(data.rates) && data.rates.length===5
+    ? data.rates.map((value)=>Number(value))
+    : [5,3,2,1,.5];
+
+  async function copy(value:string,type:"code"|"link"){
+    try{
       await navigator.clipboard.writeText(value);
       setCopied(type);
-      window.setTimeout(() => setCopied(null), 1600);
-    } catch {
+      window.setTimeout(()=>setCopied(null),1600);
+    }catch{
       setCopied(null);
     }
   }
 
-  async function share() {
-    if (navigator.share) {
-      try {
+  async function share(){
+    if(!referralLink) return;
+    if(navigator.share){
+      try{
         await navigator.share({
-          title: "Join WADAN",
-          text: "Join the WADAN ecosystem with my referral link.",
-          url: referralLink,
+          title:"Join WADAN",
+          text:"Join the WADAN ecosystem with my referral link.",
+          url:referralLink,
         });
-      } catch {}
-    } else {
-      await copy(referralLink, "link");
+      }catch{}
+    }else{
+      await copy(referralLink,"link");
     }
   }
+
+  const rewardTotal=Number(data.lifetime_rewards || 0);
+  const total=Number(data.total || 0);
+  const qualified=Number(data.qualified || 0);
 
   return (
     <main className="dash-shell">
@@ -96,7 +123,7 @@ export default function ReferralsPage() {
 
         <div className="dash-security">
           <ShieldCheck size={19}/>
-          <div><strong>Referral integrity</strong><span>Rewards and eligibility will be verified</span></div>
+          <div><strong>Referral integrity</strong><span>Backend network tracking active</span></div>
         </div>
 
         <nav className="dash-nav bottom">
@@ -105,7 +132,7 @@ export default function ReferralsPage() {
         </nav>
       </aside>
 
-      <section className={`dash-main ${styles.main}`}>
+      <section className={"dash-main "+styles.main}>
         <header className="dash-topbar">
           <div>
             <p>COMMUNITY</p>
@@ -113,7 +140,6 @@ export default function ReferralsPage() {
           </div>
           <div className="dash-top-actions">
             <button className="icon-square" aria-label="Notifications"><Bell size={18}/></button>
-            <button className="user-chip"><span>MK</span><div><strong>Malakzai</strong><small>Member</small></div></button>
           </div>
         </header>
 
@@ -121,7 +147,7 @@ export default function ReferralsPage() {
           <div className={styles.heroCopy}>
             <span className={styles.eyebrow}><Users size={15}/> BUILD YOUR NETWORK</span>
             <h2>Invite people. Grow WADAN.</h2>
-            <p>One referral link, one premium network overview, and five reward levels working together.</p>
+            <p>Your referral code, network depth and members are now loaded from the backend.</p>
           </div>
         </section>
 
@@ -130,37 +156,37 @@ export default function ReferralsPage() {
             <div className={styles.spotlightLead}>
               <span className={styles.spotlightEyebrow}><Network size={16}/> REFERRAL OVERVIEW</span>
               <small>Total referrals</small>
-              <strong>0</strong>
+              <strong>{total}</strong>
               <p>Your complete WADAN network across all five levels.</p>
             </div>
 
             <div className={styles.spotlightMetrics}>
               <div>
                 <span>Qualified</span>
-                <strong>0</strong>
+                <strong>{qualified}</strong>
                 <small>Eligible members</small>
               </div>
               <div>
                 <span>Lifetime rewards</span>
-                <strong>0 WDC</strong>
-                <small>Referral earnings</small>
+                <strong>{rewardTotal.toLocaleString("en-US",{maximumFractionDigits:4})} WDC</strong>
+                <small>Credited referral earnings</small>
               </div>
               <div>
-                <span>Active level</span>
-                <strong>Level 1</strong>
-                <small>Direct network</small>
+                <span>Direct members</span>
+                <strong>{members.filter((row)=>row.level===1).length}</strong>
+                <small>Level 1 network</small>
               </div>
               <div>
                 <span>Network depth</span>
-                <strong>5 Levels</strong>
-                <small>Full reward structure</small>
+                <strong>{members.length ? Math.max(...members.map((row)=>row.level)) : 0} / 5</strong>
+                <small>Current depth</small>
               </div>
             </div>
 
             <div className={styles.spotlightReward}>
-              <span>Current direct reward</span>
-              <strong>5%</strong>
-              <small>Level 1 eligible reward share</small>
+              <span>Configured direct rate</span>
+              <strong>{rates[0]}%</strong>
+              <small>Stored in backend settings</small>
             </div>
           </article>
         </section>
@@ -168,16 +194,16 @@ export default function ReferralsPage() {
         <section className={styles.section}>
           <div className={styles.sectionHead}>
             <div><span>YOUR INVITE</span><strong>Referral code & link</strong></div>
-            <small>Ready to share</small>
+            <small>{data.code ? "Ready to share" : "Loading..."}</small>
           </div>
 
           <div className={styles.shareGrid}>
             <article className={styles.shareCard}>
               <div className={styles.shareLabel}>
                 <span className={styles.shareIcon}><UserPlus size={18}/></span>
-                <div><small>Referral code</small><strong>{referralCode}</strong></div>
+                <div><small>Referral code</small><strong>{code}</strong></div>
               </div>
-              <button className={styles.copyBtn} type="button" onClick={()=>copy(referralCode,"code")}>
+              <button className={styles.copyBtn} type="button" disabled={!data.code} onClick={()=>copy(code,"code")}>
                 {copied==="code" ? <Check size={18}/> : <Copy size={18}/>}
                 {copied==="code" ? "Copied" : "Copy"}
               </button>
@@ -186,24 +212,22 @@ export default function ReferralsPage() {
             <article className={styles.shareCard}>
               <div className={styles.shareLabel}>
                 <span className={styles.shareIcon}><Link2 size={18}/></span>
-                <div><small>Referral link</small><strong>wadan.app/signup?ref=…</strong></div>
+                <div><small>Referral link</small><strong>{referralLink ? referralLink.replace(/^https?:\/\//,"") : "Loading..."}</strong></div>
               </div>
               <div className={styles.shareActions}>
-                <button className={styles.iconBtn} type="button" aria-label="Copy referral link" onClick={()=>copy(referralLink,"link")}>
+                <button className={styles.iconBtn} type="button" aria-label="Copy referral link" disabled={!referralLink} onClick={()=>copy(referralLink,"link")}>
                   {copied==="link" ? <Check size={18}/> : <Copy size={18}/>}
                 </button>
-                <button className={styles.shareBtn} type="button" onClick={share}><Send size={17}/> Share</button>
+                <button className={styles.shareBtn} type="button" disabled={!referralLink} onClick={share}><Send size={17}/> Share</button>
               </div>
             </article>
           </div>
         </section>
 
-
-
         <section className={styles.section}>
           <div className={styles.sectionHead}>
             <div><span>MY NETWORK</span><strong>My referrals</strong></div>
-            <small>0 members</small>
+            <small>{members.length} members</small>
           </div>
 
           <div className={styles.filterBar}>
@@ -214,7 +238,7 @@ export default function ReferralsPage() {
                 className={filter===item ? styles.active : ""}
                 onClick={()=>setFilter(item)}
               >
-                {item==="all" ? "All" : `Level ${item}`}
+                {item==="all" ? "All" : "Level "+item}
               </button>
             ))}
           </div>
@@ -234,9 +258,9 @@ export default function ReferralsPage() {
                     <div className={styles.tableRow} key={row.id}>
                       <div className={styles.memberCell}><span className={styles.avatar}>{row.name.slice(0,2).toUpperCase()}</span><strong>{row.name}</strong></div>
                       <span>L{row.level}</span>
-                      <span>{row.joined}</span>
+                      <span>{new Date(row.joined).toLocaleDateString()}</span>
                       <span>{row.status}</span>
-                      <strong>{row.reward}</strong>
+                      <strong>Tracked</strong>
                     </div>
                   ))}
                 </div>
@@ -245,36 +269,35 @@ export default function ReferralsPage() {
               <div className={styles.empty}>
                 <div className={styles.emptyIcon}><UserPlus size={28}/></div>
                 <strong>No referrals in this view</strong>
-                <p>When members join through your referral link, their name, level, join date, qualification status and earned reward will appear here.</p>
+                <p>Members who join with your referral link will appear here automatically.</p>
               </div>
             )}
           </div>
-
         </section>
 
         <section className={styles.section}>
           <div className={styles.sectionHead}>
-            <div><span>REWARD SYSTEM</span><strong>5-level referral rewards</strong></div>
-            <small>Preview rates</small>
+            <div><span>REWARD SYSTEM</span><strong>5-level referral settings</strong></div>
+            <small>Backend configured</small>
           </div>
 
           <div className={styles.rewardJourney}>
             <div className={styles.rewardTrack} aria-hidden="true"><span /></div>
 
-            {rewardLevels.map((item,index)=>(
-              <div className={styles.rewardStep} key={item.level}>
+            {rates.map((rate,index)=>(
+              <div className={styles.rewardStep} key={index}>
                 <div className={styles.rewardNodeWrap}>
-                  <div className={styles.rewardNode}>L{item.level}</div>
+                  <div className={styles.rewardNode}>L{index+1}</div>
                   <span className={styles.rewardIndex}>0{index+1}</span>
                 </div>
 
                 <div className={styles.rewardStepBody}>
                   <div className={styles.rewardStepTop}>
-                    <strong className={styles.rewardPercent}>{item.rate}</strong>
-                    <span>reward share</span>
+                    <strong className={styles.rewardPercent}>{rate}%</strong>
+                    <span>configured share</span>
                   </div>
-                  <h3>{item.relation}</h3>
-                  <p>{item.note}</p>
+                  <h3>{relations[index][0]}</h3>
+                  <p>{relations[index][1]}</p>
                 </div>
               </div>
             ))}
@@ -282,7 +305,7 @@ export default function ReferralsPage() {
 
           <div className={styles.ruleNote}>
             <ShieldCheck size={19}/>
-            <p>The rates above are preview settings. Final eligibility, anti-abuse rules and payout logic will be enforced by the backend before launch.</p>
+            <p>Network tracking is live. Reward crediting remains controlled by backend rules and admin settings.</p>
           </div>
         </section>
 
