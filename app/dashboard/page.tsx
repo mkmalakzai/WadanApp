@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import {
   ArrowDownToLine,
   ArrowDownUp,
@@ -6,10 +9,8 @@ import {
   Bell,
   CircleDollarSign,
   Coins,
-  Copy,
   Gift,
   History,
-  Home,
   LayoutDashboard,
   Settings,
   ShieldCheck,
@@ -22,13 +23,81 @@ import {
 import MobileDock from "../components/MobileDock";
 import ExploreShortcuts from "../components/ExploreShortcuts";
 
-const recent = [
-  ["Deposit","USDT • BNB Chain","+ $250.00","Completed"],
-  ["Swap","USDT → WDC","25,000 WDC","Completed"],
-  ["Referral","Community reward","+ 500 WDC","Preview"],
-];
+type WalletSummary = {
+  profile:{
+    appUserId:string;
+    displayName:string;
+    country:string;
+    status:string;
+    emailConfirmed:boolean;
+    wdcBalance:number;
+    usdtBalance:number;
+  };
+  wdcPrice:number;
+  totalUsd:number;
+  totalStaked:number;
+  recent:Array<{
+    id:string;
+    asset:string;
+    direction:"credit"|"debit";
+    amount:number;
+    type:string;
+    createdAt:string;
+  }>;
+};
+
+type StakingOverview = {
+  positions:Array<{
+    status:string;
+    projectedReward:number;
+  }>;
+  plans:Array<{
+    id:string;
+    title:string;
+    enabled:boolean;
+  }>;
+};
+
+type ReferralOverview = {
+  code?:string;
+  total?:number;
+  lifetime_rewards?:number|string;
+};
+
+function title(value:string){
+  return value.replace(/_/g," ").replace(/\b\w/g,(char)=>char.toUpperCase());
+}
 
 export default function DashboardPage() {
+  const [wallet,setWallet]=useState<WalletSummary|null>(null);
+  const [staking,setStaking]=useState<StakingOverview|null>(null);
+  const [referral,setReferral]=useState<ReferralOverview>({});
+
+  useEffect(()=>{
+    void (async()=>{
+      const [walletRes,stakingRes,referralRes]=await Promise.all([
+        fetch("/api/wallet/summary",{cache:"no-store"}),
+        fetch("/api/staking/overview",{cache:"no-store"}),
+        fetch("/api/referrals/overview",{cache:"no-store"}),
+      ]);
+
+      if(walletRes.ok) setWallet(await walletRes.json());
+      if(stakingRes.ok) setStaking(await stakingRes.json());
+      if(referralRes.ok) setReferral(await referralRes.json());
+    })();
+  },[]);
+
+  const name=wallet?.profile.displayName || "Member";
+  const initials=name.slice(0,2).toUpperCase();
+  const wdc=wallet?.profile.wdcBalance ?? 0;
+  const usdt=wallet?.profile.usdtBalance ?? 0;
+  const totalUsd=wallet?.totalUsd ?? 0;
+  const price=wallet?.wdcPrice ?? 0.01;
+  const activePositions=(staking?.positions || []).filter((item)=>item.status==="active");
+  const projectedRewards=activePositions.reduce((sum,item)=>sum+Number(item.projectedReward || 0),0);
+  const referralTotal=Number(referral.total || 0);
+  const referralRewards=Number(referral.lifetime_rewards || 0);
+
   return (
     <main className="dash-shell">
       <div className="public-grid-bg" />
@@ -49,7 +118,7 @@ export default function DashboardPage() {
 
         <div className="dash-security">
           <ShieldCheck size={19}/>
-          <div><strong>Account protected</strong><span>Security controls active</span></div>
+          <div><strong>Account protected</strong><span>Authenticated backend session</span></div>
         </div>
 
         <nav className="dash-nav bottom">
@@ -66,7 +135,7 @@ export default function DashboardPage() {
           </div>
           <div className="dash-top-actions">
             <button className="icon-square" aria-label="Notifications"><Bell size={18}/></button>
-            <button className="user-chip"><span>MK</span><div><strong>Malakzai</strong><small>Member</small></div></button>
+            <button className="user-chip"><span>{initials}</span><div><strong>{name}</strong><small>Member</small></div></button>
           </div>
         </header>
 
@@ -74,18 +143,18 @@ export default function DashboardPage() {
           <div className="portfolio-v2-copy">
             <div className="dash-hero-label"><Sparkles size={14}/> PORTFOLIO OVERVIEW</div>
             <p>Total portfolio value</p>
-            <h2>$0.00</h2>
+            <h2>{totalUsd.toLocaleString("en-US",{style:"currency",currency:"USD"})}</h2>
             <div className="portfolio-v2-meta">
-              <strong>0.00 WDC</strong>
+              <strong>{wdc.toLocaleString("en-US",{maximumFractionDigits:4})} WDC</strong>
               <span>Available balance</span>
               <em>BNB Smart Chain</em>
             </div>
           </div>
 
           <div className="portfolio-v2-breakdown">
-            <div><span>Available</span><strong>0 WDC</strong></div>
-            <div><span>Staked</span><strong>0 WDC</strong></div>
-            <div><span>Rewards</span><strong>0 WDC</strong></div>
+            <div><span>Available</span><strong>{wdc.toLocaleString("en-US",{maximumFractionDigits:4})} WDC</strong></div>
+            <div><span>USDT</span><strong>{usdt.toLocaleString("en-US",{maximumFractionDigits:4})}</strong></div>
+            <div><span>Staked</span><strong>{(wallet?.totalStaked ?? 0).toLocaleString("en-US",{maximumFractionDigits:4})} WDC</strong></div>
           </div>
         </section>
 
@@ -94,26 +163,26 @@ export default function DashboardPage() {
             <span className="wdc-price-icon"><Coins size={23}/></span>
             <div>
               <small>WDC PRICE</small>
-              <strong>$0.0100</strong>
+              <strong>{price.toLocaleString("en-US",{style:"currency",currency:"USD",minimumFractionDigits:4,maximumFractionDigits:4})}</strong>
             </div>
           </div>
           <div className="wdc-price-right">
             <span>BNB Smart Chain</span>
-            <strong>Reference price</strong>
+            <strong>Admin-set reference price</strong>
           </div>
         </section>
 
         <section className="action-section action-section-spaced">
           <div className="section-strip">
             <div><span>QUICK ACTIONS</span><strong>Move your assets</strong></div>
-            <small>Fast access</small>
+            <small>Live backend</small>
           </div>
 
           <div className="action-dock">
             <Link href="/wallet/deposit" className="action-link"><span><ArrowDownToLine size={23}/></span><strong>Deposit</strong><small>Add funds</small></Link>
             <Link href="/wallet/withdraw" className="action-link"><span><ArrowUpRight size={23}/></span><strong>Withdraw</strong><small>Send funds</small></Link>
             <Link href="/wallet/swap" className="action-link"><span><ArrowDownUp size={23}/></span><strong>Swap</strong><small>USDT ⇄ WDC</small></Link>
-            <Link href="/staking" className="action-link"><span><Coins size={23}/></span><strong>Stake</strong><small>Earn WDC</small></Link>
+            <Link href="/staking" className="action-link"><span><Coins size={23}/></span><strong>Stake</strong><small>Lock WDC</small></Link>
           </div>
         </section>
 
@@ -125,9 +194,9 @@ export default function DashboardPage() {
           </div>
 
           <div className="overview-grid-v2 overview-grid-three">
-            <article><span className="overview-icon"><CircleDollarSign size={21}/></span><div><small>Total Staked</small><strong>0 WDC</strong><em>No active plan</em></div></article>
-            <article><span className="overview-icon"><Gift size={21}/></span><div><small>Rewards</small><strong>0 WDC</strong><em>Lifetime earnings</em></div></article>
-            <article><span className="overview-icon"><Users size={21}/></span><div><small>Referrals</small><strong>0</strong><em>Community network</em></div></article>
+            <article><span className="overview-icon"><CircleDollarSign size={21}/></span><div><small>Total Staked</small><strong>{(wallet?.totalStaked ?? 0).toLocaleString("en-US",{maximumFractionDigits:4})} WDC</strong><em>{activePositions.length} active positions</em></div></article>
+            <article><span className="overview-icon"><Gift size={21}/></span><div><small>Projected rewards</small><strong>{projectedRewards.toLocaleString("en-US",{maximumFractionDigits:4})} WDC</strong><em>Current staking estimate</em></div></article>
+            <article><span className="overview-icon"><Users size={21}/></span><div><small>Referrals</small><strong>{referralTotal}</strong><em>{referralRewards.toLocaleString("en-US",{maximumFractionDigits:4})} WDC credited</em></div></article>
           </div>
         </section>
 
@@ -139,16 +208,13 @@ export default function DashboardPage() {
             </div>
 
             <div className="staking-cards">
-              <div className="staking-card">
-                <div className="staking-badge">6M</div>
-                <div><strong>6 Month Plan</strong><span>Medium-term WDC staking</span></div>
-                <button>View plan</button>
-              </div>
-              <div className="staking-card highlighted">
-                <div className="staking-badge">12M</div>
-                <div><strong>12 Month Plan</strong><span>Long-term WDC staking</span></div>
-                <button>View plan</button>
-              </div>
+              {(staking?.plans || []).map((plan)=>(
+                <div className="staking-card" key={plan.id}>
+                  <div className="staking-badge">{plan.id.toUpperCase()}</div>
+                  <div><strong>{plan.title}</strong><span>{plan.enabled ? "Available" : "Disabled by admin"}</span></div>
+                  <Link href="/staking">View plan</Link>
+                </div>
+              ))}
             </div>
           </article>
 
@@ -159,8 +225,8 @@ export default function DashboardPage() {
             </div>
             <div className="referral-box">
               <span>Your referral code</span>
-              <div><strong>WDC-MK7A2</strong><button aria-label="Copy code"><Copy size={15}/></button></div>
-              <small>Referral rewards will be defined before public launch.</small>
+              <div><strong>{referral.code || "Loading..."}</strong></div>
+              <small>{referralTotal} members tracked in your network.</small>
             </div>
           </article>
         </section>
@@ -172,13 +238,19 @@ export default function DashboardPage() {
               <History size={20}/>
             </div>
             <div className="dash-activity">
-              {recent.map((r,i)=>(
-                <div key={r[0]}>
+              {wallet?.recent?.length ? wallet.recent.slice(0,3).map((row,i)=>(
+                <div key={row.id}>
                   <span className="activity-dot">{i+1}</span>
-                  <div><strong>{r[0]}</strong><small>{r[1]}</small></div>
-                  <div className="activity-right"><strong>{r[2]}</strong><small>{r[3]}</small></div>
+                  <div><strong>{title(row.type)}</strong><small>{row.asset}</small></div>
+                  <div className="activity-right"><strong>{row.direction==="credit" ? "+" : "-"}{row.amount.toLocaleString("en-US",{maximumFractionDigits:6})} {row.asset}</strong><small>{new Date(row.createdAt).toLocaleDateString()}</small></div>
                 </div>
-              ))}
+              )) : (
+                <div>
+                  <span className="activity-dot">—</span>
+                  <div><strong>No activity yet</strong><small>Live ledger connected</small></div>
+                  <div className="activity-right"><strong>0</strong><small>Records</small></div>
+                </div>
+              )}
             </div>
           </article>
 
@@ -188,14 +260,14 @@ export default function DashboardPage() {
               <UserRound size={20}/>
             </div>
             <div className="profile-summary">
-              <div className="profile-large">MK</div>
-              <div><strong>Malakzai</strong><span>Verified email pending</span></div>
+              <div className="profile-large">{initials}</div>
+              <div><strong>{name}</strong><span>{wallet?.profile.emailConfirmed ? "Email verified" : "Email pending"}</span></div>
             </div>
             <div className="profile-lines">
-              <div><span>Member ID</span><strong>WDC-000001</strong></div>
-              <div><span>Country</span><strong>Afghanistan</strong></div>
+              <div><span>Member ID</span><strong>{wallet?.profile.appUserId ? "WDC-"+wallet.profile.appUserId.slice(0,8).toUpperCase() : "—"}</strong></div>
+              <div><span>Country</span><strong>{wallet?.profile.country || "—"}</strong></div>
               <div><span>Account tier</span><strong>Standard</strong></div>
-              <div><span>Status</span><strong className="gold-text">Preview</strong></div>
+              <div><span>Status</span><strong className="gold-text">{wallet?.profile.status || "—"}</strong></div>
             </div>
           </article>
         </section>
