@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import {
   ArrowLeft,
   Globe2,
@@ -18,7 +18,69 @@ import type { Country } from "react-phone-number-input";
 export default function SignupPage() {
   const countries = useMemo(() => getCountries(), []);
   const [country, setCountry] = useState<Country>("AF");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
   const callingCode = getCountryCallingCode(country);
+
+  async function submitSignup(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setMessage("");
+    setIsError(false);
+
+    const form = new FormData(event.currentTarget);
+    const password = String(form.get("password") || "");
+    const confirmPassword = String(form.get("confirmPassword") || "");
+
+    if (password !== confirmPassword) {
+      setIsError(true);
+      setMessage("Passwords do not match.");
+      return;
+    }
+
+    if (!form.get("terms")) {
+      setIsError(true);
+      setMessage("Please accept the Terms and Privacy Policy.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const nationalPhone = String(form.get("phone") || "").replace(/[^0-9]/g, "");
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: String(form.get("firstName") || ""),
+          lastName: String(form.get("lastName") || ""),
+          email: String(form.get("email") || ""),
+          phone: nationalPhone ? `+${callingCode}${nationalPhone}` : "",
+          country: en[country] || country,
+          password,
+          referralCode: String(form.get("referralCode") || ""),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Unable to create account.");
+      }
+
+      if (data.requiresEmailConfirmation) {
+        setMessage("Account created. Check your email to confirm your WADAN account, then log in.");
+        return;
+      }
+
+      window.location.href = "/dashboard";
+    } catch (error) {
+      setIsError(true);
+      setMessage(error instanceof Error ? error.message : "Unable to create account.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <main className="auth-shell premium-auth">
@@ -51,24 +113,24 @@ export default function SignupPage() {
           <div className="auth-title">
             <p>CREATE ACCOUNT</p>
             <h2>Join WADAN</h2>
-            <span>Complete your details below.</span>
+            <span>Create your real WADAN account.</span>
           </div>
 
-          <form className="signup-form">
+          <form className="signup-form" onSubmit={submitSignup}>
             <div className="form-row-two">
               <div className="field">
                 <label>First name</label>
-                <div className="input-shell"><UserRound size={15}/><input type="text" placeholder="First name" autoComplete="given-name"/></div>
+                <div className="input-shell"><UserRound size={15}/><input name="firstName" required type="text" placeholder="First name" autoComplete="given-name"/></div>
               </div>
               <div className="field">
                 <label>Last name</label>
-                <div className="input-shell"><UserRound size={15}/><input type="text" placeholder="Last name" autoComplete="family-name"/></div>
+                <div className="input-shell"><UserRound size={15}/><input name="lastName" required type="text" placeholder="Last name" autoComplete="family-name"/></div>
               </div>
             </div>
 
             <div className="field">
               <label>Email address</label>
-              <div className="input-shell"><Mail size={15}/><input type="email" placeholder="you@example.com" autoComplete="email"/></div>
+              <div className="input-shell"><Mail size={15}/><input name="email" required type="email" placeholder="you@example.com" autoComplete="email"/></div>
             </div>
 
             <div className="form-row-two country-phone-row">
@@ -76,14 +138,8 @@ export default function SignupPage() {
                 <label>Country / region</label>
                 <div className="input-shell select-shell">
                   <Globe2 size={15}/>
-                  <select
-                    value={country}
-                    onChange={(e)=>setCountry(e.target.value as Country)}
-                    aria-label="Country"
-                  >
-                    {countries.map((code)=>(
-                      <option key={code} value={code}>{en[code]}</option>
-                    ))}
+                  <select value={country} onChange={(e)=>setCountry(e.target.value as Country)} aria-label="Country">
+                    {countries.map((code)=><option key={code} value={code}>{en[code]}</option>)}
                   </select>
                 </div>
               </div>
@@ -93,7 +149,7 @@ export default function SignupPage() {
                 <div className="input-shell phone-shell">
                   <Phone size={15}/>
                   <span className="dial-code">+{callingCode}</span>
-                  <input type="tel" placeholder="70 123 4567" autoComplete="tel-national"/>
+                  <input name="phone" type="tel" placeholder="70 123 4567" autoComplete="tel-national"/>
                 </div>
               </div>
             </div>
@@ -101,29 +157,33 @@ export default function SignupPage() {
             <div className="form-row-two">
               <div className="field">
                 <label>Password</label>
-                <div className="input-shell"><LockKeyhole size={15}/><input type="password" placeholder="Create password" autoComplete="new-password"/></div>
+                <div className="input-shell"><LockKeyhole size={15}/><input name="password" required minLength={8} type="password" placeholder="Create password" autoComplete="new-password"/></div>
               </div>
               <div className="field">
                 <label>Confirm password</label>
-                <div className="input-shell"><LockKeyhole size={15}/><input type="password" placeholder="Repeat password" autoComplete="new-password"/></div>
+                <div className="input-shell"><LockKeyhole size={15}/><input name="confirmPassword" required minLength={8} type="password" placeholder="Repeat password" autoComplete="new-password"/></div>
               </div>
             </div>
 
             <div className="field">
               <label>Referral code <small>Optional</small></label>
-              <div className="input-shell"><UserRound size={15}/><input type="text" placeholder="Enter referral code"/></div>
+              <div className="input-shell"><UserRound size={15}/><input name="referralCode" type="text" placeholder="Enter referral code"/></div>
             </div>
 
             <label className="terms-line">
-              <input type="checkbox"/>
+              <input name="terms" type="checkbox"/>
               <span>I agree to the Terms, Privacy Policy and WADAN platform rules.</span>
             </label>
 
-            <button type="button" className="auth-submit">Create WADAN account</button>
+            {message && <div className={isError ? "auth-live-message error" : "auth-live-message success"}>{message}</div>}
+
+            <button type="submit" className="auth-submit" disabled={loading}>
+              {loading ? "Creating account..." : "Create WADAN account"}
+            </button>
           </form>
 
           <p className="auth-switch">Already have an account? <Link href="/login">Log in</Link></p>
-          <div className="auth-preview-note">Frontend preview: real signup, OTP/email verification and database storage will be connected in the backend phase.</div>
+          <div className="auth-preview-note">Accounts are now connected to the WADAN backend. Email verification may be required by Supabase Auth.</div>
         </section>
       </section>
     </main>
