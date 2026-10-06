@@ -1,7 +1,44 @@
+"use client";
+
 import Link from "next/link";
+import { FormEvent, useState } from "react";
 import { ArrowLeft, LockKeyhole, Mail, ShieldCheck, Sparkles, Zap } from "lucide-react";
 
 export default function LoginPage() {
+  const [loading,setLoading]=useState(false);
+  const [error,setError]=useState("");
+
+  async function submitLogin(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+    setLoading(true);
+
+    const form = new FormData(event.currentTarget);
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: String(form.get("email") || ""),
+          password: String(form.get("password") || ""),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Unable to log in.");
+      }
+
+      window.location.href = "/dashboard";
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to log in.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <main className="auth-shell premium-auth">
       <div className="public-grid-bg" />
@@ -33,18 +70,18 @@ export default function LoginPage() {
           <div className="auth-title">
             <p>ACCOUNT ACCESS</p>
             <h2>Log in</h2>
-            <span>Enter your account details to continue.</span>
+            <span>Enter your WADAN account details.</span>
           </div>
 
-          <form className="signup-form login-form">
+          <form className="signup-form login-form" onSubmit={submitLogin}>
             <div className="field">
               <label>Email address</label>
-              <div className="input-shell"><Mail size={15}/><input type="email" placeholder="you@example.com" autoComplete="email"/></div>
+              <div className="input-shell"><Mail size={15}/><input name="email" required type="email" placeholder="you@example.com" autoComplete="email"/></div>
             </div>
 
             <div className="field">
               <label>Password</label>
-              <div className="input-shell"><LockKeyhole size={15}/><input type="password" placeholder="Enter password" autoComplete="current-password"/></div>
+              <div className="input-shell"><LockKeyhole size={15}/><input name="password" required type="password" placeholder="Enter password" autoComplete="current-password"/></div>
             </div>
 
             <div className="login-options">
@@ -52,11 +89,15 @@ export default function LoginPage() {
               <a href="#">Forgot password?</a>
             </div>
 
-            <Link href="/dashboard" className="auth-submit as-link">Log in to WADAN</Link>
+            {error && <div className="auth-live-message error">{error}</div>}
+
+            <button type="submit" className="auth-submit" disabled={loading}>
+              {loading ? "Logging in..." : "Log in to WADAN"}
+            </button>
           </form>
 
           <p className="auth-switch">New to WADAN? <Link href="/signup">Create account</Link></p>
-          <div className="auth-preview-note">Frontend preview: real authentication and password recovery will be connected in the backend phase.</div>
+          <div className="auth-preview-note">Authentication is now connected to the WADAN backend.</div>
         </section>
       </section>
     </main>
