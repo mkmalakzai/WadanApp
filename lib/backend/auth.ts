@@ -87,6 +87,7 @@ async function ensureAppProfile(input: {
   email: string;
   phone: string;
   country: string;
+  referralCode?: string;
 }) {
   const rows = await supabaseRest<Array<{ id: string }>>(
     "users?on_conflict=external_user_id",
@@ -127,6 +128,25 @@ async function ensureAppProfile(input: {
       prefer: "resolution=ignore-duplicates,return=representation",
     }
   );
+
+  try {
+    await supabaseRest("rpc/ensure_referral_code", {
+      method: "POST",
+      body: { p_user_id: appUserId },
+    });
+
+    if (input.referralCode?.trim()) {
+      await supabaseRest("rpc/register_referral", {
+        method: "POST",
+        body: {
+          p_referred_user_id: appUserId,
+          p_code: input.referralCode.trim(),
+        },
+      });
+    }
+  } catch {
+    // Referral migration may not be applied yet; account creation must still work.
+  }
 
   return appUserId;
 }
@@ -186,6 +206,7 @@ export async function signupWithEmail(input: {
       email: input.email,
       phone: input.phone,
       country: input.country,
+      referralCode: input.referralCode,
     });
   }
 
@@ -223,6 +244,7 @@ export async function loginWithEmail(email: string, password: string): Promise<A
     email: auth.user.email ?? email,
     phone: typeof meta.phone === "string" ? meta.phone : auth.user.phone ?? "",
     country: typeof meta.country === "string" ? meta.country : "",
+    referralCode: typeof meta.referral_code === "string" ? meta.referral_code : "",
   });
 
   return {
