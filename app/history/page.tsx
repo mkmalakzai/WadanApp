@@ -1,18 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowDownLeft,
   ArrowDownUp,
   ArrowUpRight,
   Bell,
-  CalendarDays,
   Coins,
-  Download,
   Gift,
   History,
-  Home,
   LayoutDashboard,
   Search,
   Settings,
@@ -27,18 +24,16 @@ import styles from "./history.module.css";
 type Filter = "all" | "deposit" | "withdraw" | "swap" | "staking" | "referral";
 
 type HistoryRow = {
-  id: string;
-  type: Exclude<Filter,"all">;
-  title: string;
-  asset: string;
-  amount: string;
-  status: "Completed" | "Pending" | "Failed";
-  date: string;
+  id:string;
+  type:Exclude<Filter,"all">;
+  title:string;
+  asset:string;
+  amount:number;
+  status:string;
+  date:string;
 };
 
-const historyRows: HistoryRow[] = [];
-
-const filters: Array<{id:Filter;label:string}> = [
+const filters:Array<{id:Filter;label:string}> = [
   {id:"all",label:"All activity"},
   {id:"deposit",label:"Deposits"},
   {id:"withdraw",label:"Withdrawals"},
@@ -48,25 +43,46 @@ const filters: Array<{id:Filter;label:string}> = [
 ];
 
 function TypeIcon({type}:{type:HistoryRow["type"]}) {
-  if (type==="deposit") return <ArrowDownLeft size={20}/>;
-  if (type==="withdraw") return <ArrowUpRight size={20}/>;
-  if (type==="swap") return <ArrowDownUp size={20}/>;
-  if (type==="staking") return <Coins size={20}/>;
+  if(type==="deposit") return <ArrowDownLeft size={20}/>;
+  if(type==="withdraw") return <ArrowUpRight size={20}/>;
+  if(type==="swap") return <ArrowDownUp size={20}/>;
+  if(type==="staking") return <Coins size={20}/>;
   return <Gift size={20}/>;
 }
 
+function normalizeStatus(status:string){
+  return status.replace(/_/g," ").replace(/\b\w/g,(char)=>char.toUpperCase());
+}
+
 export default function HistoryPage(){
+  const [rows,setRows]=useState<HistoryRow[]>([]);
   const [filter,setFilter]=useState<Filter>("all");
   const [query,setQuery]=useState("");
+  const [loading,setLoading]=useState(true);
+
+  useEffect(()=>{
+    void (async()=>{
+      try{
+        const response=await fetch("/api/history",{cache:"no-store"});
+        const data=await response.json();
+        if(response.ok && Array.isArray(data.rows)) setRows(data.rows);
+      }finally{
+        setLoading(false);
+      }
+    })();
+  },[]);
 
   const visible=useMemo(()=>{
     const q=query.trim().toLowerCase();
-    return historyRows.filter((row)=>{
+    return rows.filter((row)=>{
       const matchesFilter=filter==="all" || row.type===filter;
       const matchesQuery=!q || [row.id,row.title,row.asset,row.status].join(" ").toLowerCase().includes(q);
       return matchesFilter && matchesQuery;
     });
-  },[filter,query]);
+  },[rows,filter,query]);
+
+  const completed=rows.filter((row)=>["confirmed","completed","sent","unlocked","credited"].includes(row.status.toLowerCase())).length;
+  const pending=rows.filter((row)=>["pending","detected","approved","active","recorded"].includes(row.status.toLowerCase())).length;
 
   return (
     <main className="dash-shell">
@@ -88,7 +104,7 @@ export default function HistoryPage(){
 
         <div className="dash-security">
           <ShieldCheck size={19}/>
-          <div><strong>Activity ledger</strong><span>Your account events will be recorded here</span></div>
+          <div><strong>Activity ledger</strong><span>Live account activity</span></div>
         </div>
 
         <nav className="dash-nav bottom">
@@ -105,7 +121,6 @@ export default function HistoryPage(){
           </div>
           <div className="dash-top-actions">
             <button className="icon-square" aria-label="Notifications"><Bell size={18}/></button>
-            <button className="user-chip"><span>MK</span><div><strong>Malakzai</strong><small>Member</small></div></button>
           </div>
         </header>
 
@@ -113,20 +128,20 @@ export default function HistoryPage(){
           <div className={styles.heroCopy}>
             <span className={styles.eyebrow}><History size={15}/> COMPLETE ACTIVITY LEDGER</span>
             <h2>Every move.<br/>One clean history.</h2>
-            <p>Deposits, withdrawals, swaps, staking and referral rewards will appear here in one searchable timeline.</p>
+            <p>Deposits, withdrawals, swaps, staking and referral rewards are loaded from the backend.</p>
           </div>
 
           <div className={styles.heroStats}>
-            <div><small>Total activity</small><strong>0</strong><span>All time</span></div>
-            <div><small>Completed</small><strong>0</strong><span>No records yet</span></div>
-            <div><small>Pending</small><strong>0</strong><span>Nothing processing</span></div>
+            <div><small>Total activity</small><strong>{rows.length}</strong><span>All time</span></div>
+            <div><small>Completed</small><strong>{completed}</strong><span>Settled records</span></div>
+            <div><small>Pending</small><strong>{pending}</strong><span>Still processing</span></div>
           </div>
         </section>
 
         <section className={styles.section}>
           <div className={styles.sectionHead}>
             <div><span>FILTERS</span><strong>Find an activity</strong></div>
-            <small>Live backend later</small>
+            <small>{loading ? "Loading..." : "Live backend"}</small>
           </div>
 
           <div className={styles.toolbar}>
@@ -139,8 +154,6 @@ export default function HistoryPage(){
                 aria-label="Search activity"
               />
             </div>
-            <button className={styles.dateBtn} type="button"><CalendarDays size={18}/> Date range</button>
-            <button className={styles.exportBtn} type="button" disabled><Download size={18}/> Export</button>
           </div>
 
           <div className={styles.filters}>
@@ -169,23 +182,23 @@ export default function HistoryPage(){
           {visible.length ? (
             <div>
               {visible.map((row)=>(
-                <article className={styles.row} key={row.id}>
+                <article className={styles.row} key={row.type+"-"+row.id}>
                   <div className={styles.activityCell}>
                     <span className={styles.typeIcon}><TypeIcon type={row.type}/></span>
-                    <div><strong>{row.title}</strong><small>{row.id}</small></div>
+                    <div><strong>{row.title}</strong><small>{row.id.slice(0,8)}</small></div>
                   </div>
                   <span>{row.asset}</span>
-                  <span>{row.status}</span>
-                  <span>{row.date}</span>
-                  <strong>{row.amount}</strong>
+                  <span>{normalizeStatus(row.status)}</span>
+                  <span>{new Date(row.date).toLocaleDateString()}</span>
+                  <strong>{row.amount>0 ? "+" : ""}{row.amount.toLocaleString("en-US",{maximumFractionDigits:6})} {row.asset}</strong>
                 </article>
               ))}
             </div>
           ) : (
             <div className={styles.empty}>
               <div className={styles.emptyIcon}><History size={30}/></div>
-              <strong>No activity yet</strong>
-              <p>Your real deposits, withdrawals, swaps, staking events and referral rewards will appear here after the backend is connected.</p>
+              <strong>{loading ? "Loading activity..." : "No activity yet"}</strong>
+              <p>{loading ? "Reading your WADAN ledger." : "Your first real account activity will appear here automatically."}</p>
             </div>
           )}
         </section>
@@ -193,7 +206,7 @@ export default function HistoryPage(){
         <section className={styles.legend}>
           <div><span className={styles.legendIcon}><ArrowDownLeft size={18}/></span><div><strong>Wallet</strong><small>Deposits and withdrawals</small></div></div>
           <div><span className={styles.legendIcon}><ArrowDownUp size={18}/></span><div><strong>Swap</strong><small>USDT ⇄ WDC conversions</small></div></div>
-          <div><span className={styles.legendIcon}><Coins size={18}/></span><div><strong>Staking</strong><small>Locks, rewards and unlocks</small></div></div>
+          <div><span className={styles.legendIcon}><Coins size={18}/></span><div><strong>Staking</strong><small>Locks and settlements</small></div></div>
           <div><span className={styles.legendIcon}><Gift size={18}/></span><div><strong>Referral</strong><small>Network reward activity</small></div></div>
         </section>
 
