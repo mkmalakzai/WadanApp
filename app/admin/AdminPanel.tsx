@@ -18,7 +18,7 @@ import {
   Users,
   WalletCards,
 } from "lucide-react";
-import type { AdminOverview } from "../../lib/backend/admin";
+import type { AdminOverview, AdminUser } from "../../lib/backend/admin";
 import styles from "./admin.module.css";
 
 type Tab =
@@ -53,11 +53,31 @@ export default function AdminPanel({
   const [overview, setOverview] = useState(initialOverview);
   const [refreshing, setRefreshing] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [users, setUsers] = useState<AdminUser[]>([]);
+  const [usersLoading, setUsersLoading] = useState(false);
+  const [userQuery, setUserQuery] = useState("");
 
   useEffect(() => {
     setMounted(true);
     return () => setMounted(false);
   }, []);
+
+  useEffect(() => {
+    if (tab === "users") {
+      void loadUsers();
+    }
+  }, [tab]);
+
+  async function loadUsers() {
+    setUsersLoading(true);
+    try {
+      const response = await fetch("/api/admin/users", { cache: "no-store" });
+      const data = await response.json();
+      setUsers(Array.isArray(data.users) ? data.users : []);
+    } finally {
+      setUsersLoading(false);
+    }
+  }
 
   async function refreshOverview() {
     setRefreshing(true);
@@ -210,7 +230,79 @@ export default function AdminPanel({
           </>
         )}
 
-        {tab !== "overview" && (
+        {tab === "users" && (
+          <section className={styles.usersWorkspace}>
+            <div className={styles.usersToolbar}>
+              <div>
+                <span>LIVE USERS</span>
+                <strong>User directory</strong>
+              </div>
+              <div className={styles.userSearch}>
+                <Search size={16}/>
+                <input
+                  value={userQuery}
+                  onChange={(e) => setUserQuery(e.target.value)}
+                  placeholder="Search user"
+                  aria-label="Search users"
+                />
+              </div>
+              <button type="button" onClick={loadUsers} disabled={usersLoading}>
+                <RefreshCw size={15} className={usersLoading ? styles.spin : ""}/>
+                Refresh
+              </button>
+            </div>
+
+            <div className={styles.usersSummary}>
+              <div><small>Total loaded</small><strong>{users.length}</strong></div>
+              <div><small>Active</small><strong>{users.filter((u) => u.status === "active").length}</strong></div>
+              <div><small>KYC verified</small><strong>{users.filter((u) => u.kycStatus === "verified").length}</strong></div>
+            </div>
+
+            <div className={styles.usersList}>
+              {usersLoading ? (
+                <div className={styles.usersEmpty}><RefreshCw size={22} className={styles.spin}/><span>Loading users…</span></div>
+              ) : users.filter((u) => {
+                  const q = userQuery.trim().toLowerCase();
+                  if (!q) return true;
+                  return [u.displayName,u.externalUserId,u.email,u.phone,u.country,u.status,u.kycStatus]
+                    .join(" ")
+                    .toLowerCase()
+                    .includes(q);
+                }).length === 0 ? (
+                <div className={styles.usersEmpty}><Users size={24}/><strong>No users yet</strong><span>Real users will appear here after account registration is connected.</span></div>
+              ) : (
+                users
+                  .filter((u) => {
+                    const q = userQuery.trim().toLowerCase();
+                    if (!q) return true;
+                    return [u.displayName,u.externalUserId,u.email,u.phone,u.country,u.status,u.kycStatus]
+                      .join(" ")
+                      .toLowerCase()
+                      .includes(q);
+                  })
+                  .map((u) => (
+                    <article className={styles.userRow} key={u.id}>
+                      <div className={styles.userAvatar}>{(u.displayName || u.externalUserId || "U").slice(0,2).toUpperCase()}</div>
+                      <div className={styles.userIdentity}>
+                        <strong>{u.displayName || "Unnamed user"}</strong>
+                        <span>{u.email || u.phone || u.externalUserId || "No contact"}</span>
+                      </div>
+                      <div className={styles.userMeta}>
+                        <span>{u.country || "—"}</span>
+                        <em>{u.status}</em>
+                      </div>
+                      <div className={styles.userKyc}>
+                        <small>KYC</small>
+                        <strong>{u.kycStatus.replace("_"," ")}</strong>
+                      </div>
+                    </article>
+                  ))
+              )}
+            </div>
+          </section>
+        )}
+
+        {tab !== "overview" && tab !== "users" && (
           <section className={styles.workspace}>
             <div className={styles.workspaceIcon}>
               {tab === "users" ? <Users size={28} /> :
