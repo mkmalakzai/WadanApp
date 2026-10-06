@@ -30,18 +30,46 @@ import styles from "./account.module.css";
 
 type Tab = "overview" | "profile" | "security" | "preferences";
 
+type AccountProfile = {
+  appUserId: string;
+  displayName: string;
+  email: string;
+  phone: string;
+  country: string;
+  status: string;
+  kycStatus: string;
+  emailConfirmed: boolean;
+  wdcBalance: number;
+  usdtBalance: number;
+};
+
 export default function AccountPage() {
   const [tab, setTab] = useState<Tab>("overview");
   const [saved, setSaved] = useState(false);
   const [twoFactor, setTwoFactor] = useState(false);
   const [emailAlerts, setEmailAlerts] = useState(true);
   const [securityAlerts, setSecurityAlerts] = useState(true);
+  const [profile, setProfile] = useState<AccountProfile | null>(null);
+  const [profileLoading, setProfileLoading] = useState(true);
 
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("tab");
     if (requested === "overview" || requested === "profile" || requested === "security" || requested === "preferences") {
       setTab(requested);
     }
+
+    void (async () => {
+      try {
+        const response = await fetch("/api/account/me", { cache: "no-store" });
+        const data = await response.json();
+
+        if (response.ok && data.profile) {
+          setProfile(data.profile);
+        }
+      } finally {
+        setProfileLoading(false);
+      }
+    })();
   }, []);
 
   function savePreview() {
@@ -86,23 +114,23 @@ export default function AccountPage() {
           </div>
           <div className="dash-top-actions">
             <button className="icon-square" aria-label="Notifications"><Bell size={18}/></button>
-            <button className="user-chip"><span>MK</span><div><strong>Malakzai</strong><small>Member</small></div></button>
+            <button className="user-chip"><span>{(profile?.displayName || "M").slice(0,2).toUpperCase()}</span><div><strong>{profile?.displayName || "Member"}</strong><small>Member</small></div></button>
           </div>
         </header>
 
         <section className={styles.hero}>
           <div className={styles.identity}>
-            <div className={styles.avatar}>MK</div>
+            <div className={styles.avatar}>{(profile?.displayName || "M").slice(0,2).toUpperCase()}</div>
             <div>
               <span>WADAN MEMBER</span>
-              <h2>Malakzai</h2>
-              <p>Member ID: WDC-000001</p>
+              <h2>{profile?.displayName || (profileLoading ? "Loading..." : "Member")}</h2>
+              <p>Member ID: {profile ? `WDC-${profile.appUserId.slice(0,8).toUpperCase()}` : "—"}</p>
             </div>
           </div>
 
           <div className={styles.heroStatus}>
-            <div><small>Account status</small><strong>Preview</strong></div>
-            <div><small>Email verification</small><strong>Pending</strong></div>
+            <div><small>Account status</small><strong>{profile?.status || "—"}</strong></div>
+            <div><small>Email verification</small><strong>{profile?.emailConfirmed ? "Verified" : "Pending"}</strong></div>
             <div><small>Security level</small><strong>Standard</strong></div>
           </div>
         </section>
@@ -123,10 +151,10 @@ export default function AccountPage() {
               </div>
 
               <div className={styles.overviewRows}>
-                <div><span>Name</span><strong>Malakzai</strong></div>
-                <div><span>Email</span><strong>Not connected</strong></div>
-                <div><span>Phone</span><strong>Not connected</strong></div>
-                <div><span>Country</span><strong>Afghanistan</strong></div>
+                <div><span>Name</span><strong>{profile?.displayName || "—"}</strong></div>
+                <div><span>Email</span><strong>{profile?.email || "Not connected"}</strong></div>
+                <div><span>Phone</span><strong>{profile?.phone || "Not connected"}</strong></div>
+                <div><span>Country</span><strong>{profile?.country || "—"}</strong></div>
               </div>
 
               <button className={styles.textAction} onClick={()=>setTab("profile")}>Edit personal details <ChevronRight size={17}/></button>
@@ -156,7 +184,7 @@ export default function AccountPage() {
               </div>
 
               <div className={styles.snapshot}>
-                <div><small>Wallet balance</small><strong>$0.00</strong><span>WDC + USDT</span></div>
+                <div><small>Wallet balance</small><strong>{((profile?.usdtBalance || 0) + (profile?.wdcBalance || 0) * 0.01).toLocaleString("en-US",{style:"currency",currency:"USD"})}</strong><span>WDC + USDT</span></div>
                 <div><small>Total staked</small><strong>0 WDC</strong><span>No active position</span></div>
                 <div><small>Referrals</small><strong>0</strong><span>5-level network</span></div>
                 <div><small>Activity records</small><strong>0</strong><span>History empty</span></div>
@@ -175,7 +203,7 @@ export default function AccountPage() {
             <div className={styles.formGrid}>
               <label>
                 <span>First name</span>
-                <div><UserRound size={17}/><input defaultValue="Malakzai" /></div>
+                <div><UserRound size={17}/><input value={profile?.displayName || ""} readOnly /></div>
               </label>
               <label>
                 <span>Last name</span>
@@ -183,15 +211,15 @@ export default function AccountPage() {
               </label>
               <label className={styles.full}>
                 <span>Email address</span>
-                <div><Mail size={17}/><input type="email" placeholder="you@example.com" /></div>
+                <div><Mail size={17}/><input type="email" value={profile?.email || ""} readOnly /></div>
               </label>
               <label>
                 <span>Country / region</span>
-                <div><Globe2 size={17}/><input defaultValue="Afghanistan" /></div>
+                <div><Globe2 size={17}/><input value={profile?.country || ""} readOnly /></div>
               </label>
               <label>
                 <span>Mobile number</span>
-                <div><Phone size={17}/><input type="tel" placeholder="+93 70 000 0000" /></div>
+                <div><Phone size={17}/><input type="tel" value={profile?.phone || ""} readOnly /></div>
               </label>
             </div>
 
@@ -276,10 +304,10 @@ export default function AccountPage() {
               </div>
 
               <div className={styles.accountActions}>
-                <Link href="/login"><LogOut size={18}/> Log out preview</Link>
+                <button type="button" onClick={async()=>{await fetch("/api/auth/logout",{method:"POST"});window.location.href="/login";}}><LogOut size={18}/> Log out</button>
                 <button type="button" disabled>Delete account</button>
               </div>
-              <p className={styles.dangerNote}>Account deletion will only be enabled after real authentication, identity checks and backend safeguards are implemented.</p>
+              <p className={styles.dangerNote}>Account deletion remains disabled until identity and security safeguards are completed.</p>
             </article>
           </section>
         )}
