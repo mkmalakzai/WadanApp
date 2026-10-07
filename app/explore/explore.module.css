@@ -435,3 +435,37 @@ a.service:hover{
   .shortcutGrid{padding:10px 6px;border-radius:16px}
   .shortcut{min-height:78px}
 }
+
+/* EXPLORE V4 — premium ecosystem directory */
+.searchBox,.shortcutGrid,.service{
+  border-color:rgba(255,255,255,.09);
+  box-shadow:0 10px 30px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.015);
+}
+.searchBox{background:linear-gradient(180deg,#0d131a,#080d12)}
+.shortcutGrid{
+  background:
+    linear-gradient(90deg,rgba(6,9,12,.94),rgba(6,9,12,.82)),
+    url('/assets/dashboard/wadan-kyc.webp') right center/55% auto no-repeat;
+}
+.shortcutIcon{
+  color:#f2b37b;
+  border-color:rgba(217,139,82,.16);
+  background:rgba(217,139,82,.055);
+}
+.shortcut:hover{color:#f2b37b;background:rgba(217,139,82,.045)}
+.tabs button.activeTab{
+  color:#55ddd4;
+  border-color:rgba(53,209,197,.18);
+  background:rgba(53,209,197,.055);
+}
+.service:hover{border-color:rgba(217,139,82,.18)}
+.serviceIcon{
+  color:#55ddd4;
+  border-color:rgba(53,209,197,.14);
+  background:rgba(53,209,197,.045);
+}
+.openDot{background:#55ddd4;box-shadow:0 0 12px rgba(53,209,197,.28)}
+@media(max-width:760px){
+  .shortcutGrid{background-size:auto 100%;background-position:92% center}
+  .service{min-height:70px}
+}
