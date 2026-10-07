@@ -440,3 +440,38 @@
     padding:0 10px;
   }
 }
+
+
+/* HISTORY V5 — premium ledger */
+.hero,.categoryHero{
+  position:relative;
+  overflow:hidden;
+  border-color:rgba(105,184,255,.13);
+  background:
+    linear-gradient(90deg,rgba(5,8,11,.98),rgba(5,8,11,.88) 50%,rgba(5,8,11,.24)),
+    url('/assets/features/swap-scene.svg') right center/65% auto no-repeat,
+    #070b10;
+}
+.heroStats>div,.categoryStats>div,.ledger,.legend>div{
+  border-color:rgba(255,255,255,.09);
+  box-shadow:0 10px 30px rgba(0,0,0,.18);
+}
+.typeIcon,.legendIcon{
+  color:#69b8ff;
+  border-color:rgba(105,184,255,.15);
+  background:rgba(105,184,255,.055);
+}
+.filters button.active{
+  color:#180c08;
+  background:linear-gradient(135deg,#f2b37b,#d98b52 58%,#a65738);
+}
+.categoryNav a.categoryActive{
+  color:#55ddd4;
+  border-color:rgba(53,209,197,.18);
+  background:rgba(53,209,197,.05);
+}
+@media(max-width:760px){
+  .hero,.categoryHero{background-size:auto 100%;background-position:82% center}
+  .heroCopy{max-width:62%}
+  .heroCopy h2,.categoryHero h2{font-size:30px}
+}
