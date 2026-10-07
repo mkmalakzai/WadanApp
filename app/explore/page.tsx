@@ -87,7 +87,7 @@ export default function ExplorePage(){
   })).filter((group)=>group.items.length>0);
 
   return (
-    <main className="dash-shell">
+    <main className="dash-shell premium-surface explore-premium">
       <div className="public-grid-bg"/>
 
       <aside className="dash-sidebar gradient-border">
