@@ -1163,3 +1163,33 @@
   .heroCopy>p{font-size:11px}
   .section{margin-top:22px}
 }
+
+/* REFERRAL V5 — cinematic network */
+.hero{
+  min-height:250px;
+  position:relative;
+  overflow:hidden;
+  border-color:rgba(53,209,197,.16);
+  background:
+    linear-gradient(90deg,rgba(5,8,11,.97) 0%,rgba(5,8,11,.88) 43%,rgba(5,8,11,.30) 70%,rgba(5,8,11,.05)),
+    url('/assets/features/referral-scene.svg') right center/72% auto no-repeat,
+    #070b10;
+  box-shadow:0 22px 58px rgba(0,0,0,.32);
+}
+.hero>*{position:relative;z-index:1}
+.eyebrow{color:#59ddd4;border-color:rgba(53,209,197,.18);background:rgba(53,209,197,.05)}
+.referralSpotlight,.shareCard,.depthCard,.networkCard{
+  border-color:rgba(255,255,255,.09);
+  box-shadow:0 14px 38px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.018);
+}
+.referralSpotlight{
+  background:linear-gradient(135deg,rgba(217,139,82,.08),rgba(53,209,197,.035) 55%,#080d12);
+}
+.spotlightEyebrow,.shareIcon{color:#f2b37b}
+@media(max-width:760px){
+  .hero{min-height:194px;padding:16px 14px;background-size:auto 100%;background-position:79% center}
+  .heroCopy{max-width:61%}
+  .hero h2{font-size:31px}
+  .heroCopy>p{font-size:8.5px;line-height:1.45}
+  .referralSpotlight{border-radius:17px}
+}
