@@ -84,7 +84,7 @@ export default function AccountPage() {
   }
 
   return (
-    <main className="dash-shell">
+    <main className="dash-shell premium-surface account-premium">
       <div className="public-grid-bg" />
 
       <aside className="dash-sidebar gradient-border">
