@@ -69,7 +69,7 @@ export default function CategoryHistoryPage(){
   const pending=visible.filter((row)=>["pending","detected","approved","active","recorded"].includes(row.status.toLowerCase())).length;
 
   return (
-    <main className="dash-shell">
+    <main className="dash-shell premium-surface history-premium">
       <div className="public-grid-bg"/>
 
       <section className={"dash-main "+styles.main}>
