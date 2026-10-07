@@ -7499,3 +7499,133 @@ html,body{
     height:16px!important;
   }
 }
+
+
+/* WADAN V25 — GENERATED ART ASSETS */
+.premium-dashboard .premium-portfolio{
+  background:#070a0e!important;
+}
+
+.premium-dashboard .premium-portfolio-art{
+  inset:0 0 118px 0!important;
+  opacity:1!important;
+}
+
+.premium-dashboard .premium-portfolio-art::after{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  background:
+    linear-gradient(90deg,rgba(5,8,11,.96) 0%,rgba(5,8,11,.86) 22%,rgba(5,8,11,.34) 49%,rgba(5,8,11,.04) 73%),
+    linear-gradient(180deg,rgba(4,7,10,.04) 45%,rgba(4,7,10,.34) 100%)!important;
+  pointer-events:none!important;
+}
+
+.premium-dashboard .premium-portfolio-art img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center center!important;
+  filter:none!important;
+}
+
+.premium-dashboard .premium-explore-card{
+  background-repeat:no-repeat!important;
+  background-size:cover!important;
+  background-position:center!important;
+  filter:none!important;
+}
+
+.premium-dashboard .premium-explore-card>*{
+  filter:none!important;
+}
+
+.premium-dashboard .explore-copper{
+  background-image:
+    linear-gradient(180deg,rgba(12,8,6,.08) 0%,rgba(12,8,6,.22) 42%,rgba(8,6,6,.90) 100%),
+    url('/assets/dashboard/wadan-free-earnings.webp')!important;
+}
+
+.premium-dashboard .explore-teal{
+  background-image:
+    linear-gradient(180deg,rgba(3,13,15,.06) 0%,rgba(3,13,15,.20) 42%,rgba(4,10,12,.92) 100%),
+    url('/assets/dashboard/wadan-kyc.webp')!important;
+}
+
+.premium-dashboard .explore-blue{
+  background-image:
+    linear-gradient(180deg,rgba(4,8,14,.06) 0%,rgba(4,8,14,.18) 42%,rgba(5,8,14,.92) 100%),
+    url('/assets/dashboard/wadan-security.webp')!important;
+}
+
+.premium-dashboard .premium-explore-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background:linear-gradient(180deg,transparent 38%,rgba(0,0,0,.14) 58%,rgba(0,0,0,.48) 100%);
+  pointer-events:none;
+}
+
+.premium-dashboard .premium-explore-card>*{
+  position:relative!important;
+  z-index:1!important;
+}
+
+@media(max-width:1180px){
+  .premium-dashboard .premium-portfolio-art{
+    inset:0 0 118px 0!important;
+  }
+}
+
+@media(max-width:760px){
+  .premium-dashboard .premium-portfolio{
+    min-height:318px!important;
+  }
+
+  .premium-dashboard .premium-portfolio-art{
+    inset:0 0 82px 0!important;
+  }
+
+  .premium-dashboard .premium-portfolio-art img{
+    object-position:58% center!important;
+  }
+
+  .premium-dashboard .premium-portfolio-art::after{
+    background:
+      linear-gradient(90deg,rgba(5,8,11,.96) 0%,rgba(5,8,11,.88) 25%,rgba(5,8,11,.38) 54%,rgba(5,8,11,.02) 79%),
+      linear-gradient(180deg,rgba(4,7,10,.02) 46%,rgba(4,7,10,.30) 100%)!important;
+  }
+
+  .premium-dashboard .premium-portfolio-value{
+    width:61%!important;
+    margin-top:26px!important;
+  }
+
+  .premium-dashboard .premium-portfolio-value>strong{
+    font-size:38px!important;
+  }
+
+  .premium-dashboard .premium-metric-card{
+    border-color:rgba(255,255,255,.085)!important;
+  }
+
+  .premium-dashboard .premium-action{
+    border-color:rgba(255,255,255,.09)!important;
+  }
+
+  .premium-dashboard .premium-explore-card{
+    min-height:102px!important;
+    background-position:center 56%!important;
+    border-color:rgba(255,255,255,.10)!important;
+  }
+
+  .premium-dashboard .premium-explore-card strong{
+    text-shadow:0 2px 10px rgba(0,0,0,.72);
+  }
+
+  .premium-dashboard .premium-explore-card small{
+    color:#b8b7b4!important;
+    text-shadow:0 2px 10px rgba(0,0,0,.72);
+  }
+}
