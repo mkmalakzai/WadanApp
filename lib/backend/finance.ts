@@ -233,27 +233,65 @@ export async function getStakingOverview(accessToken: string) {
 
   const planMap = new Map(plans.map((plan) => [plan.id, plan]));
 
+  const now = Date.now();
+
   const positions = stakes.map((stake) => {
     const plan = planMap.get(stake.plan_id);
     const principal = toNumber(stake.principal);
     const dailyRate = toNumber(plan?.daily_rate);
     const durationDays = Number(plan?.duration_days ?? 0);
     const started = new Date(stake.started_at).getTime();
-    const elapsedDays = Math.max(0, (Date.now() - started) / 86400000);
-    const rewardDays = Math.min(elapsedDays, durationDays);
-    const projectedReward = principal * (dailyRate / 100) * rewardDays;
+    const unlock = new Date(stake.unlock_at).getTime();
+    const elapsedMs = Math.max(0, now - started);
+    const elapsedDays = elapsedMs / 86400000;
+    const completedDays = Math.min(Math.floor(elapsedDays), durationDays);
+    const dailyProfit = principal * (dailyRate / 100);
+    const totalProjectedProfit = dailyProfit * durationDays;
+    const storedReward = toNumber(stake.accrued_reward);
+    const earnedProfit =
+      stake.status === "unlocked"
+        ? Math.max(storedReward, totalProjectedProfit)
+        : dailyProfit * completedDays;
+    const progressPercent =
+      durationDays > 0
+        ? Math.min(100, Math.max(0, (elapsedDays / durationDays) * 100))
+        : 0;
+    const remainingPercent = Math.max(0, 100 - progressPercent);
+    const daysRemaining = Math.max(0, durationDays - completedDays);
+    const matured = now >= unlock;
 
     return {
       ...stake,
       principal,
-      accruedReward: toNumber(stake.accrued_reward),
+      accruedReward: storedReward,
       planTitle: plan?.title ?? stake.plan_id,
       dailyRate,
       durationDays,
-      projectedReward,
-      matured: Date.now() >= new Date(stake.unlock_at).getTime(),
+      dailyProfit,
+      earnedProfit,
+      totalProjectedProfit,
+      completedDays,
+      daysRemaining,
+      progressPercent,
+      remainingPercent,
+      projectedReward: earnedProfit,
+      matured,
     };
   });
+
+  const activePositions = positions.filter((position) => position.status === "active");
+  const summary = {
+    totalStaked: activePositions.reduce((sum, position) => sum + position.principal, 0),
+    todayProfit: activePositions
+      .filter((position) => !position.matured)
+      .reduce((sum, position) => sum + position.dailyProfit, 0),
+    allProfit: positions.reduce((sum, position) => sum + position.earnedProfit, 0),
+    expectedProfit: activePositions.reduce(
+      (sum, position) => sum + position.totalProjectedProfit,
+      0
+    ),
+    activeCount: activePositions.length,
+  };
 
   return {
     profile,
@@ -262,6 +300,7 @@ export async function getStakingOverview(accessToken: string) {
       dailyRate: toNumber(plan.daily_rate),
     })),
     positions,
+    summary,
   };
 }
 
