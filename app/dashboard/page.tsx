@@ -82,8 +82,12 @@ export default function DashboardPage() {
     ]).catch(()=>undefined);
   },[]);
 
-  const name=wallet?.profile.displayName || "Member";
-  const initials=name.slice(0,2).toUpperCase();
+  const name=wallet?.profile.displayName || "";
+  const displayName=name || "—";
+  const initials=name ? name.slice(0,2).toUpperCase() : "W";
+  const walletReady=Boolean(wallet);
+  const stakingReady=Boolean(staking);
+  const referralReady=Boolean(referral.code || referral.total !== undefined);
   const wdc=wallet?.profile.wdcBalance ?? 0;
   const usdt=wallet?.profile.usdtBalance ?? 0;
   const totalUsd=wallet?.totalUsd ?? 0;
@@ -130,7 +134,7 @@ export default function DashboardPage() {
           </div>
           <div className="dash-top-actions">
             <button className="icon-square" aria-label="Notifications"><Bell size={18}/></button>
-            <button className="user-chip"><span>{initials}</span><div><strong>{name}</strong><small>Member</small></div></button>
+            <button className="user-chip"><span>{initials}</span><div><strong>{displayName}</strong><small>Member</small></div></button>
           </div>
         </header>
 
@@ -138,18 +142,18 @@ export default function DashboardPage() {
           <div className="portfolio-v2-copy">
             <div className="dash-hero-label"><Sparkles size={14}/> PORTFOLIO OVERVIEW</div>
             <p>Total portfolio value</p>
-            <h2>{totalUsd.toLocaleString("en-US",{style:"currency",currency:"USD"})}</h2>
+            <h2>{walletReady ? totalUsd.toLocaleString("en-US",{style:"currency",currency:"USD"}) : "—"}</h2>
             <div className="portfolio-v2-meta">
-              <strong>{wdc.toLocaleString("en-US",{maximumFractionDigits:4})} WDC</strong>
+              <strong>{walletReady ? wdc.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC" : "—"}</strong>
               <span>Available balance</span>
               <em>BNB Smart Chain</em>
             </div>
           </div>
 
           <div className="portfolio-v2-breakdown">
-            <div><span>Available</span><strong>{wdc.toLocaleString("en-US",{maximumFractionDigits:4})} WDC</strong></div>
-            <div><span>USDT</span><strong>{usdt.toLocaleString("en-US",{maximumFractionDigits:4})}</strong></div>
-            <div><span>Staked</span><strong>{(wallet?.totalStaked ?? 0).toLocaleString("en-US",{maximumFractionDigits:4})} WDC</strong></div>
+            <div><span>Available</span><strong>{walletReady ? wdc.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC" : "—"}</strong></div>
+            <div><span>USDT</span><strong>{walletReady ? usdt.toLocaleString("en-US",{maximumFractionDigits:4}) : "—"}</strong></div>
+            <div><span>Staked</span><strong>{walletReady ? (wallet?.totalStaked ?? 0).toLocaleString("en-US",{maximumFractionDigits:4})+" WDC" : "—"}</strong></div>
           </div>
         </section>
 
@@ -158,7 +162,7 @@ export default function DashboardPage() {
             <span className="wdc-price-icon"><Coins size={23}/></span>
             <div>
               <small>WDC PRICE</small>
-              <strong>{price.toLocaleString("en-US",{style:"currency",currency:"USD",minimumFractionDigits:4,maximumFractionDigits:4})}</strong>
+              <strong>{walletReady ? price.toLocaleString("en-US",{style:"currency",currency:"USD",minimumFractionDigits:4,maximumFractionDigits:4}) : "—"}</strong>
             </div>
           </div>
           <div className="wdc-price-right">
@@ -189,9 +193,9 @@ export default function DashboardPage() {
           </div>
 
           <div className="overview-grid-v2 overview-grid-three">
-            <article><span className="overview-icon"><CircleDollarSign size={21}/></span><div><small>Total Staked</small><strong>{(wallet?.totalStaked ?? 0).toLocaleString("en-US",{maximumFractionDigits:4})} WDC</strong><em>{activePositions.length} active positions</em></div></article>
-            <article><span className="overview-icon"><Gift size={21}/></span><div><small>Projected rewards</small><strong>{projectedRewards.toLocaleString("en-US",{maximumFractionDigits:4})} WDC</strong><em>Current staking estimate</em></div></article>
-            <article><span className="overview-icon"><Users size={21}/></span><div><small>Referrals</small><strong>{referralTotal}</strong><em>{referralRewards.toLocaleString("en-US",{maximumFractionDigits:4})} WDC credited</em></div></article>
+            <article><span className="overview-icon"><CircleDollarSign size={21}/></span><div><small>Total Staked</small><strong>{walletReady ? (wallet?.totalStaked ?? 0).toLocaleString("en-US",{maximumFractionDigits:4})+" WDC" : "—"}</strong><em>{stakingReady ? activePositions.length+" active positions" : "Checking positions"}</em></div></article>
+            <article><span className="overview-icon"><Gift size={21}/></span><div><small>Projected rewards</small><strong>{stakingReady ? projectedRewards.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC" : "—"}</strong><em>Current staking estimate</em></div></article>
+            <article><span className="overview-icon"><Users size={21}/></span><div><small>Referrals</small><strong>{referralReady ? referralTotal : "—"}</strong><em>{referralReady ? referralRewards.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC credited" : "Checking network"}</em></div></article>
           </div>
         </section>
 
@@ -256,7 +260,7 @@ export default function DashboardPage() {
             </div>
             <div className="profile-summary">
               <div className="profile-large">{initials}</div>
-              <div><strong>{name}</strong><span>{wallet?.profile.emailConfirmed ? "Email verified" : "Email pending"}</span></div>
+              <div><strong>{displayName}</strong><span>{wallet ? (wallet.profile.emailConfirmed ? "Email verified" : "Email pending") : "Checking account"}</span></div>
             </div>
             <div className="profile-lines">
               <div><span>Member ID</span><strong>{wallet?.profile.appUserId ? "WDC-"+wallet.profile.appUserId.slice(0,8).toUpperCase() : "—"}</strong></div>
