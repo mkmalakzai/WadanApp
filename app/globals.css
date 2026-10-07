@@ -6516,3 +6516,703 @@ html,body{
     position:static;
   }
 }
+
+
+/* WADAN V23 — APPROVED MOCKUP MATCH */
+.premium-dashboard .premium-header,
+.premium-dashboard .premium-portfolio,
+.premium-dashboard .premium-metric-grid,
+.premium-dashboard .premium-section{
+  width:100%;
+}
+
+.premium-dashboard .premium-header{
+  padding-left:18px;
+  padding-right:18px;
+}
+
+.premium-dashboard .premium-header h1{
+  font-size:48px;
+  line-height:.96;
+}
+
+.premium-dashboard .premium-header p{
+  font-size:12px;
+  letter-spacing:.34em;
+}
+
+.premium-dashboard .premium-icon-button,
+.premium-dashboard .premium-avatar{
+  width:62px;
+  height:62px;
+  border-radius:20px;
+}
+
+.premium-dashboard .premium-avatar{
+  border-radius:50%;
+  box-shadow:0 0 0 2px rgba(217,139,82,.11);
+}
+
+.premium-dashboard .premium-portfolio{
+  min-height:450px;
+  padding:30px 34px 0;
+  border-radius:32px;
+  border-color:rgba(217,139,82,.42);
+  box-shadow:0 26px 80px rgba(0,0,0,.34);
+}
+
+.premium-dashboard .premium-portfolio-art{
+  inset:0 -18px 112px 38%;
+  opacity:1;
+}
+
+.premium-dashboard .premium-portfolio-art img{
+  object-fit:cover;
+  object-position:center center;
+  filter:saturate(1.05) contrast(1.03);
+}
+
+.premium-dashboard .premium-portfolio-art::after{
+  background:
+    linear-gradient(90deg,#090e14 0%,rgba(9,14,20,.94) 8%,rgba(9,14,20,.58) 30%,transparent 56%),
+    linear-gradient(180deg,transparent 58%,rgba(4,7,10,.34) 100%);
+}
+
+.premium-dashboard .premium-kicker,
+.premium-dashboard .premium-network{
+  min-height:50px;
+  padding:0 18px;
+  font-size:12px;
+  border-radius:999px;
+}
+
+.premium-dashboard .premium-network{
+  background:rgba(9,12,16,.82);
+  box-shadow:0 8px 30px rgba(0,0,0,.24);
+}
+
+.premium-dashboard .premium-portfolio-value{
+  width:57%;
+  margin-top:48px;
+}
+
+.premium-dashboard .premium-portfolio-value small{
+  font-size:16px;
+}
+
+.premium-dashboard .premium-portfolio-value>strong{
+  margin-top:9px;
+  font-size:78px;
+}
+
+.premium-dashboard .premium-portfolio-value p{
+  margin-top:15px;
+}
+
+.premium-dashboard .premium-portfolio-value p b{
+  font-size:24px;
+}
+
+.premium-dashboard .premium-portfolio-value p span{
+  font-size:15px;
+}
+
+.premium-dashboard .premium-portfolio-stats{
+  min-height:118px;
+}
+
+.premium-dashboard .premium-portfolio-stats>div{
+  padding:18px 28px;
+  gap:14px;
+}
+
+.premium-dashboard .premium-stat-icon{
+  width:48px;
+  height:48px;
+}
+
+.premium-dashboard .premium-stat-icon svg{
+  width:22px;
+  height:22px;
+}
+
+.premium-dashboard .premium-portfolio-stats small{
+  font-size:12px;
+}
+
+.premium-dashboard .premium-portfolio-stats strong{
+  margin-top:5px;
+  font-size:18px;
+}
+
+.premium-dashboard .premium-portfolio-stats>div:nth-child(2) strong,
+.premium-dashboard .premium-portfolio-stats>div:nth-child(3) strong{
+  color:#58ddd3;
+}
+
+.premium-dashboard .premium-metric-grid{
+  gap:14px;
+  margin-top:18px;
+}
+
+.premium-dashboard .premium-metric-card{
+  min-height:140px;
+  grid-template-columns:70px minmax(0,1fr) auto;
+  gap:18px;
+  padding:20px 22px;
+  border-radius:25px;
+}
+
+.premium-dashboard .premium-metric-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:url('/wadan-mountains.svg');
+  background-size:125% auto;
+  background-position:center 65%;
+  opacity:.10;
+  mix-blend-mode:screen;
+  pointer-events:none;
+}
+
+.premium-dashboard .premium-metric-card>*{
+  position:relative;
+  z-index:1;
+}
+
+.premium-dashboard .premium-metric-icon{
+  width:68px;
+  height:68px;
+}
+
+.premium-dashboard .premium-metric-icon svg{
+  width:29px;
+  height:29px;
+}
+
+.premium-dashboard .premium-metric-card small{
+  font-size:14px;
+}
+
+.premium-dashboard .premium-metric-card strong{
+  margin-top:6px;
+  font-size:26px;
+}
+
+.premium-dashboard .premium-section{
+  margin-top:44px;
+}
+
+.premium-dashboard .premium-section-head{
+  margin-bottom:18px;
+}
+
+.premium-dashboard .premium-section-head-simple h2{
+  margin:0;
+  font-size:34px;
+  letter-spacing:-.04em;
+}
+
+.premium-dashboard .premium-actions{
+  gap:14px;
+}
+
+.premium-dashboard .premium-action{
+  position:relative;
+  overflow:hidden;
+  min-height:190px;
+  gap:16px;
+  border-radius:26px;
+}
+
+.premium-dashboard .premium-action::after{
+  content:"";
+  position:absolute;
+  inset:45% -15% -30% -15%;
+  background-image:url('/wadan-mountains.svg');
+  background-size:cover;
+  background-position:center bottom;
+  opacity:.08;
+  pointer-events:none;
+}
+
+.premium-dashboard .premium-action>*{
+  position:relative;
+  z-index:1;
+}
+
+.premium-dashboard .premium-action>span{
+  width:76px;
+  height:76px;
+  box-shadow:inset 0 0 30px rgba(255,255,255,.025);
+}
+
+.premium-dashboard .premium-action>span svg{
+  width:32px;
+  height:32px;
+}
+
+.premium-dashboard .premium-action strong{
+  font-size:17px;
+}
+
+.premium-dashboard .premium-explore-grid{
+  gap:14px;
+}
+
+.premium-dashboard .premium-explore-card{
+  min-height:185px;
+  padding:22px;
+  border-radius:25px;
+  background-image:
+    linear-gradient(180deg,rgba(5,7,10,.06),rgba(5,7,10,.58)),
+    url('/wadan-mountains.svg');
+  background-size:cover;
+  background-position:center 58%;
+}
+
+.premium-dashboard .explore-copper{
+  background-image:
+    linear-gradient(180deg,rgba(78,38,23,.14),rgba(32,15,11,.82)),
+    url('/wadan-mountains.svg');
+}
+
+.premium-dashboard .explore-teal{
+  background-image:
+    linear-gradient(180deg,rgba(0,70,76,.10),rgba(5,28,31,.84)),
+    url('/wadan-mountains.svg');
+  filter:hue-rotate(116deg) saturate(.92);
+}
+
+.premium-dashboard .explore-teal>*{
+  filter:hue-rotate(-116deg) saturate(1.08);
+}
+
+.premium-dashboard .explore-blue{
+  background-image:
+    linear-gradient(180deg,rgba(16,50,86,.10),rgba(6,17,31,.86)),
+    url('/wadan-mountains.svg');
+  filter:hue-rotate(178deg) saturate(.9);
+}
+
+.premium-dashboard .explore-blue>*{
+  filter:hue-rotate(-178deg) saturate(1.1);
+}
+
+.premium-dashboard .premium-explore-card>span{
+  width:58px;
+  height:58px;
+  border-radius:18px;
+}
+
+.premium-dashboard .premium-explore-card>span svg{
+  width:26px;
+  height:26px;
+}
+
+.premium-dashboard .premium-explore-card strong{
+  font-size:18px;
+}
+
+.premium-dashboard .premium-explore-card small{
+  margin-top:5px;
+  font-size:13px;
+}
+
+@media(max-width:1180px){
+  .premium-dashboard.dash-shell{
+    display:block!important;
+    width:min(calc(100% - 34px),940px)!important;
+    margin:0 auto!important;
+    padding:18px 0 112px!important;
+  }
+
+  .premium-dashboard .premium-sidebar{
+    display:none!important;
+  }
+
+  .premium-dashboard-main{
+    width:100%!important;
+    margin:0!important;
+    padding:0!important;
+  }
+
+  .premium-dashboard .premium-header{
+    min-height:118px;
+    padding:22px 14px 20px;
+  }
+
+  .premium-dashboard .premium-header p{
+    font-size:11px;
+  }
+
+  .premium-dashboard .premium-header h1{
+    font-size:50px!important;
+    white-space:nowrap;
+  }
+
+  .premium-dashboard .premium-header-actions{
+    gap:12px;
+  }
+
+  .premium-dashboard .premium-icon-button,
+  .premium-dashboard .premium-avatar{
+    width:68px;
+    height:68px;
+  }
+
+  .premium-dashboard .premium-portfolio{
+    min-height:455px;
+  }
+
+  .premium-dashboard .premium-portfolio-art{
+    inset:0 -5px 118px 38%;
+  }
+
+  .premium-dashboard .premium-portfolio-value{
+    width:58%;
+  }
+
+  .premium-dashboard .premium-portfolio-value>strong{
+    font-size:74px;
+  }
+
+  .wadan-mobile-dock{
+    display:grid!important;
+    position:fixed!important;
+    left:30px!important;
+    right:30px!important;
+    bottom:max(18px,env(safe-area-inset-bottom))!important;
+    min-height:90px!important;
+    grid-template-columns:repeat(5,1fr)!important;
+    gap:3px!important;
+    padding:8px!important;
+    z-index:5000!important;
+    border-radius:28px!important;
+  }
+
+  .wadan-mobile-dock a{
+    min-height:72px!important;
+    gap:6px!important;
+    border-radius:20px!important;
+    font-size:12px!important;
+  }
+
+  .wadan-mobile-dock a svg{
+    width:25px!important;
+    height:25px!important;
+  }
+}
+
+@media(max-width:760px){
+  .premium-dashboard.dash-shell{
+    width:min(calc(100% - 14px),720px)!important;
+    padding-top:7px!important;
+    padding-bottom:92px!important;
+  }
+
+  .premium-dashboard .premium-header{
+    min-height:82px;
+    padding:8px 5px 12px;
+  }
+
+  .premium-dashboard .premium-header p{
+    font-size:7px;
+    letter-spacing:.26em;
+  }
+
+  .premium-dashboard .premium-header h1{
+    margin-top:5px;
+    font-size:28px!important;
+    white-space:nowrap;
+  }
+
+  .premium-dashboard .premium-header-actions{
+    gap:7px;
+  }
+
+  .premium-dashboard .premium-icon-button,
+  .premium-dashboard .premium-avatar{
+    width:42px;
+    height:42px;
+    border-radius:14px;
+  }
+
+  .premium-dashboard .premium-avatar{
+    border-radius:50%;
+    font-size:10px;
+  }
+
+  .premium-dashboard .premium-icon-button svg{
+    width:17px;
+    height:17px;
+  }
+
+  .premium-dashboard .premium-portfolio{
+    min-height:350px;
+    padding:14px 12px 0;
+    border-radius:20px;
+  }
+
+  .premium-dashboard .premium-portfolio-art{
+    inset:57px -54px 94px 34%;
+  }
+
+  .premium-dashboard .premium-portfolio-art::after{
+    background:linear-gradient(90deg,#090e14 0%,rgba(9,14,20,.86) 12%,rgba(9,14,20,.35) 42%,transparent 68%);
+  }
+
+  .premium-dashboard .premium-kicker,
+  .premium-dashboard .premium-network{
+    min-height:32px;
+    padding:0 9px;
+    font-size:7px;
+  }
+
+  .premium-dashboard .premium-kicker svg,
+  .premium-dashboard .premium-network svg{
+    width:13px;
+    height:13px;
+  }
+
+  .premium-dashboard .premium-network{
+    max-width:135px;
+  }
+
+  .premium-dashboard .premium-portfolio-value{
+    width:62%;
+    margin-top:32px;
+  }
+
+  .premium-dashboard .premium-portfolio-value small{
+    font-size:8px;
+  }
+
+  .premium-dashboard .premium-portfolio-value>strong{
+    margin-top:4px;
+    font-size:42px;
+  }
+
+  .premium-dashboard .premium-portfolio-value p{
+    margin-top:8px;
+  }
+
+  .premium-dashboard .premium-portfolio-value p b{
+    font-size:12px;
+  }
+
+  .premium-dashboard .premium-portfolio-value p span{
+    font-size:8px;
+  }
+
+  .premium-dashboard .premium-portfolio-stats{
+    min-height:88px;
+  }
+
+  .premium-dashboard .premium-portfolio-stats>div{
+    gap:6px;
+    padding:9px 6px;
+  }
+
+  .premium-dashboard .premium-stat-icon{
+    width:29px;
+    height:29px;
+  }
+
+  .premium-dashboard .premium-stat-icon svg{
+    width:14px;
+    height:14px;
+  }
+
+  .premium-dashboard .premium-portfolio-stats small{
+    font-size:6.5px;
+  }
+
+  .premium-dashboard .premium-portfolio-stats strong{
+    font-size:8.5px;
+    line-height:1.25;
+  }
+
+  .premium-dashboard .premium-metric-grid{
+    gap:6px;
+    margin-top:7px;
+  }
+
+  .premium-dashboard .premium-metric-card{
+    min-height:92px;
+    grid-template-columns:38px minmax(0,1fr) 13px;
+    gap:8px;
+    padding:10px;
+    border-radius:16px;
+  }
+
+  .premium-dashboard .premium-metric-icon{
+    width:38px;
+    height:38px;
+  }
+
+  .premium-dashboard .premium-metric-icon svg{
+    width:17px;
+    height:17px;
+  }
+
+  .premium-dashboard .premium-metric-card small{
+    font-size:7px;
+  }
+
+  .premium-dashboard .premium-metric-card strong{
+    margin-top:3px;
+    font-size:12px;
+    line-height:1.18;
+  }
+
+  .premium-dashboard .premium-metric-card>svg{
+    width:13px;
+    height:13px;
+  }
+
+  .premium-dashboard .premium-section{
+    margin-top:26px;
+  }
+
+  .premium-dashboard .premium-section-head{
+    margin-bottom:10px;
+    padding:0 2px;
+  }
+
+  .premium-dashboard .premium-section-head-simple h2{
+    font-size:24px;
+  }
+
+  .premium-dashboard .premium-actions{
+    grid-template-columns:repeat(4,1fr)!important;
+    gap:6px;
+  }
+
+  .premium-dashboard .premium-action{
+    min-height:104px!important;
+    gap:8px;
+    border-radius:16px;
+  }
+
+  .premium-dashboard .premium-action>span{
+    width:42px!important;
+    height:42px!important;
+  }
+
+  .premium-dashboard .premium-action>span svg{
+    width:19px!important;
+    height:19px!important;
+  }
+
+  .premium-dashboard .premium-action strong{
+    font-size:8.5px!important;
+  }
+
+  .premium-dashboard .premium-explore-grid{
+    grid-template-columns:repeat(3,1fr)!important;
+    gap:6px;
+  }
+
+  .premium-dashboard .premium-explore-card{
+    min-height:108px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:flex-start!important;
+    justify-content:flex-end!important;
+    gap:5px!important;
+    padding:10px!important;
+    border-radius:16px!important;
+  }
+
+  .premium-dashboard .premium-explore-card>span{
+    width:36px!important;
+    height:36px!important;
+    border-radius:11px!important;
+  }
+
+  .premium-dashboard .premium-explore-card>span svg{
+    width:16px!important;
+    height:16px!important;
+  }
+
+  .premium-dashboard .premium-explore-card>svg{
+    position:absolute!important;
+    right:8px!important;
+    bottom:12px!important;
+    top:auto!important;
+    width:13px!important;
+    height:13px!important;
+  }
+
+  .premium-dashboard .premium-explore-card strong{
+    font-size:9px!important;
+  }
+
+  .premium-dashboard .premium-explore-card small{
+    font-size:6.5px!important;
+    line-height:1.2!important;
+  }
+
+  .premium-dashboard-spacer{
+    height:70px!important;
+  }
+
+  .wadan-mobile-dock{
+    left:8px!important;
+    right:8px!important;
+    bottom:max(7px,env(safe-area-inset-bottom))!important;
+    min-height:62px!important;
+    padding:4px!important;
+    border-radius:20px!important;
+  }
+
+  .wadan-mobile-dock a{
+    min-height:52px!important;
+    gap:3px!important;
+    border-radius:15px!important;
+    font-size:7px!important;
+  }
+
+  .wadan-mobile-dock a svg{
+    width:17px!important;
+    height:17px!important;
+  }
+}
+
+@media(max-width:390px){
+  .premium-dashboard .premium-header h1{
+    font-size:25px!important;
+  }
+
+  .premium-dashboard .premium-icon-button,
+  .premium-dashboard .premium-avatar{
+    width:38px;
+    height:38px;
+  }
+
+  .premium-dashboard .premium-portfolio{
+    min-height:330px;
+  }
+
+  .premium-dashboard .premium-portfolio-value>strong{
+    font-size:37px;
+  }
+
+  .premium-dashboard .premium-network{
+    max-width:118px;
+    font-size:6px;
+  }
+
+  .premium-dashboard .premium-metric-card{
+    min-height:86px;
+  }
+
+  .premium-dashboard .premium-action{
+    min-height:96px!important;
+  }
+
+  .premium-dashboard .premium-explore-card{
+    min-height:101px!important;
+  }
+}
