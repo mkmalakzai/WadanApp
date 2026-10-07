@@ -12,6 +12,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import MobileDock from "../../components/MobileDock";
+import { fetchCached, readCached, invalidateCached } from "../../../lib/client-cache";
 
 type Asset = "WDC" | "USDT";
 
@@ -28,7 +29,7 @@ const names: Record<Asset,string> = {
 
 export default function DepositPage() {
   const [asset,setAsset]=useState<Asset>("WDC");
-  const [config,setConfig]=useState<DepositConfig | null>(null);
+  const [config,setConfig]=useState<DepositConfig | null>(()=>readCached<DepositConfig>("wallet:deposit"));
   const [copied,setCopied]=useState(false);
   const [amount,setAmount]=useState("");
   const [txHash,setTxHash]=useState("");
@@ -37,12 +38,9 @@ export default function DepositPage() {
   const [submitting,setSubmitting]=useState(false);
 
   useEffect(()=>{
-    void (async()=>{
-      const response=await fetch("/api/wallet/deposit",{cache:"no-store"});
-      const data=await response.json();
-      if(response.ok) setConfig(data);
-      else setError(data.error || "Unable to load deposit settings.");
-    })();
+    void fetchCached<DepositConfig>("wallet:deposit","/api/wallet/deposit")
+      .then(setConfig)
+      .catch((err)=>setError(err instanceof Error ? err.message : "Unable to load deposit settings."));
   },[]);
 
   async function copyAddress(){
@@ -75,6 +73,7 @@ export default function DepositPage() {
 
       if(!response.ok) throw new Error(data.error || "Unable to submit deposit.");
 
+      invalidateCached("wallet:summary","history");
       setMessage("Deposit submitted for review. Your balance will update after confirmation.");
       setAmount("");
       setTxHash("");
@@ -127,10 +126,15 @@ export default function DepositPage() {
             <ShieldCheck size={22}/>
           </div>
 
-          {!ready ? (
+          {!config && !error ? (
+            <div className="flow-loading-card">
+              <span className="flow-loading-pulse" />
+              <div><strong>Preparing deposit details</strong><p>Checking your wallet settings…</p></div>
+            </div>
+          ) : !ready ? (
             <div className="flow-warning">
               <Info size={20}/>
-              <p><strong>Deposits are not live yet.</strong> The admin must configure the BNB Chain deposit address and enable deposits first.</p>
+              <p><strong>Deposits are unavailable right now.</strong> Please try again shortly.</p>
             </div>
           ) : (
             <>
@@ -211,7 +215,7 @@ export default function DepositPage() {
             <li><span>1</span><div><strong>Select {asset}</strong><p>Choose the same asset in the wallet or exchange you are sending from.</p></div></li>
             <li><span>2</span><div><strong>Use BNB Smart Chain</strong><p>The transfer must use BEP-20.</p></div></li>
             <li><span>3</span><div><strong>Send to the shown address</strong><p>Double-check the address before sending.</p></div></li>
-            <li><span>4</span><div><strong>Submit the transaction hash</strong><p>Admin confirmation credits your WADAN balance.</p></div></li>
+            <li><span>4</span><div><strong>Submit the transaction hash</strong><p>Your WADAN balance updates after the transfer is confirmed.</p></div></li>
           </ol>
         </section>
 
