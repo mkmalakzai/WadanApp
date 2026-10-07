@@ -8037,3 +8037,94 @@ html,body{
     min-height:190px!important;
   }
 }
+
+
+/* WADAN V27 — PREMIUM LANDING + FINAL CONSISTENCY */
+.public-nav-wrap{
+  background:linear-gradient(180deg,rgba(3,6,9,.96),rgba(3,6,9,.72))!important;
+  border-bottom-color:rgba(255,255,255,.04)!important;
+  backdrop-filter:blur(18px);
+}
+.public-hero{
+  position:relative;
+  overflow:hidden;
+  border-bottom:1px solid rgba(255,255,255,.035);
+}
+.public-hero::after{
+  content:"";
+  position:absolute;
+  right:-4%;
+  top:4%;
+  width:54%;
+  height:92%;
+  background:
+    linear-gradient(90deg,transparent,rgba(3,6,9,.04)),
+    url('/assets/dashboard/wadan-dashboard-hero.webp') center/cover no-repeat;
+  opacity:.58;
+  mask-image:linear-gradient(90deg,transparent 0%,black 24%,black 100%);
+  pointer-events:none;
+}
+.hero-copy-block,.hero-visual{position:relative;z-index:1}
+.hero-kicker,.section-heading p{
+  color:#d98b52!important;
+}
+.hero-copy-block h1 span{
+  background:linear-gradient(110deg,#f7d0aa,#d98b52 52%,#8b432f)!important;
+  -webkit-background-clip:text!important;
+  background-clip:text!important;
+  color:transparent!important;
+}
+.gold-cta,.nav-signup{
+  background:linear-gradient(135deg,#f2b37b,#d98b52 55%,#a65738)!important;
+  color:#1a0d08!important;
+  border-color:transparent!important;
+}
+.glass-cta,.nav-login{
+  border-color:rgba(255,255,255,.09)!important;
+  background:rgba(255,255,255,.02)!important;
+}
+.public-stats article,.vision-card,.leaderboard-card,.roadmap-card,.token-panel,.social-card,.final-cta{
+  border-color:rgba(255,255,255,.085)!important;
+  background:linear-gradient(180deg,rgba(13,19,26,.92),rgba(7,11,15,.96))!important;
+  box-shadow:0 16px 42px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.015)!important;
+}
+.stat-icon,.board-icon{
+  color:#f2b37b!important;
+  background:rgba(217,139,82,.055)!important;
+  border-color:rgba(217,139,82,.14)!important;
+}
+.roadmap-node{
+  border-color:rgba(53,209,197,.22)!important;
+  color:#55ddd4!important;
+  background:#071315!important;
+}
+.board-chip,.roadmap-top span{
+  color:#55ddd4!important;
+  background:rgba(53,209,197,.055)!important;
+}
+.token-panel{
+  position:relative;
+  overflow:hidden;
+}
+.token-panel::after{
+  content:"";
+  position:absolute;
+  inset:0 0 0 56%;
+  background:url('/assets/features/staking-scene.svg') right center/cover no-repeat;
+  opacity:.16;
+  pointer-events:none;
+}
+.token-panel>*{position:relative;z-index:1}
+.public-footer{
+  border-top-color:rgba(255,255,255,.05)!important;
+}
+@media(max-width:760px){
+  .public-hero::after{
+    width:88%;
+    right:-42%;
+    opacity:.36;
+  }
+  .public-stats{
+    gap:7px!important;
+  }
+}
