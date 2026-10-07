@@ -1,57 +1,98 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-label="WADAN premium coin">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 460" role="img" aria-label="WADAN coin landscape">
   <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0b1016"/>
-      <stop offset=".55" stop-color="#171114"/>
-      <stop offset="1" stop-color="#05080c"/>
+      <stop offset="0" stop-color="#12151a"/>
+      <stop offset=".38" stop-color="#241a18"/>
+      <stop offset=".68" stop-color="#130e10"/>
+      <stop offset="1" stop-color="#05080b"/>
     </linearGradient>
-    <linearGradient id="copper" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ffd09a"/>
-      <stop offset=".22" stop-color="#d8894b"/>
-      <stop offset=".52" stop-color="#8c472d"/>
-      <stop offset=".78" stop-color="#f3a45f"/>
-      <stop offset="1" stop-color="#4b241c"/>
-    </linearGradient>
-    <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#fff0cf"/>
-      <stop offset=".35" stop-color="#df904d"/>
-      <stop offset=".7" stop-color="#69321f"/>
-      <stop offset="1" stop-color="#f8b36b"/>
-    </linearGradient>
-    <radialGradient id="glow" cx=".62" cy=".35" r=".62">
-      <stop offset="0" stop-color="#ffae5d" stop-opacity=".48"/>
-      <stop offset=".45" stop-color="#b85a36" stop-opacity=".12"/>
+    <radialGradient id="sunGlow" cx=".68" cy=".18" r=".62">
+      <stop offset="0" stop-color="#f7b46f" stop-opacity=".75"/>
+      <stop offset=".18" stop-color="#b86640" stop-opacity=".34"/>
+      <stop offset=".55" stop-color="#7b3b2a" stop-opacity=".09"/>
       <stop offset="1" stop-color="#000" stop-opacity="0"/>
     </radialGradient>
-    <filter id="blur"><feGaussianBlur stdDeviation="18"/></filter>
-    <filter id="shadow"><feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#000" flood-opacity=".55"/></filter>
+    <radialGradient id="planet" cx=".35" cy=".28" r=".72">
+      <stop offset="0" stop-color="#b9754c" stop-opacity=".42"/>
+      <stop offset=".55" stop-color="#5a3028" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#171319" stop-opacity=".05"/>
+    </radialGradient>
+    <linearGradient id="ridge1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#39241e"/>
+      <stop offset="1" stop-color="#121317"/>
+    </linearGradient>
+    <linearGradient id="ridge2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#241a18"/>
+      <stop offset="1" stop-color="#080b0e"/>
+    </linearGradient>
+    <linearGradient id="coinFace" x1=".12" y1=".08" x2=".92" y2=".95">
+      <stop offset="0" stop-color="#8a452f"/>
+      <stop offset=".25" stop-color="#5a2b24"/>
+      <stop offset=".58" stop-color="#2a1718"/>
+      <stop offset=".82" stop-color="#6d3426"/>
+      <stop offset="1" stop-color="#3c1e1a"/>
+    </linearGradient>
+    <linearGradient id="coinRim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffd4a3"/>
+      <stop offset=".18" stop-color="#f0a05f"/>
+      <stop offset=".48" stop-color="#7e3e28"/>
+      <stop offset=".72" stop-color="#d97843"/>
+      <stop offset="1" stop-color="#ffe0b1"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffd8aa"/>
+      <stop offset=".45" stop-color="#e99c61"/>
+      <stop offset="1" stop-color="#a95134"/>
+    </linearGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="18"/></filter>
+    <filter id="shadow"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000" flood-opacity=".7"/></filter>
+    <filter id="rockshadow"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#000" flood-opacity=".5"/></filter>
   </defs>
 
-  <rect width="640" height="420" rx="40" fill="url(#sky)"/>
-  <circle cx="425" cy="120" r="185" fill="url(#glow)" filter="url(#blur)"/>
-  <path d="M0 300 L115 185 L185 238 L292 128 L396 250 L472 183 L640 310 L640 420 L0 420 Z" fill="#111318" opacity=".95"/>
-  <path d="M0 328 L92 246 L155 278 L261 184 L346 272 L454 214 L640 332 L640 420 L0 420 Z" fill="#0a0d11"/>
-  <path d="M0 360 C120 315 194 354 286 315 C384 274 494 292 640 340 L640 420 L0 420 Z" fill="#05080b"/>
-  <g opacity=".25">
-    <path d="M66 322 L149 258 L202 305" stroke="#d67b46" stroke-width="2" fill="none"/>
-    <path d="M242 285 L309 213 L379 294" stroke="#c26a42" stroke-width="2" fill="none"/>
-    <path d="M438 277 L503 231 L580 315" stroke="#b95a37" stroke-width="2" fill="none"/>
+  <rect width="760" height="460" fill="url(#sky)"/>
+  <rect width="760" height="460" fill="url(#sunGlow)"/>
+  <circle cx="170" cy="62" r="225" fill="url(#planet)" stroke="#d58a56" stroke-opacity=".08" stroke-width="2"/>
+  <path d="M-40 84 C42 18 152 -22 273 -3" fill="none" stroke="#d98b52" stroke-opacity=".08" stroke-width="2"/>
+  <path d="M-35 100 C65 30 160 -4 288 10" fill="none" stroke="#d98b52" stroke-opacity=".05" stroke-width="5"/>
+
+  <g opacity=".72" filter="url(#soft)">
+    <ellipse cx="545" cy="105" rx="160" ry="58" fill="#b45e3c" opacity=".22"/>
+    <ellipse cx="350" cy="95" rx="180" ry="50" fill="#d58a56" opacity=".09"/>
   </g>
 
-  <g transform="translate(385 190) rotate(-8)" filter="url(#shadow)">
-    <ellipse cx="0" cy="58" rx="128" ry="34" fill="#000" opacity=".45"/>
-    <circle cx="0" cy="0" r="118" fill="#3d1d18" stroke="url(#rim)" stroke-width="14"/>
-    <circle cx="0" cy="0" r="96" fill="url(#copper)" stroke="#4f271d" stroke-width="4"/>
-    <circle cx="0" cy="0" r="81" fill="#5a2c22" opacity=".5"/>
-    <circle cx="0" cy="0" r="72" fill="none" stroke="#f3a867" stroke-opacity=".38" stroke-width="2"/>
-    <path d="M-54 -29 L-22 42 L0 3 L22 42 L56 -33 L28 -29 L1 15 L-24 -31 Z" fill="#f4b879" stroke="#6b321f" stroke-width="2"/>
-    <text x="0" y="69" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="7" fill="#f5b36f">WADAN</text>
+  <path d="M0 314 L70 250 L122 285 L192 194 L248 266 L322 174 L402 278 L468 223 L532 282 L598 212 L690 294 L760 244 L760 460 L0 460 Z" fill="url(#ridge1)" opacity=".9"/>
+  <path d="M0 348 L86 286 L132 316 L211 242 L274 309 L356 232 L427 314 L506 264 L578 322 L654 266 L760 334 L760 460 L0 460 Z" fill="url(#ridge2)"/>
+  <g fill="none" stroke="#d6844d" stroke-opacity=".26" stroke-width="2">
+    <path d="M63 309 L122 260 L166 300"/>
+    <path d="M180 286 L232 226 L286 293"/>
+    <path d="M325 280 L371 221 L421 295"/>
+    <path d="M520 298 L575 246 L629 307"/>
   </g>
 
-  <g opacity=".7">
-    <circle cx="105" cy="92" r="2.4" fill="#ffb876"/>
-    <circle cx="156" cy="56" r="1.8" fill="#f7a45e"/>
-    <circle cx="238" cy="82" r="1.4" fill="#e58a55"/>
-    <circle cx="548" cy="63" r="2.1" fill="#f5a764"/>
+  <g transform="translate(522 215) rotate(-7)" filter="url(#shadow)">
+    <ellipse cx="0" cy="106" rx="150" ry="34" fill="#000" opacity=".46"/>
+    <circle cx="0" cy="0" r="126" fill="#2d1716" stroke="url(#coinRim)" stroke-width="17"/>
+    <circle cx="0" cy="0" r="106" fill="url(#coinFace)" stroke="#5c2b20" stroke-width="3"/>
+    <circle cx="0" cy="0" r="93" fill="none" stroke="#e49357" stroke-opacity=".28" stroke-width="2"/>
+    <circle cx="0" cy="0" r="82" fill="none" stroke="#f4b472" stroke-opacity=".12" stroke-width="1"/>
+    <g opacity=".14" stroke="#ffd1a0" stroke-width="1">
+      <path d="M-82 -24 L71 34"/>
+      <path d="M-62 -63 L58 68"/>
+      <path d="M-74 49 L74 -46"/>
+      <circle cx="-44" cy="-48" r="16"/>
+      <circle cx="47" cy="44" r="12"/>
+    </g>
+    <path d="M-66 -36 L-28 54 L1 7 L28 54 L69 -42 L38 -37 L2 22 L-31 -39 Z" fill="url(#mark)" stroke="#411d16" stroke-width="2"/>
+    <text x="0" y="77" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="8" fill="#e8a364">WADAN</text>
   </g>
+
+  <g filter="url(#rockshadow)">
+    <path d="M318 352 L373 296 L415 331 L452 282 L493 335 L540 300 L597 347 L760 338 L760 460 L290 460 Z" fill="#090b0e"/>
+    <path d="M378 366 L420 329 L450 347 L489 315 L530 351 L568 323 L618 367 Z" fill="#111215"/>
+    <path d="M435 350 L467 320 L489 339" fill="none" stroke="#c66b42" stroke-opacity=".24" stroke-width="2"/>
+    <path d="M545 353 L578 327 L611 359" fill="none" stroke="#d27a49" stroke-opacity=".18" stroke-width="2"/>
+  </g>
+
+  <path d="M0 388 C120 354 238 389 350 362 C474 331 588 351 760 382 L760 460 L0 460 Z" fill="#04070a"/>
+  <path d="M0 391 C124 366 220 397 342 372 C493 341 592 359 760 389" fill="none" stroke="#ce7549" stroke-opacity=".12" stroke-width="2"/>
 </svg>
