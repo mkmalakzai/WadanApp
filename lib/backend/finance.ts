@@ -245,7 +245,15 @@ export async function getStakingOverview(accessToken: string) {
     const elapsedMs = Math.max(0, now - started);
     const elapsedDays = elapsedMs / 86400000;
     const completedDays = Math.min(Math.floor(elapsedDays), durationDays);
+    const completedDays24hAgo = Math.min(
+      Math.floor(Math.max(0, elapsedMs - 86400000) / 86400000),
+      durationDays
+    );
     const dailyProfit = principal * (dailyRate / 100);
+    const last24hProfit =
+      stake.status === "active"
+        ? dailyProfit * Math.max(0, completedDays - completedDays24hAgo)
+        : 0;
     const totalProjectedProfit = dailyProfit * durationDays;
     const storedReward = toNumber(stake.accrued_reward);
     const earnedProfit =
@@ -268,6 +276,7 @@ export async function getStakingOverview(accessToken: string) {
       dailyRate,
       durationDays,
       dailyProfit,
+      last24hProfit,
       earnedProfit,
       totalProjectedProfit,
       completedDays,
@@ -282,9 +291,10 @@ export async function getStakingOverview(accessToken: string) {
   const activePositions = positions.filter((position) => position.status === "active");
   const summary = {
     totalStaked: activePositions.reduce((sum, position) => sum + position.principal, 0),
-    todayProfit: activePositions
-      .filter((position) => !position.matured)
-      .reduce((sum, position) => sum + position.dailyProfit, 0),
+    todayProfit: activePositions.reduce(
+      (sum, position) => sum + position.last24hProfit,
+      0
+    ),
     allProfit: positions.reduce((sum, position) => sum + position.earnedProfit, 0),
     expectedProfit: activePositions.reduce(
       (sum, position) => sum + position.totalProjectedProfit,
