@@ -255,6 +255,22 @@ export async function loginWithEmail(email: string, password: string): Promise<A
   };
 }
 
+export async function refreshWithToken(refreshToken: string): Promise<AuthSessionResult> {
+  const auth = await authFetch<LoginResponse>("token?grant_type=refresh_token", {
+    refresh_token: refreshToken,
+  });
+
+  if (!auth.user?.id || !auth.access_token || !auth.refresh_token) {
+    throw new Error("Session could not be refreshed.");
+  }
+
+  return {
+    accessToken: auth.access_token,
+    refreshToken: auth.refresh_token,
+    expiresIn: auth.expires_in,
+    user: auth.user,
+  };
+}
 
 export type CurrentAccountProfile = {
   appUserId: string;
