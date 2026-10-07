@@ -51,12 +51,22 @@ type StakingOverview = {
   positions:Array<{
     status:string;
     projectedReward:number;
+    dailyProfit:number;
+    earnedProfit:number;
+    totalProjectedProfit:number;
   }>;
   plans:Array<{
     id:string;
     title:string;
     enabled:boolean;
   }>;
+  summary:{
+    totalStaked:number;
+    todayProfit:number;
+    allProfit:number;
+    expectedProfit:number;
+    activeCount:number;
+  };
 };
 
 type ReferralOverview = {
@@ -93,7 +103,8 @@ export default function DashboardPage() {
   const totalUsd=wallet?.totalUsd ?? 0;
   const price=wallet?.wdcPrice ?? 0.01;
   const activePositions=(staking?.positions || []).filter((item)=>item.status==="active");
-  const projectedRewards=activePositions.reduce((sum,item)=>sum+Number(item.projectedReward || 0),0);
+  const todayProfit=Number(staking?.summary?.todayProfit || 0);
+  const allProfit=Number(staking?.summary?.allProfit || 0);
   const referralTotal=Number(referral.total || 0);
   const referralRewards=Number(referral.lifetime_rewards || 0);
 
@@ -193,9 +204,9 @@ export default function DashboardPage() {
           </div>
 
           <div className="overview-grid-v2 overview-grid-three">
-            <article><span className="overview-icon"><CircleDollarSign size={21}/></span><div><small>Total Staked</small><strong>{walletReady ? (wallet?.totalStaked ?? 0).toLocaleString("en-US",{maximumFractionDigits:4})+" WDC" : "—"}</strong><em>{stakingReady ? activePositions.length+" active positions" : "Checking positions"}</em></div></article>
-            <article><span className="overview-icon"><Gift size={21}/></span><div><small>Projected rewards</small><strong>{stakingReady ? projectedRewards.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC" : "—"}</strong><em>Current staking estimate</em></div></article>
-            <article><span className="overview-icon"><Users size={21}/></span><div><small>Referrals</small><strong>{referralReady ? referralTotal : "—"}</strong><em>{referralReady ? referralRewards.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC credited" : "Checking network"}</em></div></article>
+            <article><span className="overview-icon"><CircleDollarSign size={21}/></span><div><small>Total Staked</small><strong>{stakingReady ? Number(staking?.summary?.totalStaked || 0).toLocaleString("en-US",{maximumFractionDigits:4})+" WDC" : "—"}</strong><em>{stakingReady ? activePositions.length+" active positions" : "Checking positions"}</em></div></article>
+            <article><span className="overview-icon"><Gift size={21}/></span><div><small>Today profit</small><strong>{stakingReady ? todayProfit.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC" : "—"}</strong><em>Daily staking earning</em></div></article>
+            <article><span className="overview-icon"><Coins size={21}/></span><div><small>All profit</small><strong>{stakingReady ? allProfit.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC" : "—"}</strong><em>Completed staking days</em></div></article>
           </div>
         </section>
 
@@ -220,7 +231,7 @@ export default function DashboardPage() {
           <article className="dash-panel gradient-border">
             <div className="dash-panel-head">
               <div><p>REFERRAL</p><h3>Invite & grow</h3></div>
-              <Gift size={20}/>
+              <Users size={20}/>
             </div>
             <div className="referral-box">
               <span>Your referral code</span>
