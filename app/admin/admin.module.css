@@ -1031,3 +1031,252 @@
     min-height:180px;
   }
 }
+
+
+/* =========================================================
+   ADMIN OPERATIONS V1 — live controls polish
+   ========================================================= */
+
+.usersToolbar>button{
+  justify-self:end;
+}
+
+.opsActions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:6px;
+}
+
+.opsActions button,
+.planControls button,
+.settingsGrid button{
+  min-height:36px;
+  padding:0 11px;
+  border:1px solid rgba(255,176,0,.16);
+  border-radius:10px;
+  background:linear-gradient(180deg,rgba(255,176,0,.10),rgba(255,176,0,.045));
+  color:#ffd86b;
+  font:inherit;
+  font-size:8px;
+  font-weight:850;
+  cursor:pointer;
+}
+
+.opsActions button:last-child{
+  border-color:rgba(255,255,255,.08);
+  background:rgba(255,255,255,.025);
+  color:#a79f94;
+}
+
+.planControls{
+  display:grid;
+  grid-template-columns:92px auto auto;
+  gap:7px;
+  align-items:center;
+}
+
+.planControls input{
+  width:100%;
+  min-width:0;
+  height:38px;
+  padding:0 10px;
+  border:1px solid rgba(255,255,255,.075);
+  border-radius:10px;
+  outline:0;
+  background:#0b1119;
+  color:#f3eadf;
+  font:inherit;
+  font-size:9px;
+}
+
+.settingsGrid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+  margin-top:12px;
+}
+
+.settingsGrid label{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:8px;
+  align-items:center;
+  padding:12px;
+  border:1px solid rgba(255,255,255,.055);
+  border-radius:14px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.018),rgba(255,255,255,.010));
+}
+
+.settingsGrid label>span{
+  grid-column:1/-1;
+  display:block;
+  color:#8e877c;
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.02em;
+}
+
+.settingsGrid input{
+  width:100%;
+  min-width:0;
+  height:42px;
+  padding:0 11px;
+  border:1px solid rgba(255,255,255,.075);
+  border-radius:11px;
+  outline:0;
+  background:#0b1119;
+  color:#efe7db;
+  font:inherit;
+  font-size:10px;
+}
+
+.settingsGrid input:focus,
+.planControls input:focus{
+  border-color:rgba(255,176,0,.35);
+  box-shadow:0 0 0 3px rgba(255,176,0,.05);
+}
+
+.toggleGrid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  margin-top:10px;
+}
+
+.toggleGrid button{
+  min-height:64px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:5px;
+  padding:11px 12px;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:13px;
+  background:rgba(255,255,255,.014);
+  color:#857e74;
+  font:inherit;
+  text-align:left;
+  cursor:pointer;
+}
+
+.toggleGrid button span{
+  font-size:8px;
+  font-weight:800;
+}
+
+.toggleGrid button strong{
+  font-size:10px;
+  color:#a8a095;
+}
+
+.toggleGrid button.activeToggle{
+  border-color:rgba(88,217,169,.20);
+  background:linear-gradient(180deg,rgba(88,217,169,.08),rgba(88,217,169,.025));
+  color:#58d9a9;
+}
+
+.toggleGrid button.activeToggle strong{
+  color:#8cebc7;
+}
+
+@media(max-width:760px){
+  .usersToolbar>button{
+    justify-self:end;
+    width:auto;
+  }
+
+  .settingsGrid{
+    grid-template-columns:1fr;
+    gap:7px;
+    margin-top:10px;
+  }
+
+  .settingsGrid label{
+    padding:10px;
+    border-radius:12px;
+  }
+
+  .settingsGrid label>span{
+    font-size:7.8px;
+  }
+
+  .settingsGrid input{
+    height:40px;
+    font-size:9px;
+  }
+
+  .settingsGrid button{
+    min-width:68px;
+    min-height:40px;
+  }
+
+  .toggleGrid{
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+  }
+
+  .toggleGrid button{
+    min-height:58px;
+    padding:9px 10px;
+  }
+
+  .userRow:has(.planControls){
+    grid-template-columns:36px minmax(0,1fr);
+  }
+
+  .planControls{
+    grid-column:1/-1;
+    grid-template-columns:minmax(0,1fr) auto auto;
+    width:100%;
+    margin-top:2px;
+  }
+
+  .planControls input{
+    height:38px;
+  }
+
+  .opsActions{
+    grid-column:3;
+    grid-row:1 / span 2;
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .opsActions button{
+    min-height:31px;
+    padding:0 8px;
+    font-size:7px;
+  }
+
+  .workspaceState{
+    margin-top:10px;
+    max-width:100%;
+    border-radius:10px;
+    white-space:normal;
+    line-height:1.35;
+  }
+}
+
+@media(max-width:390px){
+  .settingsGrid label{
+    grid-template-columns:minmax(0,1fr) 62px;
+  }
+
+  .settingsGrid button{
+    min-width:62px;
+    padding:0 8px;
+  }
+
+  .planControls{
+    grid-template-columns:minmax(0,1fr) 76px 56px;
+    gap:5px;
+  }
+
+  .planControls button{
+    padding:0 7px;
+    font-size:7px;
+  }
+}
