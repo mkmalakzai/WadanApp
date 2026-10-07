@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
 import ExploreShortcuts from "../components/ExploreShortcuts";
+import { fetchCached, readCached } from "../../lib/client-cache";
 
 type WalletSummary = {
   profile:{
@@ -69,22 +70,16 @@ function title(value:string){
 }
 
 export default function DashboardPage() {
-  const [wallet,setWallet]=useState<WalletSummary|null>(null);
-  const [staking,setStaking]=useState<StakingOverview|null>(null);
-  const [referral,setReferral]=useState<ReferralOverview>({});
+  const [wallet,setWallet]=useState<WalletSummary|null>(()=>readCached<WalletSummary>("wallet:summary"));
+  const [staking,setStaking]=useState<StakingOverview|null>(()=>readCached<StakingOverview>("staking:overview"));
+  const [referral,setReferral]=useState<ReferralOverview>(()=>readCached<ReferralOverview>("referrals:overview") || {});
 
   useEffect(()=>{
-    void (async()=>{
-      const [walletRes,stakingRes,referralRes]=await Promise.all([
-        fetch("/api/wallet/summary",{cache:"no-store"}),
-        fetch("/api/staking/overview",{cache:"no-store"}),
-        fetch("/api/referrals/overview",{cache:"no-store"}),
-      ]);
-
-      if(walletRes.ok) setWallet(await walletRes.json());
-      if(stakingRes.ok) setStaking(await stakingRes.json());
-      if(referralRes.ok) setReferral(await referralRes.json());
-    })();
+    void Promise.all([
+      fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary").then(setWallet),
+      fetchCached<StakingOverview>("staking:overview","/api/staking/overview").then(setStaking),
+      fetchCached<ReferralOverview>("referrals:overview","/api/referrals/overview").then(setReferral),
+    ]).catch(()=>undefined);
   },[]);
 
   const name=wallet?.profile.displayName || "Member";
@@ -118,7 +113,7 @@ export default function DashboardPage() {
 
         <div className="dash-security">
           <ShieldCheck size={19}/>
-          <div><strong>Account protected</strong><span>Authenticated backend session</span></div>
+          <div><strong>Account protected</strong><span>Secure account session</span></div>
         </div>
 
         <nav className="dash-nav bottom">
@@ -168,14 +163,14 @@ export default function DashboardPage() {
           </div>
           <div className="wdc-price-right">
             <span>BNB Smart Chain</span>
-            <strong>Admin-set reference price</strong>
+            <strong>WADAN reference price</strong>
           </div>
         </section>
 
         <section className="action-section action-section-spaced">
           <div className="section-strip">
             <div><span>QUICK ACTIONS</span><strong>Move your assets</strong></div>
-            <small>Live backend</small>
+            <small>Available now</small>
           </div>
 
           <div className="action-dock">
@@ -211,7 +206,7 @@ export default function DashboardPage() {
               {(staking?.plans || []).map((plan)=>(
                 <div className="staking-card" key={plan.id}>
                   <div className="staking-badge">{plan.id.toUpperCase()}</div>
-                  <div><strong>{plan.title}</strong><span>{plan.enabled ? "Available" : "Disabled by admin"}</span></div>
+                  <div><strong>{plan.title}</strong><span>{plan.enabled ? "Available" : "Unavailable"}</span></div>
                   <Link href="/staking">View plan</Link>
                 </div>
               ))}
@@ -247,7 +242,7 @@ export default function DashboardPage() {
               )) : (
                 <div>
                   <span className="activity-dot">—</span>
-                  <div><strong>No activity yet</strong><small>Live ledger connected</small></div>
+                  <div><strong>No activity yet</strong><small>Your activity will appear here</small></div>
                   <div className="activity-right"><strong>0</strong><small>Records</small></div>
                 </div>
               )}
