@@ -13,6 +13,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import MobileDock from "../../components/MobileDock";
+import { fetchCached, readCached, invalidateCached } from "../../../lib/client-cache";
 
 type Asset = "USDT" | "WDC";
 
@@ -23,7 +24,7 @@ type Summary = {
 };
 
 export default function WalletSwapPage() {
-  const [summary,setSummary]=useState<Summary | null>(null);
+  const [summary,setSummary]=useState<Summary | null>(()=>readCached<Summary>("wallet:summary"));
   const [from,setFrom]=useState<Asset>("USDT");
   const [amount,setAmount]=useState("");
   const [review,setReview]=useState(false);
@@ -32,12 +33,9 @@ export default function WalletSwapPage() {
   const [error,setError]=useState("");
 
   useEffect(()=>{
-    void (async()=>{
-      const response=await fetch("/api/wallet/summary",{cache:"no-store"});
-      const data=await response.json();
-      if(response.ok) setSummary(data);
-      else setError(data.error || "Unable to load wallet.");
-    })();
+    void fetchCached<Summary>("wallet:summary","/api/wallet/summary")
+      .then(setSummary)
+      .catch((err)=>setError(err instanceof Error ? err.message : "Unable to load wallet."));
   },[]);
 
   const to:Asset=from==="USDT" ? "WDC" : "USDT";
@@ -81,8 +79,10 @@ export default function WalletSwapPage() {
       setReview(false);
       setAmount("");
 
-      const refreshed=await fetch("/api/wallet/summary",{cache:"no-store"});
-      if(refreshed.ok) setSummary(await refreshed.json());
+      invalidateCached("wallet:summary","history");
+      void fetchCached<Summary>("wallet:summary","/api/wallet/summary",{force:true})
+        .then(setSummary)
+        .catch(()=>undefined);
     }catch(err){
       setError(err instanceof Error ? err.message : "Unable to execute swap.");
     }finally{
@@ -106,13 +106,13 @@ export default function WalletSwapPage() {
         <div className="flow-heading">
           <p>WALLET SWAP</p>
           <h1>Swap</h1>
-          <span>Convert between USDT and WDC inside your WADAN wallet using the admin-set reference price.</span>
+          <span>Convert between USDT and WDC inside your WADAN wallet using the current WDC reference price.</span>
         </div>
 
-        {!enabled && (
+        {summary && !enabled && (
           <div className="flow-warning">
             <Info size={20}/>
-            <p><strong>Swaps are currently disabled.</strong> The admin can enable swaps after setting the WDC reference price.</p>
+            <p><strong>Swaps are currently disabled.</strong> Swaps are temporarily unavailable.</p>
           </div>
         )}
 
@@ -120,7 +120,7 @@ export default function WalletSwapPage() {
           <section className="swap-experience">
             <div className="swap-price-line">
               <div><small>Reference price</small><strong>1 WDC = {price.toLocaleString("en-US",{style:"currency",currency:"USD",minimumFractionDigits:4,maximumFractionDigits:4})}</strong></div>
-              <span><RefreshCw size={16}/> Live backend</span>
+              <span><RefreshCw size={16}/> Current rate</span>
             </div>
 
             <div className="swap-box">
@@ -144,7 +144,7 @@ export default function WalletSwapPage() {
             <button type="button" className="swap-flip" onClick={flip} aria-label="Reverse swap direction"><ArrowDownUp size={22}/></button>
 
             <div className="swap-box receive">
-              <div className="swap-box-head"><span>You receive</span><small>Backend quote</small></div>
+              <div className="swap-box-head"><span>You receive</span><small>Estimated amount</small></div>
               <div className="swap-input-row">
                 <strong>{receive.toFixed(to==="WDC" ? 2 : 4)}</strong>
                 <button type="button" className="swap-asset-pill">
@@ -178,7 +178,7 @@ export default function WalletSwapPage() {
               <div><span>You pay</span><strong>{value.toFixed(4)} {from}</strong></div>
               <div><span>You receive</span><strong>{receive.toFixed(to==="WDC" ? 2 : 4)} {to}</strong></div>
               <div><span>Rate</span><strong>1 WDC = {price.toLocaleString("en-US",{style:"currency",currency:"USD",minimumFractionDigits:4,maximumFractionDigits:4})}</strong></div>
-              <div><span>Settlement</span><strong>Atomic backend transaction</strong></div>
+              <div><span>Settlement</span><strong>Instant wallet conversion</strong></div>
             </div>
 
             {error && <div className="auth-live-message error">{error}</div>}
