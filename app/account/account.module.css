@@ -7,12 +7,12 @@
   gap:22px;
   align-items:center;
   padding:26px;
-  border:1px solid rgba(255,176,0,.20);
+  border:1px solid rgba(255,255,255,.075);
   border-radius:27px;
   background:
-    radial-gradient(circle at 8% 5%,rgba(255,176,0,.18),transparent 23rem),
-    radial-gradient(circle at 90% 12%,rgba(255,218,110,.06),transparent 18rem),
-    linear-gradient(145deg,#111720 0%,#0b1018 58%,#070b11 100%);
+    radial-gradient(circle at 8% 5%,rgba(246,168,0,.10),transparent 23rem),
+    radial-gradient(circle at 90% 12%,rgba(246,168,0,.035),transparent 18rem),
+    linear-gradient(145deg,#0f141b 0%,#0a0f15 58%,#070a0e 100%);
   box-shadow:0 28px 80px rgba(0,0,0,.30);
 }
 
@@ -30,13 +30,13 @@
   flex:0 0 auto;
   border-radius:28px;
   color:#171006;
-  background:linear-gradient(145deg,#ffe998,#ffbd26 58%,#a96400);
+  background:linear-gradient(145deg,#ffbd2e,#f6a800 58%,#b65a00);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 18px 48px rgba(255,176,0,.12);
   font-size:25px;
   font-weight:950;
 }
 
-.identity span{color:#ffb000;font-size:9px;font-weight:900;letter-spacing:.15em}
+.identity span{color:#f6a800;font-size:9px;font-weight:900;letter-spacing:.15em}
 .identity h2{margin:6px 0 0;font-size:38px;line-height:1;letter-spacing:-.045em}
 .identity p{margin:7px 0 0;color:#817a70;font-size:10px}
 
@@ -85,7 +85,7 @@
 }
 .tabs button.active{
   color:#171006;
-  background:linear-gradient(135deg,#ffe58e,#ffb000 58%,#a86400);
+  background:linear-gradient(135deg,#ffbd2e,#f6a800 58%,#d87800);
 }
 
 .contentGrid{
@@ -110,9 +110,9 @@
   justify-content:space-between;
   gap:12px;
 }
-.panelHead>div>span{display:block;color:#ffb000;font-size:9px;font-weight:900;letter-spacing:.14em}
+.panelHead>div>span{display:block;color:#f6a800;font-size:9px;font-weight:900;letter-spacing:.14em}
 .panelHead>div>strong{display:block;margin-top:4px;font-size:18px}
-.panelHead>svg{color:#ffd86b}
+.panelHead>svg{color:#f6a800}
 
 .overviewRows,.preferenceRows,.sideRows{margin-top:14px}
 .overviewRows>div,.preferenceRows>div{
@@ -136,7 +136,7 @@
   padding:0 2px;
   border:0;
   background:transparent;
-  color:#ffd86b;
+  color:#f6a800;
   font-size:10px;
   font-weight:850;
   cursor:pointer;
@@ -229,7 +229,7 @@
   border:0;
   border-radius:13px;
   color:#171006;
-  background:linear-gradient(135deg,#ffe58e,#ffb000 58%,#a86400);
+  background:linear-gradient(135deg,#ffbd2e,#f6a800 58%,#d87800);
   font-size:10px;
   font-weight:900;
   cursor:pointer;
@@ -251,10 +251,10 @@
 .securityItem button{
   min-width:112px;
   min-height:40px;
-  border:1px solid rgba(255,176,0,.16);
+  border:1px solid rgba(246,168,0,.14);
   border-radius:11px;
-  background:rgba(255,176,0,.05);
-  color:#ffd86b;
+  background:rgba(246,168,0,.045);
+  color:#f6a800;
   font-size:9px;
   font-weight:850;
   cursor:pointer;
@@ -262,7 +262,7 @@
 .securityItem button.on{
   color:#171006;
   border-color:transparent;
-  background:linear-gradient(135deg,#ffe58e,#ffb000 58%,#a86400);
+  background:linear-gradient(135deg,#ffbd2e,#f6a800 58%,#d87800);
 }
 
 .session{
@@ -280,8 +280,8 @@
   width:40px;height:40px;
   display:grid;place-items:center;
   border-radius:12px;
-  color:#ffd86b;
-  background:rgba(255,176,0,.06);
+  color:#f6a800;
+  background:rgba(246,168,0,.05);
 }
 .session strong,.session small{display:block}
 .session strong{font-size:11px}
@@ -310,7 +310,7 @@
 .toggleRows span{margin-top:4px;color:#716b62;font-size:8px}
 .toggleRows input{
   width:42px;height:22px;
-  accent-color:#ffb000;
+  accent-color:#f6a800;
 }
 
 .accountActions{
@@ -332,8 +332,8 @@
 .accountActions a{
   text-decoration:none;
   border:1px solid rgba(255,176,0,.15);
-  background:rgba(255,176,0,.05);
-  color:#ffd86b;
+  background:rgba(246,168,0,.045);
+  color:#f6a800;
 }
 .accountActions button{
   border:1px solid rgba(255,95,95,.12);
@@ -405,4 +405,37 @@
   .securityScore{grid-template-columns:78px 1fr}
   .scoreRing{width:72px;height:72px}
   .snapshot strong{font-size:15px}
+}
+
+
+/* ACCOUNT V3 — compact exchange profile */
+.hero{
+  box-shadow:0 20px 52px rgba(0,0,0,.28);
+}
+.tabs{
+  border-color:rgba(255,255,255,.065);
+  background:#0a0e13;
+}
+.panel,.widePanel,.formPanel{
+  border-color:rgba(255,255,255,.065);
+  background:linear-gradient(180deg,#0d1218,#090d12);
+  box-shadow:none;
+}
+.heroStatus>div{
+  border-color:rgba(255,255,255,.055);
+  background:rgba(255,255,255,.012);
+}
+.snapshot>div{
+  border-color:rgba(255,255,255,.05);
+  background:rgba(255,255,255,.012);
+}
+
+@media(max-width:760px){
+  .hero{padding:15px 13px;border-radius:19px}
+  .avatar{width:64px;height:64px;border-radius:19px;font-size:18px}
+  .identity h2{font-size:25px}
+  .identity p{font-size:8.5px}
+  .heroStatus>div{min-height:64px;padding:10px}
+  .tabs{border-radius:15px}
+  .tabs button{min-height:40px;font-size:8.5px}
 }
