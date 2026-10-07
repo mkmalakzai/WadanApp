@@ -8,6 +8,7 @@ import {
   CheckCircle2,
   CircleDollarSign,
   Coins,
+  History,
   Info,
   ShieldCheck,
 } from "lucide-react";
@@ -103,6 +104,8 @@ export default function WithdrawPage() {
           <h1>Withdraw</h1>
           <span>Create a withdrawal request on BNB Smart Chain. Funds are reserved while the request is reviewed.</span>
         </div>
+
+        <Link href="/history/withdraw" className="flow-history-link"><History size={16}/> View history</Link>
 
         {summary && !enabled && (
           <div className="flow-warning">
