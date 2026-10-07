@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
 import { Coins, Home, UserRound, Users, WalletCards } from "lucide-react";
+import { fetchCached } from "../../lib/client-cache";
 
 const items = [
   { href: "/dashboard", label: "Home", icon: Home },
@@ -18,6 +19,20 @@ export default function MobileDock({ active }: { active?: string }) {
 
   useEffect(() => {
     setMounted(true);
+
+    const warm = [
+      ["wallet:summary", "/api/wallet/summary"],
+      ["account:me", "/api/account/me"],
+      ["staking:overview", "/api/staking/overview"],
+      ["referrals:overview", "/api/referrals/overview"],
+      ["wallet:deposit", "/api/wallet/deposit"],
+      ["history", "/api/history"],
+    ] as const;
+
+    for (const [key, url] of warm) {
+      void fetchCached(key, url).catch(() => undefined);
+    }
+
     return () => setMounted(false);
   }, []);
 
