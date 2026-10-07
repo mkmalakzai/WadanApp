@@ -4841,3 +4841,204 @@ linear-gradient(135deg,rgba(255,229,150,.56),rgba(255,176,0,.16),rgba(255,255,25
   opacity:.62;
   cursor:not-allowed;
 }
+
+
+/* WADAN V19 — STABILITY + PREMIUM COLOR RESET */
+:root{
+  --wadan-gold:#ffb000;
+  --wadan-gold-strong:#ff9800;
+  --wadan-bg:#05080d;
+  --wadan-panel:#0b1119;
+  --wadan-panel-2:#0f1620;
+  --wadan-text:#f2ede5;
+  --wadan-muted:#8c8478;
+}
+
+html,body{
+  background:var(--wadan-bg);
+  color:var(--wadan-text);
+}
+
+.dash-shell,
+.flow-shell{
+  background:
+    radial-gradient(circle at 50% -10%,rgba(255,176,0,.085),transparent 27rem),
+    linear-gradient(180deg,#070b11 0%,#05080d 44%,#04070b 100%);
+}
+
+.public-grid-bg{
+  opacity:.34;
+}
+
+.dash-topbar,
+.flow-topbar{
+  background:linear-gradient(180deg,rgba(5,8,13,.98),rgba(5,8,13,.90) 80%,rgba(5,8,13,0));
+}
+
+.dash-topbar h1,
+.flow-heading h1{
+  color:#f4efe8;
+}
+
+.dash-topbar p,
+.flow-heading p,
+.section-strip span,
+.dash-panel-head p,
+.flow-section-title span{
+  color:var(--wadan-gold);
+}
+
+.dash-panel,
+.wallet-activity-panel,
+.wallet-security-v2,
+.wallet-asset-balance,
+.wallet-total,
+.wallet-flow-hint,
+.flow-warning,
+.withdraw-form,
+.swap-experience,
+.withdraw-review,
+.full-address-card,
+.deposit-network{
+  border-color:rgba(255,255,255,.075);
+  background:linear-gradient(180deg,rgba(14,20,29,.92),rgba(8,12,18,.96));
+}
+
+.portfolio-v2{
+  border-color:rgba(255,176,0,.18);
+  background:
+    radial-gradient(circle at 12% 0%,rgba(255,176,0,.12),transparent 22rem),
+    linear-gradient(145deg,#101720 0%,#0a1018 58%,#070b11 100%);
+}
+
+.action-link>span,
+.wallet-action-link>span,
+.overview-icon,
+.wdc-price-icon,
+.asset-symbol,
+.flow-brand>span{
+  color:var(--wadan-gold);
+  background:rgba(255,176,0,.085);
+}
+
+.action-link:hover,
+.wallet-action-link:hover{
+  border-color:rgba(255,176,0,.24);
+  background:rgba(255,176,0,.045);
+}
+
+.flow-primary{
+  background:linear-gradient(135deg,#ffc12a 0%,#ffad00 48%,#e58200 100%);
+  color:#160e02;
+  box-shadow:0 14px 34px rgba(255,152,0,.14);
+}
+
+.flow-secondary{
+  border-color:rgba(255,176,0,.15);
+  color:#d6a63d;
+}
+
+.wadan-mobile-dock a.active{
+  color:var(--wadan-gold);
+}
+
+.user-chip>span,
+.profile-large{
+  background:linear-gradient(145deg,#ffbd22,#ff9800 62%,#b85d00);
+  color:#150d02;
+}
+
+.gold-text{
+  color:var(--wadan-gold)!important;
+}
+
+.flow-loading-card{
+  min-height:78px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px;
+  border:1px solid rgba(255,176,0,.11);
+  border-radius:15px;
+  background:rgba(255,176,0,.035);
+}
+
+.flow-loading-card strong,
+.flow-loading-card p{
+  display:block;
+  margin:0;
+}
+
+.flow-loading-card strong{
+  color:#efe8dd;
+  font-size:12px;
+}
+
+.flow-loading-card p{
+  margin-top:4px;
+  color:#81796f;
+  font-size:10px;
+}
+
+.flow-loading-pulse{
+  width:14px;
+  height:14px;
+  flex:0 0 auto;
+  border-radius:50%;
+  background:var(--wadan-gold);
+  box-shadow:0 0 0 0 rgba(255,176,0,.28);
+  animation:wadanPulse 1.25s ease-out infinite;
+}
+
+@keyframes wadanPulse{
+  70%{box-shadow:0 0 0 9px rgba(255,176,0,0)}
+  100%{box-shadow:0 0 0 0 rgba(255,176,0,0)}
+}
+
+.route-transition-frame{
+  animation:wadanFastRoute .13s ease-out both!important;
+  filter:none!important;
+  will-change:opacity,transform;
+}
+
+.wallet-route-transition{
+  animation:none!important;
+  filter:none!important;
+}
+
+@keyframes wadanFastRoute{
+  from{opacity:.96;transform:translateY(2px)}
+  to{opacity:1;transform:none}
+}
+
+@media(max-width:760px){
+  .dash-topbar,
+  .flow-topbar{
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+  }
+
+  .dash-topbar p,
+  .flow-heading p,
+  .section-strip span,
+  .dash-panel-head p{
+    font-size:9px!important;
+  }
+
+  .action-link small,
+  .wallet-action-link small{
+    font-size:9px!important;
+  }
+
+  .flow-heading>span{
+    color:#91887c;
+    font-size:11px;
+    line-height:1.55;
+  }
+
+  .wadan-mobile-dock{
+    background:rgba(6,10,15,.98)!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+  }
+}
