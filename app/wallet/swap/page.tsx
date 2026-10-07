@@ -95,7 +95,7 @@ export default function WalletSwapPage() {
   const canReview=enabled && value>0 && value<=available;
 
   return (
-    <main className="flow-shell">
+    <main className="flow-shell feature-swap">
       <div className="public-grid-bg" />
 
       <section className="flow-page">
@@ -110,7 +110,6 @@ export default function WalletSwapPage() {
           <span>Convert between USDT and WDC inside your WADAN wallet using the current WDC reference price.</span>
         </div>
 
-        <Link href="/history/swap" className="flow-history-link"><History size={16}/> View history</Link>
 
         {summary && !enabled && (
           <div className="flow-warning">
@@ -193,6 +192,7 @@ export default function WalletSwapPage() {
           </section>
         )}
 
+        <Link href="/history/swap" className="feature-history-bottom"><History size={16}/> Swap history</Link>
         <MobileDock active="/wallet" />
       </section>
     </main>
