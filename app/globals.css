@@ -8128,3 +8128,292 @@ html,body{
     gap:7px!important;
   }
 }
+
+
+/* WADAN V28 — FINAL LUXURY MOTION + MICROINTERACTIONS */
+html,body{background:#030609!important}
+body{overflow-x:hidden}
+.wadan-app-layer{position:relative;z-index:1;min-height:100vh;isolation:isolate}
+.wadan-ambient{
+  position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+  opacity:.72;contain:strict;
+}
+.wadan-ambient-orb,
+.wadan-ambient-ring,
+.wadan-ambient-dust{position:absolute;will-change:transform,opacity}
+.wadan-ambient-orb{
+  border-radius:50%;filter:blur(78px);mix-blend-mode:screen;
+}
+.wadan-ambient-orb.orb-a{
+  width:36vw;height:36vw;min-width:280px;min-height:280px;
+  left:-12vw;top:-9vw;
+  background:radial-gradient(circle,rgba(217,139,82,.22) 0%,rgba(217,139,82,.08) 42%,transparent 72%);
+  animation:wadanAmbientA 18s ease-in-out infinite alternate;
+}
+.wadan-ambient-orb.orb-b{
+  width:32vw;height:32vw;min-width:250px;min-height:250px;
+  right:-11vw;top:18vh;
+  background:radial-gradient(circle,rgba(53,209,197,.16) 0%,rgba(53,209,197,.055) 42%,transparent 74%);
+  animation:wadanAmbientB 22s ease-in-out infinite alternate;
+}
+.wadan-ambient-orb.orb-c{
+  width:28vw;height:28vw;min-width:220px;min-height:220px;
+  left:30vw;bottom:-15vw;
+  background:radial-gradient(circle,rgba(105,184,255,.10) 0%,rgba(105,184,255,.035) 40%,transparent 72%);
+  animation:wadanAmbientC 25s ease-in-out infinite alternate;
+}
+.wadan-ambient-ring{
+  border:1px solid rgba(242,179,123,.07);
+  border-radius:50%;filter:blur(.1px);
+}
+.wadan-ambient-ring.ring-a{
+  width:48vw;height:48vw;min-width:420px;min-height:420px;
+  right:-18vw;top:-14vw;
+  animation:wadanRingSpin 40s linear infinite;
+}
+.wadan-ambient-ring.ring-b{
+  width:34vw;height:34vw;min-width:330px;min-height:330px;
+  left:-14vw;bottom:-15vw;border-color:rgba(53,209,197,.055);
+  animation:wadanRingSpinReverse 48s linear infinite;
+}
+.wadan-ambient-dust{
+  inset:-20%;
+  opacity:.22;
+  background-image:
+    radial-gradient(circle at 20% 30%,rgba(255,255,255,.22) 0 1px,transparent 1.4px),
+    radial-gradient(circle at 70% 60%,rgba(242,179,123,.20) 0 1px,transparent 1.4px),
+    radial-gradient(circle at 45% 80%,rgba(53,209,197,.18) 0 1px,transparent 1.4px);
+  background-size:110px 110px,150px 150px,190px 190px;
+  animation:wadanDustMove 32s linear infinite;
+}
+
+@keyframes wadanAmbientA{
+  0%{transform:translate3d(0,0,0) scale(.94)}
+  100%{transform:translate3d(10vw,8vh,0) scale(1.08)}
+}
+@keyframes wadanAmbientB{
+  0%{transform:translate3d(0,0,0) scale(1)}
+  100%{transform:translate3d(-9vw,12vh,0) scale(.9)}
+}
+@keyframes wadanAmbientC{
+  0%{transform:translate3d(0,0,0) scale(.95)}
+  100%{transform:translate3d(7vw,-10vh,0) scale(1.08)}
+}
+@keyframes wadanRingSpin{to{transform:rotate(360deg)}}
+@keyframes wadanRingSpinReverse{to{transform:rotate(-360deg)}}
+@keyframes wadanDustMove{to{transform:translate3d(90px,-70px,0)}}
+@keyframes wadanIconBreathe{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-2px) scale(1.06)}
+}
+@keyframes wadanBellWiggle{
+  0%,100%{transform:rotate(0)}
+  25%{transform:rotate(8deg)}
+  55%{transform:rotate(-7deg)}
+  75%{transform:rotate(4deg)}
+}
+@keyframes wadanAvatarGlow{
+  0%,100%{box-shadow:0 0 0 0 rgba(217,139,82,.0)}
+  50%{box-shadow:0 0 0 5px rgba(217,139,82,.055)}
+}
+@keyframes wadanBorderPulse{
+  0%,100%{box-shadow:0 0 0 1px rgba(255,255,255,.025),0 16px 42px rgba(0,0,0,.22)}
+  50%{box-shadow:0 0 0 1px rgba(255,255,255,.055),0 18px 48px rgba(0,0,0,.28)}
+}
+
+/* refined border glow */
+.premium-dashboard .premium-portfolio,
+.premium-dashboard .premium-metric-card,
+.premium-dashboard .premium-action,
+.premium-dashboard .premium-explore-card,
+.wallet-total,.wallet-asset-balance,.wallet-action-dock,.wallet-activity-panel,.wallet-security-v2,
+.flow-heading,.withdraw-form,.withdraw-review,.deposit-network,.qr-stage,.full-address-card,.swap-experience,
+.referralSpotlight,.shareCard,.depthCard,.networkCard,
+.staking-premium .hero,.staking-premium .profitGrid article,.staking-premium .planRail>button,.staking-premium .positionCard,
+.account-premium .hero,.account-premium .panel,.account-premium .widePanel,.account-premium .formPanel,
+.history-premium .hero,.history-premium .categoryHero,.history-premium .ledger,
+.explore-premium .searchBox,.explore-premium .shortcutGrid,.explore-premium .service,
+.auth-wrap-new,.admin-module-glow{
+  border-color:rgba(255,255,255,.105)!important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.022),
+    0 16px 46px rgba(0,0,0,.24),
+    inset 0 1px 0 rgba(255,255,255,.022)!important;
+}
+
+/* animated icon language */
+.premium-action>span,
+.premium-metric-icon,
+.premium-explore-card>span,
+.action-link>span,
+.wallet-action-link>span,
+.shortcutIcon,.serviceIcon,.overview-icon,.metricIcon,.metricIconGreen,.metricIconBlue,
+.typeIcon,.legendIcon,.wadan-mobile-dock a svg,.dash-nav a svg{
+  transition:transform .22s cubic-bezier(.2,.8,.2,1),filter .22s ease,color .22s ease;
+}
+.premium-action:hover>span svg,
+.premium-metric-card:hover .premium-metric-icon svg,
+.premium-explore-card:hover>span svg,
+.action-link:hover>span svg,
+.wallet-action-link:hover>span svg,
+.shortcut:hover .shortcutIcon svg,
+.service:hover .serviceIcon svg,
+.dash-nav a:hover svg{
+  transform:translateY(-2px) scale(1.08);
+  filter:drop-shadow(0 5px 12px rgba(217,139,82,.24));
+}
+.wadan-mobile-dock a.active svg{
+  animation:wadanIconBreathe 2.8s ease-in-out infinite;
+  filter:drop-shadow(0 4px 12px rgba(217,139,82,.20));
+}
+.icon-square:hover svg,
+.premium-icon-button:hover svg{
+  animation:wadanBellWiggle .55s ease;
+}
+.user-chip>span,.premium-avatar{
+  animation:wadanAvatarGlow 4.8s ease-in-out infinite;
+}
+
+/* premium interaction polish */
+.premium-action,
+.premium-metric-card,
+.premium-explore-card,
+.action-link,
+.wallet-action-link,
+.shortcut,
+.service,
+.flow-primary,
+.auth-submit,
+.feature-history-bottom,
+.wallet-history-bottom{
+  transition:
+    transform .18s cubic-bezier(.2,.8,.2,1),
+    border-color .18s ease,
+    box-shadow .18s ease,
+    filter .18s ease,
+    background-color .18s ease;
+}
+.premium-action:hover,
+.premium-metric-card:hover,
+.premium-explore-card:hover,
+.action-link:hover,
+.wallet-action-link:hover,
+.shortcut:hover,
+.service:hover{
+  transform:translateY(-2px);
+  border-color:rgba(242,179,123,.20)!important;
+}
+.premium-action:active,
+.premium-metric-card:active,
+.premium-explore-card:active,
+.action-link:active,
+.wallet-action-link:active,
+.shortcut:active,
+.service:active,
+.flow-primary:active,
+.auth-submit:active{
+  transform:scale(.985);
+}
+.flow-primary:hover,.auth-submit:hover{
+  filter:brightness(1.04) saturate(1.03);
+  box-shadow:0 16px 38px rgba(217,139,82,.20)!important;
+}
+
+/* route transition */
+.route-transition-frame{
+  animation:wadanRouteIn .18s cubic-bezier(.2,.8,.2,1) both!important;
+  transform-origin:50% 0;
+}
+@keyframes wadanRouteIn{
+  from{opacity:.86;transform:translate3d(0,5px,0) scale(.998)}
+  to{opacity:1;transform:none}
+}
+
+/* cleaner top chrome */
+.dash-top-actions{margin-right:8px!important}
+.premium-header-actions{margin-right:8px!important}
+.icon-square,.premium-icon-button{
+  position:relative;overflow:visible;
+}
+.icon-square::after,.premium-icon-button::after{
+  content:"";
+  position:absolute;right:7px;top:7px;width:5px;height:5px;border-radius:50%;
+  background:#d98b52;box-shadow:0 0 12px rgba(217,139,82,.55);
+}
+.user-chip,.premium-avatar{transform:translateX(-2px)}
+
+/* small premium details */
+.section-strip>div>span,
+.dash-panel-head p,
+.flow-heading p,
+.premium-section-head span{
+  letter-spacing:.16em!important;
+}
+.home-view-all,.premium-section-head>a{
+  color:#cfa47f!important;
+}
+.auth-live-message.success{
+  border-color:rgba(53,209,197,.18)!important;
+  background:rgba(53,209,197,.045)!important;
+  color:#75ded5!important;
+}
+.auth-live-message.error{
+  border-color:rgba(255,125,135,.17)!important;
+  background:rgba(255,125,135,.035)!important;
+}
+
+/* mobile final tuning */
+@media(max-width:760px){
+  .wadan-ambient{opacity:.52}
+  .wadan-ambient-orb{filter:blur(64px)}
+  .wadan-ambient-ring{opacity:.52}
+  .wadan-ambient-dust{opacity:.12}
+
+  .dash-top-actions{margin-right:10px!important}
+  .premium-header-actions{margin-right:10px!important}
+
+  .premium-dashboard .premium-metric-card,
+  .premium-dashboard .premium-action,
+  .premium-dashboard .premium-explore-card,
+  .wallet-action-link,
+  .shortcut,.service{
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.022),
+      0 10px 28px rgba(0,0,0,.20),
+      inset 0 1px 0 rgba(255,255,255,.018)!important;
+  }
+
+  .premium-dashboard .premium-action>span,
+  .wallet-action-link>span{
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 8px 20px rgba(0,0,0,.18);
+  }
+
+  .flow-heading,
+  .staking-premium .hero,
+  .referral-premium .hero,
+  .account-premium .hero,
+  .history-premium .hero{
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.02),
+      0 14px 34px rgba(0,0,0,.22)!important;
+  }
+
+  .wadan-mobile-dock{
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.025),
+      0 18px 44px rgba(0,0,0,.42),
+      inset 0 1px 0 rgba(255,255,255,.02)!important;
+  }
+  .wadan-mobile-dock a{transition:background .18s ease,color .18s ease,transform .18s ease}
+  .wadan-mobile-dock a:active{transform:scale(.94)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .wadan-ambient,
+  .wadan-ambient *,
+  .user-chip>span,
+  .premium-avatar,
+  .wadan-mobile-dock a.active svg{
+    animation:none!important;
+  }
+}
