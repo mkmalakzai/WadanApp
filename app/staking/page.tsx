@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
 import styles from "./staking.module.css";
+import { fetchCached, readCached, invalidateCached } from "../../lib/client-cache";
 
 type Plan = {
   id:string;
@@ -55,7 +56,7 @@ type Overview = {
 };
 
 export default function StakingPage() {
-  const [data,setData]=useState<Overview | null>(null);
+  const [data,setData]=useState<Overview | null>(()=>readCached<Overview>("staking:overview"));
   const [planId,setPlanId]=useState("");
   const [amount,setAmount]=useState("");
   const [review,setReview]=useState(false);
@@ -63,14 +64,13 @@ export default function StakingPage() {
   const [message,setMessage]=useState("");
   const [error,setError]=useState("");
 
-  async function load(){
-    const response=await fetch("/api/staking/overview",{cache:"no-store"});
-    const body=await response.json();
-    if(response.ok){
+  async function load(force=false){
+    try{
+      const body=await fetchCached<Overview>("staking:overview","/api/staking/overview",{force});
       setData(body);
       setPlanId((current)=>current || body.plans?.find((p:Plan)=>p.enabled)?.id || body.plans?.[0]?.id || "");
-    }else{
-      setError(body.error || "Unable to load staking.");
+    }catch(err){
+      setError(err instanceof Error ? err.message : "Unable to load staking.");
     }
   }
 
@@ -120,7 +120,8 @@ export default function StakingPage() {
       setMessage("Staking position created successfully.");
       setReview(false);
       setAmount("");
-      await load();
+      invalidateCached("wallet:summary","staking:overview","history");
+      await load(true);
     }catch(err){
       setError(err instanceof Error ? err.message : "Unable to create stake.");
     }finally{
@@ -174,7 +175,7 @@ export default function StakingPage() {
 
         <div className="dash-security">
           <ShieldCheck size={19}/>
-          <div><strong>Staking controls</strong><span>Backend plans and wallet ledger connected</span></div>
+          <div><strong>Staking controls</strong><span>Plans and wallet balances synced</span></div>
         </div>
 
         <nav className="dash-nav bottom">
@@ -199,20 +200,20 @@ export default function StakingPage() {
           <div className={styles.heroCopy}>
             <span className={styles.eyebrow}><Sparkles size={15}/> WDC REWARD VAULT</span>
             <h2>Lock WDC. Track rewards. Stay in control.</h2>
-            <p>Plans, balances and positions are now loaded from the WADAN backend.</p>
+            <p>Choose a plan, lock WDC and follow your active positions.</p>
           </div>
 
           <div className={styles.heroStats}>
             <div><small>Total staked</small><strong>{totalStaked.toLocaleString("en-US",{maximumFractionDigits:4})} WDC</strong><span>Active principal</span></div>
             <div><small>Projected accrued</small><strong>{rewardEstimate.toLocaleString("en-US",{maximumFractionDigits:4})} WDC</strong><span>Current estimate</span></div>
-            <div><small>Active positions</small><strong>{activeCount}</strong><span>{activeCount ? "Backend tracked" : "Nothing locked yet"}</span></div>
+            <div><small>Active positions</small><strong>{activeCount}</strong><span>{activeCount ? "Tracked" : "Nothing locked yet"}</span></div>
           </div>
         </section>
 
         <section className={styles.section}>
           <div className={styles.sectionHead}>
             <div><span>CHOOSE PLAN</span><strong>Select your lock period</strong></div>
-            <small>Backend controlled</small>
+            <small>Available plans</small>
           </div>
 
           <div className={styles.planRail}>
@@ -225,7 +226,7 @@ export default function StakingPage() {
               >
                 <div className={styles.planPeriod}>
                   <span>{item.id.toUpperCase()}</span>
-                  <div><strong>{item.title}</strong><small>{item.enabled ? "Available" : "Disabled by admin"}</small></div>
+                  <div><strong>{item.title}</strong><small>{item.enabled ? "Available" : "Unavailable"}</small></div>
                 </div>
 
                 <div className={styles.planRate}>
