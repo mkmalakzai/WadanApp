@@ -44,6 +44,10 @@ type AccountProfile = {
   usdtBalance: number;
 };
 
+type AccountWalletSummary = { totalUsd:number; totalStaked:number; };
+type AccountReferralSummary = { total?:number; };
+type AccountHistorySummary = { rows?:unknown[]; };
+
 export default function AccountPage() {
   const [tab, setTab] = useState<Tab>("overview");
   const [saved, setSaved] = useState(false);
@@ -52,6 +56,9 @@ export default function AccountPage() {
   const [securityAlerts, setSecurityAlerts] = useState(true);
   const [profile, setProfile] = useState<AccountProfile | null>(()=>readCached<{profile:AccountProfile}>("account:me")?.profile ?? null);
   const [profileLoading, setProfileLoading] = useState(()=>!readCached<{profile:AccountProfile}>("account:me")?.profile);
+  const [walletStats,setWalletStats]=useState<AccountWalletSummary|null>(()=>readCached<AccountWalletSummary>("wallet:summary"));
+  const [referralStats,setReferralStats]=useState<AccountReferralSummary|null>(()=>readCached<AccountReferralSummary>("referrals:overview"));
+  const [historyStats,setHistoryStats]=useState<AccountHistorySummary|null>(()=>readCached<AccountHistorySummary>("history"));
 
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("tab");
@@ -65,6 +72,10 @@ export default function AccountPage() {
       })
       .catch(()=>undefined)
       .finally(()=>setProfileLoading(false));
+
+    void fetchCached<AccountWalletSummary>("wallet:summary","/api/wallet/summary").then(setWalletStats).catch(()=>undefined);
+    void fetchCached<AccountReferralSummary>("referrals:overview","/api/referrals/overview").then(setReferralStats).catch(()=>undefined);
+    void fetchCached<AccountHistorySummary>("history","/api/history").then(setHistoryStats).catch(()=>undefined);
   }, []);
 
   function savePreview() {
@@ -109,7 +120,7 @@ export default function AccountPage() {
           </div>
           <div className="dash-top-actions">
             <button className="icon-square" aria-label="Notifications"><Bell size={18}/></button>
-            <button className="user-chip"><span>{(profile?.displayName || "M").slice(0,2).toUpperCase()}</span><div><strong>{profile?.displayName || "Member"}</strong><small>Member</small></div></button>
+            <button className="user-chip"><span>{profile?.displayName ? profile.displayName.slice(0,2).toUpperCase() : "W"}</span><div><strong>{profile?.displayName || "—"}</strong><small>Member</small></div></button>
           </div>
         </header>
 
@@ -125,7 +136,7 @@ export default function AccountPage() {
 
           <div className={styles.heroStatus}>
             <div><small>Account status</small><strong>{profile?.status || "—"}</strong></div>
-            <div><small>Email verification</small><strong>{profile?.emailConfirmed ? "Verified" : "Pending"}</strong></div>
+            <div><small>Email verification</small><strong>{!profile ? "—" : profile.emailConfirmed ? "Verified" : "Pending"}</strong></div>
             <div><small>Security level</small><strong>Standard</strong></div>
           </div>
         </section>
@@ -147,8 +158,8 @@ export default function AccountPage() {
 
               <div className={styles.overviewRows}>
                 <div><span>Name</span><strong>{profile?.displayName || "—"}</strong></div>
-                <div><span>Email</span><strong>{profile?.email || "Not connected"}</strong></div>
-                <div><span>Phone</span><strong>{profile?.phone || "Not connected"}</strong></div>
+                <div><span>Email</span><strong>{profileLoading ? "—" : profile?.email || "Not connected"}</strong></div>
+                <div><span>Phone</span><strong>{profileLoading ? "—" : profile?.phone || "Not connected"}</strong></div>
                 <div><span>Country</span><strong>{profile?.country || "—"}</strong></div>
               </div>
 
@@ -179,10 +190,10 @@ export default function AccountPage() {
               </div>
 
               <div className={styles.snapshot}>
-                <div><small>Wallet balance</small><strong>{((profile?.usdtBalance || 0) + (profile?.wdcBalance || 0) * 0.01).toLocaleString("en-US",{style:"currency",currency:"USD"})}</strong><span>WDC + USDT</span></div>
-                <div><small>Total staked</small><strong>0 WDC</strong><span>No active position</span></div>
-                <div><small>Referrals</small><strong>0</strong><span>5-level network</span></div>
-                <div><small>Activity records</small><strong>0</strong><span>History empty</span></div>
+                <div><small>Wallet balance</small><strong>{walletStats ? walletStats.totalUsd.toLocaleString("en-US",{style:"currency",currency:"USD"}) : "—"}</strong><span>WDC + USDT</span></div>
+                <div><small>Total staked</small><strong>{walletStats ? walletStats.totalStaked.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC" : "—"}</strong><span>Active principal</span></div>
+                <div><small>Referrals</small><strong>{referralStats?.total ?? "—"}</strong><span>5-level network</span></div>
+                <div><small>Activity records</small><strong>{historyStats?.rows ? historyStats.rows.length : "—"}</strong><span>All account activity</span></div>
               </div>
             </article>
           </section>
