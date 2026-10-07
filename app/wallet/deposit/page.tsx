@@ -7,6 +7,7 @@ import {
   ArrowLeft,
   Check,
   Copy,
+  History,
   Info,
   QrCode,
   ShieldCheck,
@@ -101,6 +102,8 @@ export default function DepositPage() {
           <h1>Deposit</h1>
           <span>Send funds on BNB Smart Chain, then submit the transaction hash for confirmation.</span>
         </div>
+
+        <Link href="/history/deposit" className="flow-history-link"><History size={16}/> View history</Link>
 
         <section className="asset-selector" aria-label="Deposit asset">
           {(["WDC","USDT"] as Asset[]).map((item)=>(
