@@ -5,6 +5,7 @@ type CacheEntry = {
 
 const memory = new Map<string, CacheEntry>();
 const inflight = new Map<string, Promise<unknown>>();
+let refreshPromise: Promise<boolean> | null = null;
 
 export function readCached<T>(key: string): T | null {
   return (memory.get(key)?.value as T | undefined) ?? null;
@@ -16,6 +17,58 @@ export function writeCached<T>(key: string, value: T) {
 
 export function invalidateCached(...keys: string[]) {
   for (const key of keys) memory.delete(key);
+}
+
+async function refreshSessionOnce() {
+  if (refreshPromise) return refreshPromise;
+
+  refreshPromise = (async () => {
+    try {
+      const response = await fetch("/api/auth/refresh", {
+        method: "POST",
+        cache: "no-store",
+      });
+
+      if (response.ok) return true;
+
+      if (typeof window !== "undefined") {
+        window.location.href = "/login";
+      }
+
+      return false;
+    } catch {
+      return false;
+    } finally {
+      refreshPromise = null;
+    }
+  })();
+
+  return refreshPromise;
+}
+
+async function requestJson<T>(url: string, requestOptions: RequestInit, allowRefresh = true): Promise<T> {
+  let response = await fetch(url, {
+    ...requestOptions,
+    cache: "no-store",
+  });
+
+  if (response.status === 401 && allowRefresh) {
+    const refreshed = await refreshSessionOnce();
+    if (refreshed) {
+      response = await fetch(url, {
+        ...requestOptions,
+        cache: "no-store",
+      });
+    }
+  }
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data?.error || "Unable to load WADAN data.");
+  }
+
+  return data as T;
 }
 
 export async function fetchCached<T>(
@@ -35,19 +88,9 @@ export async function fetchCached<T>(
   }
 
   const request = (async () => {
-    const response = await fetch(url, {
-      ...requestOptions,
-      cache: "no-store",
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data?.error || "Unable to load WADAN data.");
-    }
-
+    const data = await requestJson<T>(url, requestOptions);
     writeCached(key, data);
-    return data as T;
+    return data;
   })();
 
   inflight.set(key, request);
