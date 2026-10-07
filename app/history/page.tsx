@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
 import styles from "./history.module.css";
+import { fetchCached, readCached } from "../../lib/client-cache";
 
 type Filter = "all" | "deposit" | "withdraw" | "swap" | "staking" | "referral";
 
@@ -55,21 +56,16 @@ function normalizeStatus(status:string){
 }
 
 export default function HistoryPage(){
-  const [rows,setRows]=useState<HistoryRow[]>([]);
+  const [rows,setRows]=useState<HistoryRow[]>(()=>readCached<{rows:HistoryRow[]}>("history")?.rows || []);
   const [filter,setFilter]=useState<Filter>("all");
   const [query,setQuery]=useState("");
-  const [loading,setLoading]=useState(true);
+  const [loading,setLoading]=useState(()=>!readCached<{rows:HistoryRow[]}>("history"));
 
   useEffect(()=>{
-    void (async()=>{
-      try{
-        const response=await fetch("/api/history",{cache:"no-store"});
-        const data=await response.json();
-        if(response.ok && Array.isArray(data.rows)) setRows(data.rows);
-      }finally{
-        setLoading(false);
-      }
-    })();
+    void fetchCached<{rows:HistoryRow[]}>("history","/api/history")
+      .then((data)=>{ if(Array.isArray(data.rows)) setRows(data.rows); })
+      .catch(()=>undefined)
+      .finally(()=>setLoading(false));
   },[]);
 
   const visible=useMemo(()=>{
@@ -128,7 +124,7 @@ export default function HistoryPage(){
           <div className={styles.heroCopy}>
             <span className={styles.eyebrow}><History size={15}/> COMPLETE ACTIVITY LEDGER</span>
             <h2>Every move.<br/>One clean history.</h2>
-            <p>Deposits, withdrawals, swaps, staking and referral rewards are loaded from the backend.</p>
+            <p>Deposits, withdrawals, swaps, staking and referral rewards appear together here.</p>
           </div>
 
           <div className={styles.heroStats}>
@@ -141,7 +137,7 @@ export default function HistoryPage(){
         <section className={styles.section}>
           <div className={styles.sectionHead}>
             <div><span>FILTERS</span><strong>Find an activity</strong></div>
-            <small>{loading ? "Loading..." : "Live backend"}</small>
+            <small>{loading ? "Loading..." : "Up to date"}</small>
           </div>
 
           <div className={styles.toolbar}>
@@ -198,7 +194,7 @@ export default function HistoryPage(){
             <div className={styles.empty}>
               <div className={styles.emptyIcon}><History size={30}/></div>
               <strong>{loading ? "Loading activity..." : "No activity yet"}</strong>
-              <p>{loading ? "Reading your WADAN ledger." : "Your first real account activity will appear here automatically."}</p>
+              <p>{loading ? "Preparing your activity…" : "Your first real account activity will appear here automatically."}</p>
             </div>
           )}
         </section>
