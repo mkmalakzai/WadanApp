@@ -139,6 +139,7 @@ export default function ReferralsPage() {
             <h1>Referral Center</h1>
           </div>
           <div className="dash-top-actions">
+            <Link href="/history/referral" className="feature-history-link"><History size={17}/><span>History</span></Link>
             <button className="icon-square" aria-label="Notifications"><Bell size={18}/></button>
           </div>
         </header>
