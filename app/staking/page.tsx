@@ -180,7 +180,7 @@ export default function StakingPage() {
   const canReview=Boolean(plan?.enabled && numericAmount>0 && numericAmount<=balance);
 
   return (
-    <main className="dash-shell">
+    <main className="dash-shell premium-surface staking-premium">
       <div className="public-grid-bg" />
 
       <aside className="dash-sidebar gradient-border">
@@ -215,7 +215,6 @@ export default function StakingPage() {
             <h1>Staking</h1>
           </div>
           <div className="dash-top-actions">
-            <Link href="/history/staking" className="feature-history-link"><History size={17}/><span>History</span></Link>
             <button className="icon-square" aria-label="Notifications"><Bell size={18}/></button>
             <button className="user-chip"><span>{initials}</span><div><strong>{displayName}</strong><small>Member</small></div></button>
           </div>
@@ -425,6 +424,7 @@ export default function StakingPage() {
           )}
         </section>
 
+        <Link href="/history/staking" className="feature-history-bottom"><History size={16}/> Staking history</Link>
         <MobileDock active="/staking" />
       </section>
     </main>
