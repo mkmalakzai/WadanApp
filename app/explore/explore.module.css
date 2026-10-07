@@ -47,7 +47,7 @@
 
 .sectionHead>div>span{
   display:block;
-  color:#ffb000;
+  color:#f6a800;
   font-size:8px;
   font-weight:900;
   letter-spacing:.15em;
@@ -97,7 +97,7 @@
 
 .shortcut:hover{
   background:rgba(255,176,0,.045);
-  color:#fff0c5;
+  color:#ffbd2e;
   transform:translateY(-2px);
 }
 
@@ -107,7 +107,7 @@
   display:grid;
   place-items:center;
   border-radius:13px;
-  color:#ffd86b;
+  color:#f6a800;
   background:rgba(255,176,0,.07);
   border:1px solid rgba(255,176,0,.13);
 }
@@ -153,7 +153,7 @@
 .tabs button.activeTab{
   border-color:rgba(255,176,0,.22);
   background:rgba(255,176,0,.08);
-  color:#ffd86b;
+  color:#f6a800;
 }
 
 .groups{
@@ -195,7 +195,7 @@
 
 a.service:hover{
   transform:translateY(-2px);
-  border-color:rgba(255,176,0,.16);
+  border-color:rgba(246,168,0,.11);
   background:rgba(255,176,0,.025);
 }
 
@@ -209,7 +209,7 @@ a.service:hover{
   display:grid;
   place-items:center;
   border-radius:12px;
-  color:#ffd86b;
+  color:#f6a800;
   background:rgba(255,176,0,.06);
   border:1px solid rgba(255,176,0,.12);
 }
@@ -247,7 +247,7 @@ a.service:hover{
   width:7px;
   height:7px;
   border-radius:50%;
-  background:#ffb000;
+  background:#f6a800;
   box-shadow:0 0 12px rgba(255,176,0,.28);
 }
 
@@ -260,7 +260,7 @@ a.service:hover{
   text-align:center;
   border:1px solid rgba(255,255,255,.06);
   border-radius:16px;
-  color:#ffd86b;
+  color:#f6a800;
   background:rgba(255,255,255,.014);
 }
 
@@ -276,7 +276,7 @@ a.service:hover{
   padding:11px 13px;
   border-top:1px solid rgba(255,255,255,.05);
   border-bottom:1px solid rgba(255,255,255,.05);
-  color:#ffd86b;
+  color:#f6a800;
 }
 
 .footerNote strong,
@@ -412,4 +412,26 @@ a.service:hover{
   .shortcutGrid{
     grid-template-columns:repeat(4,1fr);
   }
+}
+
+
+/* EXPLORE V3 — service hub polish */
+.searchBox,
+.shortcutGrid,
+.serviceCard{
+  border-color:rgba(255,255,255,.065);
+  background:linear-gradient(180deg,#0d1218,#090d12);
+}
+.shortcut:hover{
+  background:rgba(246,168,0,.035);
+}
+.shortcutIcon{
+  color:#f6a800;
+  background:rgba(246,168,0,.055);
+  border-color:rgba(246,168,0,.10);
+}
+@media(max-width:760px){
+  .shortcuts,.directory{margin-top:20px}
+  .shortcutGrid{padding:10px 6px;border-radius:16px}
+  .shortcut{min-height:78px}
 }
