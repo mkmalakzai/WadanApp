@@ -8,6 +8,7 @@ import {
   CheckCircle2,
   CircleDollarSign,
   Coins,
+  History,
   Info,
   RefreshCw,
   ShieldCheck,
@@ -108,6 +109,8 @@ export default function WalletSwapPage() {
           <h1>Swap</h1>
           <span>Convert between USDT and WDC inside your WADAN wallet using the current WDC reference price.</span>
         </div>
+
+        <Link href="/history/swap" className="flow-history-link"><History size={16}/> View history</Link>
 
         {summary && !enabled && (
           <div className="flow-warning">
