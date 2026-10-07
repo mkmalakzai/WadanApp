@@ -88,7 +88,7 @@ export default function DepositPage() {
   const ready=Boolean(config?.enabled && config?.address);
 
   return (
-    <main className="flow-shell">
+    <main className="flow-shell feature-deposit">
       <div className="public-grid-bg" />
 
       <section className="flow-page">
@@ -103,7 +103,6 @@ export default function DepositPage() {
           <span>Send funds on BNB Smart Chain, then submit the transaction hash for confirmation.</span>
         </div>
 
-        <Link href="/history/deposit" className="flow-history-link"><History size={16}/> View history</Link>
 
         <section className="asset-selector" aria-label="Deposit asset">
           {(["WDC","USDT"] as Asset[]).map((item)=>(
@@ -222,6 +221,7 @@ export default function DepositPage() {
           </ol>
         </section>
 
+        <Link href="/history/deposit" className="feature-history-bottom"><History size={16}/> Deposit history</Link>
         <MobileDock active="/wallet" />
       </section>
     </main>
