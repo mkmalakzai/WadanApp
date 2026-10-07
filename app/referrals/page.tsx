@@ -104,7 +104,7 @@ export default function ReferralsPage() {
   const qualified=Number(data.qualified || 0);
 
   return (
-    <main className="dash-shell">
+    <main className="dash-shell premium-surface referral-premium">
       <div className="public-grid-bg" />
 
       <aside className="dash-sidebar gradient-border">
@@ -139,7 +139,6 @@ export default function ReferralsPage() {
             <h1>Referral Center</h1>
           </div>
           <div className="dash-top-actions">
-            <Link href="/history/referral" className="feature-history-link"><History size={17}/><span>History</span></Link>
             <button className="icon-square" aria-label="Notifications"><Bell size={18}/></button>
           </div>
         </header>
@@ -310,6 +309,7 @@ export default function ReferralsPage() {
           </div>
         </section>
 
+        <Link href="/history/referral" className="feature-history-bottom"><History size={16}/> Referral history</Link>
         <MobileDock active="/referrals" />
       </section>
     </main>
