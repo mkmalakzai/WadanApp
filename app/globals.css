@@ -7629,3 +7629,411 @@ html,body{
     text-shadow:0 2px 10px rgba(0,0,0,.72);
   }
 }
+
+
+/* WADAN V26 — FULL ECOSYSTEM PREMIUM SYSTEM */
+:root{
+  --wd-bg:#030609;
+  --wd-panel:#090e13;
+  --wd-panel-2:#0d131a;
+  --wd-copper:#d98b52;
+  --wd-copper-hi:#f2b37b;
+  --wd-teal:#35d1c5;
+  --wd-blue:#69b8ff;
+  --wd-pink:#ee9cc7;
+  --wd-text:#f3eee7;
+  --wd-muted:#8a9098;
+  --wd-line:rgba(255,255,255,.095);
+  --wd-glow:0 0 0 1px rgba(255,255,255,.025),0 14px 46px rgba(0,0,0,.28);
+}
+
+html,body{
+  background:var(--wd-bg)!important;
+  color:var(--wd-text)!important;
+}
+
+.premium-surface,
+.flow-shell,
+.auth-shell{
+  background:
+    radial-gradient(circle at 6% -5%,rgba(217,139,82,.085),transparent 26rem),
+    radial-gradient(circle at 96% 18%,rgba(53,209,197,.045),transparent 30rem),
+    linear-gradient(180deg,#060a0e 0%,#030609 55%,#020405 100%)!important;
+}
+
+/* global app chrome */
+.dash-topbar{
+  min-height:84px!important;
+  padding-left:8px!important;
+  padding-right:18px!important;
+  background:linear-gradient(180deg,rgba(4,7,10,.96),rgba(4,7,10,.78))!important;
+  border-bottom-color:rgba(255,255,255,.035)!important;
+  backdrop-filter:blur(18px);
+}
+.dash-topbar p{color:var(--wd-copper)!important}
+.dash-topbar h1{color:var(--wd-text)!important}
+.dash-top-actions{
+  gap:9px!important;
+  padding-right:5px!important;
+}
+.icon-square,
+.user-chip{
+  border:1px solid rgba(255,255,255,.08)!important;
+  background:linear-gradient(180deg,#10161d,#080c11)!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.25),inset 0 1px rgba(255,255,255,.025)!important;
+}
+.user-chip>span{
+  background:radial-gradient(circle at 35% 28%,#f5bb83 0%,#a75537 44%,#2a1716 100%)!important;
+  color:#190c08!important;
+  border:1px solid rgba(242,179,123,.28)!important;
+}
+.dash-sidebar{
+  border-color:rgba(255,255,255,.055)!important;
+  background:linear-gradient(180deg,#090e13,#05080b)!important;
+}
+.dash-nav a.active{
+  color:var(--wd-copper-hi)!important;
+  background:linear-gradient(90deg,rgba(217,139,82,.10),rgba(217,139,82,.025))!important;
+  border-color:rgba(217,139,82,.18)!important;
+}
+.dash-security{
+  border-color:rgba(53,209,197,.12)!important;
+  background:rgba(53,209,197,.035)!important;
+}
+.dash-security>svg{color:var(--wd-teal)!important}
+
+/* softer luminous borders across the app */
+.wallet-total,
+.wallet-asset-balance,
+.wallet-action-dock,
+.wallet-flow-hint,
+.wallet-activity-panel,
+.wallet-security-v2,
+.withdraw-form,
+.withdraw-review,
+.deposit-network,
+.qr-stage,
+.full-address-card,
+.swap-experience,
+.flow-warning,
+.flow-loading-card,
+.auth-wrap-new,
+.auth-form-panel{
+  border-color:rgba(255,255,255,.095)!important;
+  box-shadow:var(--wd-glow)!important;
+}
+
+/* wallet */
+.wallet-premium .wallet-overview-v2{
+  position:relative;
+}
+.wallet-premium .wallet-total{
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(6,9,12,.96),rgba(6,9,12,.78) 52%,rgba(6,9,12,.15)),
+    url('/assets/dashboard/wadan-dashboard-hero.webp') center/cover no-repeat!important;
+}
+.wallet-premium .wallet-total::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(180deg,transparent 55%,rgba(3,6,9,.45));
+}
+.wallet-premium .wallet-total>*{position:relative;z-index:1}
+.wallet-premium .wallet-asset-balance{
+  background:linear-gradient(145deg,#0d131a,#070b10)!important;
+}
+.wallet-premium .wdc-balance{
+  border-color:rgba(217,139,82,.20)!important;
+  box-shadow:0 0 0 1px rgba(242,179,123,.035),0 18px 40px rgba(0,0,0,.24)!important;
+}
+.wallet-premium .usdt-balance{
+  border-color:rgba(53,209,197,.18)!important;
+  box-shadow:0 0 0 1px rgba(53,209,197,.03),0 18px 40px rgba(0,0,0,.24)!important;
+}
+.wallet-premium .wallet-action-dock{
+  background:linear-gradient(180deg,#0b1117,#070b0f)!important;
+}
+.wallet-premium .wallet-action-link{
+  min-height:108px!important;
+  border:1px solid rgba(255,255,255,.075)!important;
+  border-radius:17px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.008))!important;
+}
+.wallet-premium .wallet-action-link>span{
+  border-color:rgba(255,255,255,.12)!important;
+  background:radial-gradient(circle,rgba(217,139,82,.13),rgba(217,139,82,.035))!important;
+  color:var(--wd-copper-hi)!important;
+}
+.wallet-premium .wallet-activity-list{
+  max-height:none!important;
+}
+.wallet-premium .wallet-activity-row{
+  min-height:58px!important;
+}
+.wallet-history-bottom,
+.feature-history-bottom{
+  width:100%;
+  min-height:46px;
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:1px solid rgba(255,255,255,.085);
+  border-radius:13px;
+  background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.008));
+  color:#b7b0a7;
+  text-decoration:none;
+  font-size:9px;
+  font-weight:850;
+  transition:.18s ease;
+}
+.wallet-history-bottom:hover,
+.feature-history-bottom:hover{
+  color:var(--wd-copper-hi);
+  border-color:rgba(217,139,82,.24);
+  background:rgba(217,139,82,.045);
+}
+
+/* transaction flows */
+.flow-page{max-width:820px!important}
+.flow-topbar{
+  padding-right:8px!important;
+}
+.flow-heading{
+  position:relative;
+  min-height:210px;
+  overflow:hidden;
+  padding:26px 290px 24px 2px;
+  margin-bottom:14px;
+  border:1px solid rgba(255,255,255,.085);
+  border-radius:24px;
+  background:#080d12;
+  box-shadow:var(--wd-glow);
+}
+.flow-heading::before,
+.flow-heading::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+}
+.flow-heading::before{
+  inset:0;
+  background:
+    linear-gradient(90deg,rgba(5,8,11,.98) 0%,rgba(5,8,11,.92) 42%,rgba(5,8,11,.30) 69%,rgba(5,8,11,.04) 100%);
+  z-index:1;
+}
+.flow-heading::after{
+  inset:0;
+  background-position:right center;
+  background-size:62% auto;
+  background-repeat:no-repeat;
+  z-index:0;
+}
+.flow-heading>*{position:relative;z-index:2}
+.feature-deposit .flow-heading::after{background-image:url('/assets/features/deposit-scene.svg')}
+.feature-withdraw .flow-heading::after{background-image:url('/assets/features/withdraw-scene.svg')}
+.feature-swap .flow-heading::after{background-image:url('/assets/features/swap-scene.svg')}
+.flow-heading p{color:var(--wd-copper)!important}
+.flow-heading h1{
+  margin-top:7px!important;
+  font-size:clamp(46px,7vw,70px)!important;
+  letter-spacing:-.05em!important;
+}
+.flow-heading>span{
+  display:block;
+  max-width:470px;
+  margin-top:10px;
+  color:#969ba1!important;
+  line-height:1.6;
+}
+.asset-selector button,
+.unit-toggle button{
+  border-color:rgba(255,255,255,.085)!important;
+  background:linear-gradient(180deg,#0d131a,#080d12)!important;
+}
+.asset-selector button.active,
+.unit-toggle button.active{
+  color:var(--wd-copper-hi)!important;
+  border-color:rgba(217,139,82,.28)!important;
+  background:rgba(217,139,82,.055)!important;
+}
+.flow-primary{
+  background:linear-gradient(135deg,#f3b77f,#d98b52 52%,#a65738)!important;
+  color:#1c0d08!important;
+  box-shadow:0 14px 32px rgba(217,139,82,.18)!important;
+}
+.destination-input,
+.amount-input-card,
+.withdraw-summary,
+.review-card{
+  border-color:rgba(255,255,255,.08)!important;
+  background:#080d12!important;
+}
+.deposit-network>svg,
+.flow-warning>svg,
+.qr-caption>svg{
+  color:var(--wd-teal)!important;
+}
+
+/* auth / public entry */
+.premium-auth .auth-wrap-new{
+  border-color:rgba(217,139,82,.18)!important;
+  background:linear-gradient(145deg,#0b1016,#06090d)!important;
+}
+.premium-auth .auth-brand-panel{
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(5,8,11,.96),rgba(5,8,11,.60)),
+    url('/assets/dashboard/wadan-dashboard-hero.webp') center/cover no-repeat!important;
+}
+.premium-auth .auth-brand-panel::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,transparent 40%,rgba(3,6,9,.72));
+  pointer-events:none;
+}
+.premium-auth .auth-brand-panel>*{position:relative;z-index:1}
+.premium-auth .auth-brand-copy p,
+.premium-auth .auth-title p{color:var(--wd-copper)!important}
+.premium-auth .auth-brand-copy h1 span{color:var(--wd-copper-hi)!important}
+.premium-auth .input-shell{
+  border-color:rgba(255,255,255,.085)!important;
+  background:#080d12!important;
+}
+.premium-auth .input-shell:focus-within{
+  border-color:rgba(217,139,82,.30)!important;
+  box-shadow:0 0 0 3px rgba(217,139,82,.05)!important;
+}
+.premium-auth .auth-submit{
+  background:linear-gradient(135deg,#f3b77f,#d98b52 55%,#a65738)!important;
+  color:#1a0d08!important;
+}
+
+/* landing page alignment with the app */
+.public-shell,
+.public-page,
+.landing-page{
+  background:
+    radial-gradient(circle at 10% 0%,rgba(217,139,82,.075),transparent 28rem),
+    radial-gradient(circle at 92% 25%,rgba(53,209,197,.035),transparent 28rem),
+    #030609!important;
+}
+.gradient-border{
+  border-color:rgba(255,255,255,.085)!important;
+  box-shadow:var(--wd-glow)!important;
+}
+
+/* mobile chrome + spacing */
+@media(max-width:760px){
+  .dash-topbar{
+    min-height:72px!important;
+    padding:7px 10px 9px 4px!important;
+  }
+  .dash-top-actions{
+    gap:6px!important;
+    padding-right:2px!important;
+  }
+  .dash-topbar h1{
+    font-size:30px!important;
+  }
+  .icon-square,
+  .user-chip{
+    min-width:42px!important;
+    width:auto!important;
+    height:42px!important;
+    border-radius:14px!important;
+  }
+  .user-chip{
+    padding:0 5px!important;
+  }
+  .user-chip>span{
+    width:32px!important;
+    height:32px!important;
+  }
+  .user-chip>div{
+    display:none!important;
+  }
+
+  .wallet-premium .wallet-action-dock{
+    gap:6px!important;
+    padding:6px!important;
+  }
+  .wallet-premium .wallet-action-link{
+    min-height:88px!important;
+    padding:9px 4px!important;
+  }
+  .wallet-premium .wallet-action-link>span{
+    width:39px!important;
+    height:39px!important;
+  }
+  .wallet-premium .wallet-action-link>span svg{
+    width:18px!important;
+    height:18px!important;
+  }
+  .wallet-premium .wallet-action-link strong{font-size:9px!important}
+  .wallet-premium .wallet-action-link small{font-size:6.5px!important}
+
+  .flow-page{
+    max-width:none!important;
+    padding-left:8px!important;
+    padding-right:8px!important;
+  }
+  .flow-heading{
+    min-height:176px;
+    padding:18px 44% 16px 13px;
+    border-radius:19px;
+  }
+  .flow-heading::after{
+    background-size:auto 100%;
+    background-position:78% center;
+  }
+  .flow-heading::before{
+    background:linear-gradient(90deg,rgba(5,8,11,.98),rgba(5,8,11,.90) 43%,rgba(5,8,11,.34) 67%,transparent 100%);
+  }
+  .flow-heading p{font-size:8px!important}
+  .flow-heading h1{font-size:37px!important}
+  .flow-heading>span{font-size:8.5px!important;line-height:1.45!important}
+  .feature-history-bottom{
+    margin:14px 0 78px;
+    min-height:44px;
+  }
+
+  .wadan-mobile-dock{
+    left:9px!important;
+    right:9px!important;
+    bottom:max(8px,env(safe-area-inset-bottom))!important;
+    min-height:64px!important;
+    padding:5px!important;
+    border-radius:20px!important;
+    border-color:rgba(255,255,255,.09)!important;
+  }
+  .wadan-mobile-dock a{
+    min-height:52px!important;
+    gap:4px!important;
+    border-radius:14px!important;
+    font-size:7.8px!important;
+    font-weight:800!important;
+  }
+  .wadan-mobile-dock a svg{
+    width:18px!important;
+    height:18px!important;
+  }
+  .wadan-mobile-dock a.active{
+    color:var(--wd-copper-hi)!important;
+    background:linear-gradient(180deg,rgba(217,139,82,.12),rgba(217,139,82,.035))!important;
+    box-shadow:inset 0 -2px rgba(217,139,82,.55)!important;
+  }
+
+  .premium-auth .auth-wrap-new{
+    border-radius:22px!important;
+  }
+  .premium-auth .auth-brand-panel{
+    min-height:190px!important;
+  }
+}
