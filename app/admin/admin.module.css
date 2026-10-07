@@ -1478,3 +1478,62 @@
     grid-column:1 / -1;
   }
 }
+
+
+/* ADMIN V4 — WADAN COPPER TEAL SYSTEM */
+.shell{
+  background:
+    radial-gradient(circle at 16% -5%,rgba(217,139,82,.075),transparent 28rem),
+    radial-gradient(circle at 92% 18%,rgba(53,209,197,.035),transparent 26rem),
+    linear-gradient(180deg,#060a0e,#030609)!important;
+}
+.sidebar,.panel,.widePanel,.workspace,.usersWorkspace,.financeCard{
+  border-color:rgba(255,255,255,.085)!important;
+  background:linear-gradient(180deg,rgba(13,19,26,.94),rgba(7,11,15,.97))!important;
+  box-shadow:0 16px 42px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.015)!important;
+}
+.nav button.active{
+  color:#f2b37b!important;
+  border-color:rgba(217,139,82,.18)!important;
+  background:rgba(217,139,82,.06)!important;
+}
+.guard,.financeAmount{
+  color:#f2b37b!important;
+  border-color:rgba(217,139,82,.16)!important;
+  background:rgba(217,139,82,.045)!important;
+}
+.topbar p,.panelHead span,.usersToolbar>div:first-child span,.workspace>span{
+  color:#d98b52!important;
+}
+.adminChip>span,.metrics article>span,.workspaceIcon,.userAvatar{
+  color:#f2b37b!important;
+  background:rgba(217,139,82,.06)!important;
+  border-color:rgba(217,139,82,.14)!important;
+}
+.online,.ready,.activeToggle{
+  color:#55ddd4!important;
+}
+.connection,.settingsGrid label,.securityGrid>div,.usersSummary>div,.userRow,.financeMeta>div{
+  border-color:rgba(255,255,255,.07)!important;
+  background:rgba(255,255,255,.014)!important;
+}
+.opsActions button,.planControls button,.settingsGrid button{
+  color:#f2b37b!important;
+  border-color:rgba(217,139,82,.18)!important;
+  background:rgba(217,139,82,.06)!important;
+}
+.depositActions button{
+  background:linear-gradient(135deg,#f2b37b,#d98b52 55%,#a65738)!important;
+  border-color:transparent!important;
+}
+@media(max-width:760px){
+  .mobileDock{
+    border-color:rgba(255,255,255,.09)!important;
+    background:linear-gradient(180deg,rgba(9,13,18,.97),rgba(4,7,10,.99))!important;
+    box-shadow:0 18px 48px rgba(0,0,0,.48)!important;
+  }
+  .mobileDock button.mobileActive{
+    color:#f2b37b!important;
+    background:rgba(217,139,82,.065)!important;
+  }
+}
