@@ -132,7 +132,7 @@ export default function DashboardPage() {
 
         <section className="premium-portfolio">
           <div className="premium-portfolio-art" aria-hidden="true">
-            <img src="/wadan-premium-coin.svg" alt="" />
+            <img src="/assets/dashboard/wadan-dashboard-hero.webp" alt="" />
           </div>
 
           <div className="premium-portfolio-top">
