@@ -215,6 +215,7 @@ export default function StakingPage() {
             <h1>Staking</h1>
           </div>
           <div className="dash-top-actions">
+            <Link href="/history/staking" className="feature-history-link"><History size={17}/><span>History</span></Link>
             <button className="icon-square" aria-label="Notifications"><Bell size={18}/></button>
             <button className="user-chip"><span>{initials}</span><div><strong>{displayName}</strong><small>Member</small></div></button>
           </div>
