@@ -189,8 +189,8 @@ export default function DashboardPage() {
         </section>
 
         <section className="premium-section">
-          <div className="premium-section-head">
-            <div><span>QUICK ACTIONS</span><h2>Move your assets</h2></div>
+          <div className="premium-section-head premium-section-head-simple">
+            <div><h2>Quick Actions</h2></div>
           </div>
 
           <div className="premium-actions">
@@ -210,9 +210,8 @@ export default function DashboardPage() {
         </section>
 
         <section className="premium-section premium-explore-section">
-          <div className="premium-section-head">
-            <div><span>DISCOVER</span><h2>Explore WADAN</h2></div>
-            <Link href="/explore">View all <ChevronRight size={16}/></Link>
+          <div className="premium-section-head premium-section-head-simple">
+            <div><h2>Explore WADAN</h2></div>
           </div>
 
           <div className="premium-explore-grid">
@@ -230,7 +229,7 @@ export default function DashboardPage() {
 
             <Link href="/account?tab=security" className="premium-explore-card explore-blue">
               <span><ShieldCheck size={22}/></span>
-              <div><strong>Security</strong><small>Account protection</small></div>
+              <div><strong>Security</strong><small>2FA & sessions</small></div>
               <ChevronRight size={20}/>
             </Link>
           </div>
