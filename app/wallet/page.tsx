@@ -19,6 +19,7 @@ import {
   WalletCards,
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
+import { fetchCached, readCached } from "../../lib/client-cache";
 
 type WalletSummary = {
   profile: {
@@ -53,14 +54,14 @@ function prettyType(value: string) {
 }
 
 export default function WalletPage() {
-  const [summary,setSummary]=useState<WalletSummary | null>(null);
+  const [summary,setSummary]=useState<WalletSummary | null>(()=>readCached<WalletSummary>("wallet:summary"));
   const [hidden,setHidden]=useState(false);
 
   useEffect(()=>{
-    void (async()=>{
-      const response=await fetch("/api/wallet/summary",{cache:"no-store"});
-      if(response.ok) setSummary(await response.json());
-    })();
+    void fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary")
+      .then(setSummary)
+      .catch(()=>undefined);
+    void fetchCached("wallet:deposit","/api/wallet/deposit").catch(()=>undefined);
   },[]);
 
   const wdc=summary?.profile.wdcBalance ?? 0;
@@ -90,7 +91,7 @@ export default function WalletPage() {
 
         <div className="dash-security">
           <ShieldCheck size={19}/>
-          <div><strong>Wallet protected</strong><span>Live balances and backend ledger</span></div>
+          <div><strong>Wallet protected</strong><span>Balances and wallet activity</span></div>
         </div>
 
         <nav className="dash-nav bottom">
@@ -116,7 +117,7 @@ export default function WalletPage() {
             <div>
               <span className="wallet-label"><WalletCards size={15}/> TOTAL WALLET</span>
               <p>Estimated value</p>
-              <h2>{hidden ? "••••" : total.toLocaleString("en-US",{style:"currency",currency:"USD"})}</h2>
+              <h2>{!summary ? "—" : hidden ? "••••" : total.toLocaleString("en-US",{style:"currency",currency:"USD"})}</h2>
               <small>Across WDC and USDT</small>
             </div>
             <button className="wallet-eye" aria-label="Toggle balance visibility" onClick={()=>setHidden(!hidden)}><Eye size={19}/></button>
@@ -128,7 +129,7 @@ export default function WalletPage() {
                 <span className="asset-symbol">W</span>
                 <div><strong>Wadan Coin</strong><small>WDC • BNB Chain</small></div>
               </div>
-              <h3>{hidden ? "••••" : wdc.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC"}</h3>
+              <h3>{!summary ? "—" : hidden ? "••••" : wdc.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC"}</h3>
               <div className="asset-balance-foot"><span>{hidden ? "••••" : (wdc*price).toLocaleString("en-US",{style:"currency",currency:"USD"})}</span><em>{price.toLocaleString("en-US",{style:"currency",currency:"USD",minimumFractionDigits:4,maximumFractionDigits:4})} / WDC</em></div>
             </article>
 
@@ -137,7 +138,7 @@ export default function WalletPage() {
                 <span className="asset-symbol usdt"><CircleDollarSign size={22}/></span>
                 <div><strong>Tether USD</strong><small>USDT • BNB Chain</small></div>
               </div>
-              <h3>{hidden ? "••••" : usdt.toLocaleString("en-US",{maximumFractionDigits:4})+" USDT"}</h3>
+              <h3>{!summary ? "—" : hidden ? "••••" : usdt.toLocaleString("en-US",{maximumFractionDigits:4})+" USDT"}</h3>
               <div className="asset-balance-foot"><span>{hidden ? "••••" : usdt.toLocaleString("en-US",{style:"currency",currency:"USD"})}</span><em>$1.00 / USDT</em></div>
             </article>
           </div>
@@ -149,17 +150,17 @@ export default function WalletPage() {
             <small>BNB Chain</small>
           </div>
           <div className="wallet-action-dock">
-            <Link href="/wallet/deposit" className="wallet-action-link"><span><ArrowDownToLine size={22}/></span><strong>Deposit</strong><small>{summary?.flags.deposits ? "Live" : "Disabled"}</small></Link>
-            <Link href="/wallet/withdraw" className="wallet-action-link"><span><ArrowUpRight size={22}/></span><strong>Withdraw</strong><small>{summary?.flags.withdrawals ? "Live" : "Disabled"}</small></Link>
-            <Link href="/wallet/swap" className="wallet-action-link"><span><ArrowDownUp size={22}/></span><strong>Swap</strong><small>{summary?.flags.swaps ? "Live" : "Disabled"}</small></Link>
+            <Link href="/wallet/deposit" className="wallet-action-link"><span><ArrowDownToLine size={22}/></span><strong>Deposit</strong><small>{!summary ? "Checking…" : summary.flags.deposits ? "Available" : "Unavailable"}</small></Link>
+            <Link href="/wallet/withdraw" className="wallet-action-link"><span><ArrowUpRight size={22}/></span><strong>Withdraw</strong><small>{!summary ? "Checking…" : summary.flags.withdrawals ? "Available" : "Unavailable"}</small></Link>
+            <Link href="/wallet/swap" className="wallet-action-link"><span><ArrowDownUp size={22}/></span><strong>Swap</strong><small>{!summary ? "Checking…" : summary.flags.swaps ? "Available" : "Unavailable"}</small></Link>
           </div>
         </section>
 
         <section className="wallet-flow-hint">
           <ShieldCheck size={20}/>
           <div>
-            <strong>Backend ledger connected</strong>
-            <span>Balances and wallet activity are now read from your authenticated WADAN account.</span>
+            <strong>Wallet activity protected</strong>
+            <span>Your balances and transaction history stay synced with your WADAN account.</span>
           </div>
         </section>
 
@@ -200,7 +201,7 @@ export default function WalletPage() {
               <div><span>Email verification</span><strong>{summary?.profile.emailConfirmed ? "Verified" : "Pending"}</strong></div>
               <div><span>KYC status</span><strong>{(summary?.profile.kycStatus || "not_started").replace("_"," ")}</strong></div>
               <div><span>Network</span><strong>BNB Chain</strong></div>
-              <div><span>Wallet status</span><strong className="gold-text">Live backend</strong></div>
+              <div><span>Wallet status</span><strong className="gold-text">Protected</strong></div>
             </div>
           </article>
         </section>
