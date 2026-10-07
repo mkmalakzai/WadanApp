@@ -12,6 +12,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import MobileDock from "../../components/MobileDock";
+import { fetchCached, readCached, invalidateCached } from "../../../lib/client-cache";
 
 type Asset = "WDC" | "USDT";
 type Unit = "coin" | "usd";
@@ -23,7 +24,7 @@ type Summary = {
 };
 
 export default function WithdrawPage() {
-  const [summary,setSummary]=useState<Summary | null>(null);
+  const [summary,setSummary]=useState<Summary | null>(()=>readCached<Summary>("wallet:summary"));
   const [asset,setAsset]=useState<Asset>("WDC");
   const [unit,setUnit]=useState<Unit>("coin");
   const [amount,setAmount]=useState("");
@@ -34,12 +35,9 @@ export default function WithdrawPage() {
   const [error,setError]=useState("");
 
   useEffect(()=>{
-    void (async()=>{
-      const response=await fetch("/api/wallet/summary",{cache:"no-store"});
-      const data=await response.json();
-      if(response.ok) setSummary(data);
-      else setError(data.error || "Unable to load wallet.");
-    })();
+    void fetchCached<Summary>("wallet:summary","/api/wallet/summary")
+      .then(setSummary)
+      .catch((err)=>setError(err instanceof Error ? err.message : "Unable to load wallet."));
   },[]);
 
   const price=asset==="WDC" ? summary?.wdcPrice ?? 0.01 : 1;
@@ -70,7 +68,9 @@ export default function WithdrawPage() {
 
       if(!response.ok) throw new Error(data.error || "Unable to request withdrawal.");
 
-      setMessage("Withdrawal request created and balance reserved for admin review.");
+      invalidateCached("wallet:summary","history");
+      void fetchCached<Summary>("wallet:summary","/api/wallet/summary",{force:true}).then(setSummary).catch(()=>undefined);
+      setMessage("Withdrawal request created and balance reserved for review.");
       setReview(false);
       setAmount("");
       setAddress("");
@@ -101,13 +101,13 @@ export default function WithdrawPage() {
         <div className="flow-heading">
           <p>SEND FUNDS</p>
           <h1>Withdraw</h1>
-          <span>Create a withdrawal request on BNB Smart Chain. Funds are locked until admin review.</span>
+          <span>Create a withdrawal request on BNB Smart Chain. Funds are reserved while the request is reviewed.</span>
         </div>
 
-        {!enabled && (
+        {summary && !enabled && (
           <div className="flow-warning">
             <Info size={20}/>
-            <p><strong>Withdrawals are currently disabled.</strong> The admin can enable them from platform settings.</p>
+            <p><strong>Withdrawals are currently disabled.</strong> Withdrawals are temporarily unavailable.</p>
           </div>
         )}
 
@@ -206,7 +206,7 @@ export default function WithdrawPage() {
               <div><span>Destination</span><strong className="review-address">{address}</strong></div>
               <div><span>Amount</span><strong>{coinAmount.toFixed(4)} {asset}</strong></div>
               <div><span>USD estimate</span><strong>{"$"+usdAmount.toFixed(2)}</strong></div>
-              <div><span>Status after submit</span><strong>Pending admin review</strong></div>
+              <div><span>Status after submit</span><strong>Pending review</strong></div>
             </div>
 
             {error && <div className="auth-live-message error">{error}</div>}
