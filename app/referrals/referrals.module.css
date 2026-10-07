@@ -14,10 +14,10 @@
   align-items:center;
   min-height:290px;
   padding:26px;
-  border:1px solid rgba(255,176,0,.2);
+  border:1px solid rgba(255,255,255,.075);
   border-radius:26px;
   background:
-    radial-gradient(circle at 10% 0%,rgba(255,176,0,.18),transparent 23rem),
+    radial-gradient(circle at 10% 0%,rgba(246,168,0,.10),transparent 23rem),
     radial-gradient(circle at 88% 10%,rgba(255,216,107,.06),transparent 18rem),
     linear-gradient(145deg,#111721 0%,#0a0f17 58%,#070b11 100%);
   box-shadow:0 26px 78px rgba(0,0,0,.32);
@@ -43,10 +43,10 @@
   align-items:center;
   gap:7px;
   padding:7px 10px;
-  border:1px solid rgba(255,176,0,.18);
+  border:1px solid rgba(246,168,0,.10);
   border-radius:999px;
   background:rgba(255,176,0,.055);
-  color:#ffd86b;
+  color:#f6a800;
   font-size:10px;
   font-weight:900;
   letter-spacing:.11em;
@@ -107,9 +107,9 @@
   display:grid;
   place-items:center;
   border-radius:23px;
-  color:#ffd86b;
+  color:#f6a800;
   background:rgba(255,176,0,.075);
-  border:1px solid rgba(255,176,0,.18);
+  border:1px solid rgba(246,168,0,.10);
 }
 
 .depthCard span{margin-top:14px;color:#777168;font-size:10px}
@@ -128,7 +128,7 @@
 
 .sectionHead>div>span{
   display:block;
-  color:#ffb000;
+  color:#f6a800;
   font-size:10px;
   font-weight:900;
   letter-spacing:.15em;
@@ -174,7 +174,7 @@
   display:grid;
   place-items:center;
   border-radius:13px;
-  color:#ffd86b;
+  color:#f6a800;
   background:rgba(255,176,0,.075);
   border:1px solid rgba(255,176,0,.14);
 }
@@ -203,9 +203,9 @@
 }
 
 .copyBtn,.iconBtn{
-  border:1px solid rgba(255,176,0,.16);
+  border:1px solid rgba(246,168,0,.11);
   background:rgba(255,176,0,.055);
-  color:#ffd86b;
+  color:#f6a800;
 }
 
 .copyBtn{padding:0 13px}
@@ -214,7 +214,7 @@
   padding:0 14px;
   border:0;
   color:#171006;
-  background:linear-gradient(135deg,#ffe58e,#ffb000 58%,#a86400);
+  background:linear-gradient(135deg,#ffbd2e,#f6a800 58%,#c96d00);
 }
 
 .shareActions{display:flex;gap:7px}
@@ -255,7 +255,7 @@
   display:grid;
   place-items:center;
   border-radius:11px;
-  color:#ffd86b;
+  color:#f6a800;
   background:rgba(255,176,0,.07);
   border:1px solid rgba(255,176,0,.15);
   font-size:11px;
@@ -265,7 +265,7 @@
 .levelRate{
   font-size:23px;
   line-height:1;
-  color:#fff1c6;
+  color:#ffbd2e;
 }
 
 .levelCard h3{
@@ -291,7 +291,7 @@
   color:#776f66;
 }
 
-.levelFoot svg{flex:0 0 auto;color:#ffd86b}
+.levelFoot svg{flex:0 0 auto;color:#f6a800}
 .levelFoot span{font-size:8px;line-height:1.4}
 
 .ruleNote{
@@ -305,7 +305,7 @@
   background:rgba(255,176,0,.035);
 }
 
-.ruleNote svg{flex:0 0 auto;margin-top:1px;color:#ffd86b}
+.ruleNote svg{flex:0 0 auto;margin-top:1px;color:#f6a800}
 .ruleNote p{margin:0;color:#8f887d;font-size:9.5px;line-height:1.58}
 
 .filterBar{
@@ -332,7 +332,7 @@
 .filterBar button.active{
   color:#171006;
   border-color:transparent;
-  background:linear-gradient(135deg,#ffe58e,#ffb000 58%,#a86400);
+  background:linear-gradient(135deg,#ffbd2e,#f6a800 58%,#c96d00);
 }
 
 .networkCard{
@@ -373,7 +373,7 @@
   display:grid;
   place-items:center;
   border-radius:10px;
-  color:#ffd86b;
+  color:#f6a800;
   background:rgba(255,176,0,.075);
   border:1px solid rgba(255,176,0,.13);
   font-size:9px;
@@ -399,7 +399,7 @@
   display:grid;
   place-items:center;
   border-radius:18px;
-  color:#ffd86b;
+  color:#f6a800;
   background:rgba(255,176,0,.065);
   border:1px solid rgba(255,176,0,.13);
 }
@@ -434,7 +434,7 @@
   display:grid;
   place-items:center;
   border-radius:12px;
-  color:#ffd86b;
+  color:#f6a800;
   background:rgba(255,176,0,.07);
   border:1px solid rgba(255,176,0,.13);
 }
@@ -594,11 +594,11 @@
   top:52px;
   height:2px;
   background:linear-gradient(90deg,
-    rgba(255,176,0,.18) 0%,
+    rgba(246,168,0,.10) 0%,
     rgba(255,176,0,.85) 18%,
     rgba(255,216,107,.95) 48%,
     rgba(255,176,0,.62) 72%,
-    rgba(255,176,0,.16) 100%);
+    rgba(246,168,0,.11) 100%);
   box-shadow:0 0 24px rgba(255,176,0,.12);
 }
 
@@ -610,7 +610,7 @@
   width:7px;
   height:7px;
   border-radius:50%;
-  background:#ffd86b;
+  background:#f6a800;
   transform:translateY(-50%);
   box-shadow:0 0 16px rgba(255,176,0,.45);
 }
@@ -641,7 +641,7 @@
   background:
     radial-gradient(circle at 35% 25%,rgba(255,236,172,.18),transparent 42%),
     linear-gradient(145deg,#17140d,#0a0e15 68%);
-  color:#ffd86b;
+  color:#f6a800;
   font-size:15px;
   font-weight:950;
   letter-spacing:.04em;
@@ -657,7 +657,7 @@
   border-color:rgba(255,222,125,.7);
   box-shadow:
     0 0 0 7px rgba(6,8,12,.92),
-    0 16px 34px rgba(255,176,0,.16);
+    0 16px 34px rgba(246,168,0,.11);
 }
 
 .rewardIndex{
@@ -683,7 +683,7 @@
   font-size:29px;
   line-height:1;
   letter-spacing:-.04em;
-  color:#fff0c4;
+  color:#ffbd2e;
 }
 
 .rewardStepTop>span{
@@ -886,10 +886,10 @@
   align-items:center;
   gap:7px;
   padding:7px 10px;
-  border:1px solid rgba(255,176,0,.16);
+  border:1px solid rgba(246,168,0,.11);
   border-radius:999px;
   background:rgba(255,176,0,.055);
-  color:#ffd86b;
+  color:#f6a800;
   font-size:9px;
   font-weight:900;
   letter-spacing:.13em;
@@ -968,7 +968,7 @@
   align-items:center;
   justify-content:center;
   text-align:center;
-  border:1px solid rgba(255,176,0,.18);
+  border:1px solid rgba(246,168,0,.10);
   border-radius:19px;
   background:
     radial-gradient(circle at 50% 18%,rgba(255,214,107,.12),transparent 42%),
@@ -985,7 +985,7 @@
   font-size:48px;
   line-height:.9;
   letter-spacing:-.05em;
-  color:#ffd86b;
+  color:#f6a800;
   text-shadow:0 10px 28px rgba(255,176,0,.14);
 }
 
@@ -1138,4 +1138,28 @@
   .spotlightReward>strong{
     font-size:38px;
   }
+}
+
+
+/* REFERRAL V4 — restrained premium */
+.hero{
+  min-height:245px;
+  border-color:rgba(255,255,255,.075);
+  border-radius:22px;
+  background:
+    radial-gradient(circle at 8% 0,rgba(246,168,0,.09),transparent 22rem),
+    linear-gradient(145deg,#0f141b 0%,#0a0f15 60%,#070a0e 100%);
+  box-shadow:0 20px 52px rgba(0,0,0,.28);
+}
+.depthCard,
+.shareCard,
+.networkCard{
+  border-color:rgba(255,255,255,.065);
+  background:linear-gradient(180deg,#0d1218,#090d12);
+}
+@media(max-width:760px){
+  .hero{min-height:0;padding:16px 14px;border-radius:19px}
+  .hero h2{font-size:34px;line-height:1.02}
+  .heroCopy>p{font-size:11px}
+  .section{margin-top:22px}
 }
