@@ -211,7 +211,7 @@ export default function AdminPanel({
           <img src="/wadan-mark.svg" alt="WADAN" />
           <div>
             <strong>WADAN ADMIN</strong>
-            <span>Control Center</span>
+            <span>Operations Suite</span>
           </div>
         </div>
 
@@ -267,8 +267,8 @@ export default function AdminPanel({
 
           <p>
             {overview.connected
-              ? "Core WADAN services are connected and ready."
-              : overview.message || "Complete system setup to activate operations."}
+              ? "WADAN operations are online and ready."
+              : overview.message || "Complete setup to activate operations."}
           </p>
 
           <button type="button" onClick={refreshOverview} disabled={refreshing}>
@@ -328,15 +328,15 @@ export default function AdminPanel({
 
               <article className={styles.widePanel}>
                 <div className={styles.panelHead}>
-                  <div><span>SECURITY</span><strong>Admin foundation</strong></div>
+                  <div><span>SECURITY</span><strong>Protection status</strong></div>
                   <LockKeyhole size={20} />
                 </div>
 
                 <div className={styles.securityGrid}>
-                  <div><strong>Server-only database key</strong><span>Service-role credentials never go to the browser.</span></div>
-                  <div><strong>Atomic wallet functions</strong><span>Balance changes are planned through PostgreSQL transactions.</span></div>
-                  <div><strong>Audit logging</strong><span>Admin financial actions have a dedicated audit table.</span></div>
-                  <div><strong>RLS locked by default</strong><span>Financial tables are not exposed to public clients.</span></div>
+                  <div><strong>Protected server access</strong><span>Sensitive credentials stay isolated from the client.</span></div>
+                  <div><strong>Transaction-safe balances</strong><span>Wallet updates are processed as protected operations.</span></div>
+                  <div><strong>Action history</strong><span>Important financial actions are recorded for review.</span></div>
+                  <div><strong>Private financial access</strong><span>Financial records stay protected from public access.</span></div>
                 </div>
               </article>
             </section>
