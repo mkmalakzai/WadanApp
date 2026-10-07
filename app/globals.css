@@ -5042,3 +5042,338 @@ html,body{
     -webkit-backdrop-filter:none!important;
   }
 }
+
+
+/* WADAN V20 — EXCHANGE UI RESET */
+:root{
+  --gold:#f6a800;
+  --gold2:#ffbd2e;
+  --wadan-gold:#f6a800;
+  --wadan-gold-strong:#e88900;
+  --wadan-bg:#05070a;
+  --wadan-panel:#0b0f14;
+  --wadan-panel-2:#10151c;
+  --wadan-text:#f4f1eb;
+  --wadan-muted:#8a8f98;
+}
+
+body{
+  background:#05070a;
+  color:#f4f1eb;
+}
+
+.dash-shell,
+.flow-shell{
+  background:
+    radial-gradient(circle at 48% -12%,rgba(246,168,0,.06),transparent 24rem),
+    linear-gradient(180deg,#070a0e 0%,#05070a 52%,#040609 100%)!important;
+}
+
+.public-grid-bg{opacity:.18!important}
+
+.dash-main{padding-top:0}
+
+.dash-topbar{
+  min-height:68px!important;
+  border-bottom:1px solid rgba(255,255,255,.035)!important;
+  background:rgba(5,7,10,.96)!important;
+}
+
+.dash-topbar p{
+  color:#f6a800!important;
+  letter-spacing:.13em!important;
+}
+
+.dash-topbar h1{
+  color:#f4f1eb!important;
+  letter-spacing:-.04em!important;
+}
+
+.icon-square,
+.user-chip{
+  border-color:rgba(255,255,255,.07)!important;
+  background:#0b0f14!important;
+  box-shadow:none!important;
+}
+
+.user-chip>span{
+  background:linear-gradient(145deg,#ffbd2e,#f39a00 64%,#b65a00)!important;
+}
+
+.portfolio-v2{
+  min-height:0!important;
+  border:1px solid rgba(255,255,255,.075)!important;
+  border-radius:22px!important;
+  background:
+    radial-gradient(circle at 0 0,rgba(246,168,0,.10),transparent 24rem),
+    linear-gradient(145deg,#0e131a 0%,#090d12 64%,#070a0e 100%)!important;
+  box-shadow:0 20px 52px rgba(0,0,0,.28)!important;
+}
+
+.dash-hero-label{
+  border-color:rgba(246,168,0,.13)!important;
+  background:rgba(246,168,0,.045)!important;
+  color:#f6a800!important;
+}
+
+.portfolio-v2-copy>p,
+.portfolio-v2-meta span,
+.portfolio-v2-breakdown span{
+  color:#8a8f98!important;
+}
+
+.portfolio-v2-meta em{
+  border-color:rgba(246,168,0,.13)!important;
+  background:rgba(246,168,0,.04)!important;
+  color:#f0b83f!important;
+}
+
+.portfolio-v2-breakdown>div+div{
+  border-color:rgba(255,255,255,.05)!important;
+}
+
+.wdc-price-strip{
+  border:1px solid rgba(255,255,255,.065)!important;
+  border-radius:18px!important;
+  background:linear-gradient(180deg,#0d1218,#090d12)!important;
+  box-shadow:none!important;
+}
+
+.wdc-price-icon,
+.action-link>span,
+.wallet-action-link>span,
+.overview-icon{
+  border:1px solid rgba(246,168,0,.12)!important;
+  background:rgba(246,168,0,.055)!important;
+  color:#f6a800!important;
+}
+
+.section-strip>div>span,
+.dash-panel-head p{
+  color:#f6a800!important;
+}
+
+.section-strip>small{
+  color:#717780!important;
+}
+
+.action-dock,
+.wallet-action-dock{
+  border:1px solid rgba(255,255,255,.065)!important;
+  border-radius:18px!important;
+  background:#0a0e13!important;
+  box-shadow:none!important;
+}
+
+.action-link,
+.wallet-action-link{
+  border-color:rgba(255,255,255,.04)!important;
+  background:transparent!important;
+}
+
+.action-link:hover,
+.wallet-action-link:hover{
+  background:rgba(255,255,255,.018)!important;
+  border-color:rgba(246,168,0,.12)!important;
+}
+
+.action-link strong,
+.wallet-action-link strong{
+  color:#ece9e3!important;
+}
+
+.action-link small,
+.wallet-action-link small{
+  color:#727780!important;
+}
+
+.overview-grid-v2 article,
+.dash-panel,
+.wallet-activity-panel,
+.wallet-security-v2,
+.wallet-asset-balance,
+.wallet-total,
+.wallet-flow-hint{
+  border:1px solid rgba(255,255,255,.065)!important;
+  background:linear-gradient(180deg,#0d1218,#090d12)!important;
+  box-shadow:none!important;
+}
+
+.overview-grid-v2 article em,
+.overview-grid-v2 article small,
+.dash-panel span,
+.dash-panel small{
+  color:#777d86!important;
+}
+
+.gradient-border{
+  border-color:rgba(255,255,255,.065)!important;
+}
+
+.dash-sidebar{
+  background:linear-gradient(180deg,#0b0f14,#070a0e)!important;
+  box-shadow:none!important;
+}
+
+.dash-nav a{
+  color:#858b94!important;
+}
+
+.dash-nav a.active{
+  border-color:rgba(246,168,0,.14)!important;
+  background:rgba(246,168,0,.055)!important;
+  color:#f6a800!important;
+}
+
+.wadan-mobile-dock{
+  border:1px solid rgba(255,255,255,.075)!important;
+  border-bottom-color:rgba(255,255,255,.04)!important;
+  background:#080c11!important;
+  box-shadow:0 10px 35px rgba(0,0,0,.38)!important;
+}
+
+.wadan-mobile-dock a{
+  color:#737983!important;
+}
+
+.wadan-mobile-dock a.active{
+  background:rgba(246,168,0,.075)!important;
+  color:#f6a800!important;
+}
+
+.flow-page{
+  max-width:780px!important;
+}
+
+.flow-heading h1{
+  letter-spacing:-.045em!important;
+}
+
+.flow-warning,
+.withdraw-form,
+.swap-experience,
+.withdraw-review,
+.full-address-card,
+.deposit-network,
+.qr-stage{
+  border-color:rgba(255,255,255,.07)!important;
+  background:linear-gradient(180deg,#0d1218,#090d12)!important;
+  box-shadow:none!important;
+}
+
+.flow-primary{
+  background:linear-gradient(135deg,#ffbb24,#f6a800 55%,#df7e00)!important;
+  box-shadow:0 10px 26px rgba(246,168,0,.12)!important;
+}
+
+.auth-live-message.success{
+  color:#78d8ad!important;
+  border-color:rgba(76,201,145,.16)!important;
+  background:rgba(76,201,145,.045)!important;
+}
+
+@media(max-width:760px){
+  .dash-shell{padding-bottom:88px!important}
+  .dash-main{padding-left:6px!important;padding-right:6px!important}
+  .dash-topbar{
+    min-height:64px!important;
+    padding:7px 5px 8px!important;
+  }
+  .dash-topbar h1{
+    font-size:31px!important;
+    line-height:1!important;
+  }
+  .dash-topbar p{font-size:8px!important}
+
+  .portfolio-v2{
+    padding:18px!important;
+    border-radius:19px!important;
+  }
+  .portfolio-v2-copy h2{
+    font-size:40px!important;
+    line-height:1!important;
+    margin-top:7px!important;
+  }
+  .portfolio-v2-copy>p{
+    margin-top:14px!important;
+    font-size:11px!important;
+  }
+  .portfolio-v2-meta{
+    margin-top:15px!important;
+  }
+  .portfolio-v2-breakdown{
+    margin-top:16px!important;
+    padding-top:13px!important;
+  }
+  .portfolio-v2-breakdown>div{
+    min-height:52px!important;
+  }
+
+  .wdc-price-strip{
+    min-height:84px!important;
+    padding:13px!important;
+    border-radius:16px!important;
+  }
+
+  .action-section,
+  .overview-section,
+  .content-spacer{
+    margin-top:22px!important;
+  }
+
+  .action-dock,
+  .wallet-action-dock{
+    padding:7px!important;
+    border-radius:16px!important;
+  }
+  .action-link,
+  .wallet-action-link{
+    min-height:86px!important;
+    padding:10px 5px!important;
+    border-radius:12px!important;
+  }
+  .action-link>span,
+  .wallet-action-link>span{
+    width:42px!important;
+    height:42px!important;
+    border-radius:12px!important;
+  }
+  .action-link strong,
+  .wallet-action-link strong{
+    font-size:10px!important;
+  }
+
+  .overview-grid-v2{
+    gap:6px!important;
+  }
+  .overview-grid-v2 article{
+    min-height:102px!important;
+    padding:11px!important;
+    border-radius:15px!important;
+  }
+
+  .dash-panel{
+    border-radius:17px!important;
+  }
+
+  .wadan-mobile-dock{
+    left:10px!important;
+    right:10px!important;
+    bottom:10px!important;
+    min-height:68px!important;
+    padding:5px!important;
+    border-radius:20px!important;
+  }
+  .wadan-mobile-dock a{
+    min-height:56px!important;
+    border-radius:15px!important;
+    font-size:8px!important;
+  }
+  .wadan-mobile-dock a svg{
+    width:19px!important;
+    height:19px!important;
+  }
+
+  .flow-page{padding-left:8px!important;padding-right:8px!important;padding-bottom:92px!important}
+  .flow-heading h1{font-size:36px!important}
+}
