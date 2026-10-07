@@ -8417,3 +8417,75 @@ body{overflow-x:hidden}
     animation:none!important;
   }
 }
+
+
+/* WADAN V29 — AMBIENT VISIBILITY + FINISHING TOUCHES */
+::selection{background:rgba(217,139,82,.28);color:#fff8f1}
+button,a{-webkit-tap-highlight-color:transparent}
+button{cursor:pointer}
+
+.premium-surface,
+.flow-shell,
+.auth-shell,
+.public-shell,
+.premium-dashboard{
+  background:
+    radial-gradient(circle at 14% -8%,rgba(217,139,82,.055),transparent 28rem),
+    radial-gradient(circle at 92% 24%,rgba(53,209,197,.028),transparent 30rem),
+    linear-gradient(180deg,rgba(6,10,14,.955) 0%,rgba(3,6,9,.94) 58%,rgba(2,4,6,.95) 100%)!important;
+}
+
+.premium-dashboard-noise{opacity:.10!important}
+.public-grid-bg{opacity:.10!important}
+
+input,select,textarea{
+  caret-color:#d98b52;
+}
+input::placeholder,textarea::placeholder{
+  color:#5f646b!important;
+}
+
+/* typography consistency */
+.dash-topbar h1,
+.premium-header h1,
+.flow-heading h1,
+.section-heading h2,
+.auth-title h2{
+  text-wrap:balance;
+}
+small,em{letter-spacing:.005em}
+
+/* focus visibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible{
+  outline:2px solid rgba(242,179,123,.72);
+  outline-offset:3px;
+}
+
+/* calmer scrollbars */
+*{
+  scrollbar-width:thin;
+  scrollbar-color:rgba(217,139,82,.30) rgba(255,255,255,.025);
+}
+*::-webkit-scrollbar{width:8px;height:8px}
+*::-webkit-scrollbar-track{background:rgba(255,255,255,.02)}
+*::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,rgba(217,139,82,.34),rgba(53,209,197,.16));
+  border-radius:999px;
+}
+
+/* top-bar breathing room on narrow phones */
+@media(max-width:430px){
+  .dash-top-actions,
+  .premium-header-actions{
+    margin-right:12px!important;
+  }
+  .icon-square,
+  .premium-icon-button,
+  .premium-avatar{
+    transform:translateX(-2px);
+  }
+}
