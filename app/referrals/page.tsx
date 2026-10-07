@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
 import styles from "./referrals.module.css";
+import { fetchCached, readCached } from "../../lib/client-cache";
 
 type Member = {
   id:string;
@@ -48,15 +49,14 @@ const relations = [
 ];
 
 export default function ReferralsPage() {
-  const [data,setData]=useState<ReferralData>({});
+  const [data,setData]=useState<ReferralData>(()=>readCached<ReferralData>("referrals:overview") || {});
   const [copied,setCopied]=useState<"code" | "link" | null>(null);
   const [filter,setFilter]=useState<"all"|"1"|"2"|"3"|"4"|"5">("all");
 
   useEffect(()=>{
-    void (async()=>{
-      const response=await fetch("/api/referrals/overview",{cache:"no-store"});
-      if(response.ok) setData(await response.json());
-    })();
+    void fetchCached<ReferralData>("referrals:overview","/api/referrals/overview")
+      .then(setData)
+      .catch(()=>undefined);
   },[]);
 
   const code=data.code || "Loading...";
@@ -123,7 +123,7 @@ export default function ReferralsPage() {
 
         <div className="dash-security">
           <ShieldCheck size={19}/>
-          <div><strong>Referral integrity</strong><span>Backend network tracking active</span></div>
+          <div><strong>Referral integrity</strong><span>Network tracking active</span></div>
         </div>
 
         <nav className="dash-nav bottom">
@@ -147,7 +147,7 @@ export default function ReferralsPage() {
           <div className={styles.heroCopy}>
             <span className={styles.eyebrow}><Users size={15}/> BUILD YOUR NETWORK</span>
             <h2>Invite people. Grow WADAN.</h2>
-            <p>Your referral code, network depth and members are now loaded from the backend.</p>
+            <p>Invite friends, follow your network depth and track rewards in one place.</p>
           </div>
         </section>
 
@@ -186,7 +186,7 @@ export default function ReferralsPage() {
             <div className={styles.spotlightReward}>
               <span>Configured direct rate</span>
               <strong>{rates[0]}%</strong>
-              <small>Stored in backend settings</small>
+              <small>Current Level 1 rate</small>
             </div>
           </article>
         </section>
@@ -278,7 +278,7 @@ export default function ReferralsPage() {
         <section className={styles.section}>
           <div className={styles.sectionHead}>
             <div><span>REWARD SYSTEM</span><strong>5-level referral settings</strong></div>
-            <small>Backend configured</small>
+            <small>Current structure</small>
           </div>
 
           <div className={styles.rewardJourney}>
@@ -305,7 +305,7 @@ export default function ReferralsPage() {
 
           <div className={styles.ruleNote}>
             <ShieldCheck size={19}/>
-            <p>Network tracking is live. Reward crediting remains controlled by backend rules and admin settings.</p>
+            <p>Referral activity is tracked automatically. Rewards follow the current WADAN referral rules.</p>
           </div>
         </section>
 
