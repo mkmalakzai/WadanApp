@@ -73,7 +73,7 @@ export default function WalletPage() {
   const total=summary?.totalUsd ?? 0;
 
   return (
-    <main className="dash-shell">
+    <main className="dash-shell premium-surface wallet-premium">
       <div className="public-grid-bg" />
 
       <aside className="dash-sidebar gradient-border">
@@ -173,7 +173,7 @@ export default function WalletPage() {
             </div>
 
             <div className="wallet-activity-list">
-              {summary?.recent?.length ? summary.recent.map((row,i)=>(
+              {summary?.recent?.length ? summary.recent.slice(0,3).map((row,i)=>(
                 <div className="wallet-activity-row" key={row.id}>
                   <span className="activity-dot">{i+1}</span>
                   <div><strong>{prettyType(row.type)}</strong><small>{row.asset}</small></div>
@@ -190,6 +190,7 @@ export default function WalletPage() {
                 </div>
               )}
             </div>
+            <Link href="/history" className="wallet-history-bottom"><History size={16}/> View wallet history</Link>
           </article>
 
           <article className="wallet-security-v2">
