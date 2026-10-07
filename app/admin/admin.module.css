@@ -1280,3 +1280,201 @@
     font-size:7px;
   }
 }
+
+
+/* =========================================================
+   ADMIN FINANCE REVIEW V2 — complete transaction details
+   ========================================================= */
+
+.financeList{
+  display:grid;
+  gap:10px;
+  margin-top:12px;
+}
+
+.financeCard{
+  padding:15px;
+  border:1px solid rgba(255,255,255,.075);
+  border-radius:18px;
+  background:
+    linear-gradient(180deg,rgba(15,21,31,.92),rgba(8,12,18,.96));
+  box-shadow:0 18px 44px rgba(0,0,0,.20);
+}
+
+.financeCardTop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.financeIdentity{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+
+.financeIdentity>div:last-child{
+  min-width:0;
+}
+
+.financeIdentity strong,
+.financeIdentity span{
+  display:block;
+}
+
+.financeIdentity strong{
+  font-size:12px;
+  color:#f0eadf;
+}
+
+.financeIdentity span{
+  margin-top:3px;
+  color:#847d72;
+  font-size:9px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.statusPill{
+  flex:0 0 auto;
+  padding:6px 9px;
+  border:1px solid rgba(255,176,0,.13);
+  border-radius:999px;
+  background:rgba(255,176,0,.055);
+  color:#ffb000;
+  font-size:8px;
+  font-style:normal;
+  font-weight:900;
+  text-transform:capitalize;
+}
+
+.financeAmount{
+  margin-top:14px;
+  padding:14px;
+  border:1px solid rgba(255,176,0,.11);
+  border-radius:14px;
+  background:rgba(255,176,0,.035);
+}
+
+.financeAmount small,
+.financeAmount strong{
+  display:block;
+}
+
+.financeAmount small{
+  color:#8b8377;
+  font-size:8px;
+  font-weight:850;
+  letter-spacing:.12em;
+}
+
+.financeAmount strong{
+  margin-top:4px;
+  color:#ffb000;
+  font-size:22px;
+  letter-spacing:-.025em;
+}
+
+.financeMeta{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:10px;
+}
+
+.financeMeta>div{
+  min-width:0;
+  padding:10px 11px;
+  border:1px solid rgba(255,255,255,.055);
+  border-radius:12px;
+  background:rgba(255,255,255,.014);
+}
+
+.financeMeta span,
+.financeMeta strong{
+  display:block;
+}
+
+.financeMeta span{
+  color:#70695f;
+  font-size:8px;
+}
+
+.financeMeta strong{
+  margin-top:4px;
+  color:#dcd4c8;
+  font-size:9px;
+  font-weight:800;
+}
+
+.financeHash{
+  grid-column:1 / -1;
+}
+
+.financeHash code{
+  display:block;
+  margin-top:5px;
+  color:#bdb4a7;
+  font-size:8px;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+.depositActions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:12px;
+}
+
+.depositActions button{
+  min-height:40px;
+  padding:0 14px;
+  border:1px solid rgba(255,176,0,.18);
+  border-radius:11px;
+  background:#ffb000;
+  color:#120c03;
+  font-size:9px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.depositActions .rejectAction{
+  background:rgba(255,86,86,.05);
+  border-color:rgba(255,86,86,.16);
+  color:#ff8e8e;
+}
+
+.completedAction{
+  color:#6fcfa7;
+  font-size:9px;
+  font-weight:800;
+}
+
+@media(max-width:760px){
+  .financeCard{
+    padding:13px;
+    border-radius:16px;
+  }
+
+  .financeIdentity strong{font-size:11px}
+  .financeIdentity span{font-size:8.5px}
+  .financeAmount{padding:12px}
+  .financeAmount strong{font-size:20px}
+  .financeMeta{grid-template-columns:1fr}
+  .financeHash{grid-column:auto}
+  .depositActions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+  .depositActions button{
+    width:100%;
+  }
+  .completedAction{
+    grid-column:1 / -1;
+  }
+}
