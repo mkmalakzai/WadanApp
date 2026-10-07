@@ -1,12 +1,17 @@
-const memory = new Map<string, unknown>();
+type CacheEntry = {
+  value: unknown;
+  at: number;
+};
+
+const memory = new Map<string, CacheEntry>();
 const inflight = new Map<string, Promise<unknown>>();
 
 export function readCached<T>(key: string): T | null {
-  return (memory.get(key) as T | undefined) ?? null;
+  return (memory.get(key)?.value as T | undefined) ?? null;
 }
 
 export function writeCached<T>(key: string, value: T) {
-  memory.set(key, value);
+  memory.set(key, { value, at: Date.now() });
 }
 
 export function invalidateCached(...keys: string[]) {
@@ -16,12 +21,13 @@ export function invalidateCached(...keys: string[]) {
 export async function fetchCached<T>(
   key: string,
   url: string,
-  options: RequestInit & { force?: boolean } = {}
+  options: RequestInit & { force?: boolean; staleMs?: number } = {}
 ): Promise<T> {
-  const { force = false, ...requestOptions } = options;
+  const { force = false, staleMs = 15_000, ...requestOptions } = options;
+  const cached = memory.get(key);
 
-  if (!force && memory.has(key)) {
-    return memory.get(key) as T;
+  if (!force && cached && Date.now() - cached.at < staleMs) {
+    return cached.value as T;
   }
 
   if (!force && inflight.has(key)) {
@@ -40,7 +46,7 @@ export async function fetchCached<T>(
       throw new Error(data?.error || "Unable to load WADAN data.");
     }
 
-    memory.set(key, data);
+    writeCached(key, data);
     return data as T;
   })();
 
