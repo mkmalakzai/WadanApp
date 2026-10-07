@@ -211,7 +211,7 @@ export default function AdminPanel({
           <img src="/wadan-mark.svg" alt="WADAN" />
           <div>
             <strong>WADAN ADMIN</strong>
-            <span>Operations Console</span>
+            <span>Control Center</span>
           </div>
         </div>
 
@@ -236,7 +236,7 @@ export default function AdminPanel({
           <ShieldCheck size={19} />
           <div>
             <strong>Admin only</strong>
-            <span>Temporary environment gate</span>
+            <span>Owner access</span>
           </div>
         </div>
       </aside>
@@ -262,13 +262,13 @@ export default function AdminPanel({
         <section className={styles.connection}>
           <div className={overview.connected ? styles.online : styles.offline}>
             <Database size={17} />
-            <span>{overview.connected ? "Backend connected" : "Backend setup mode"}</span>
+            <span>{overview.connected ? "System online" : "Setup required"}</span>
           </div>
 
           <p>
             {overview.connected
-              ? "Supabase PostgreSQL is connected to the admin console."
-              : overview.message || "Connect the database environment to activate live operations."}
+              ? "Core WADAN services are connected and ready."
+              : overview.message || "Complete system setup to activate operations."}
           </p>
 
           <button type="button" onClick={refreshOverview} disabled={refreshing}>
@@ -382,7 +382,7 @@ export default function AdminPanel({
                     .toLowerCase()
                     .includes(q);
                 }).length === 0 ? (
-                <div className={styles.usersEmpty}><Users size={24}/><strong>No users yet</strong><span>Real users will appear here after account registration is connected.</span></div>
+                <div className={styles.usersEmpty}><Users size={24}/><strong>No users yet</strong><span>New accounts will appear here after registration.</span></div>
               ) : (
                 users
                   .filter((u) => {
@@ -418,24 +418,48 @@ export default function AdminPanel({
         {tab === "deposits" && (
           <section className={styles.usersWorkspace}>
             <div className={styles.usersToolbar}>
-              <div><span>LIVE DEPOSITS</span><strong>Deposit review queue</strong></div>
-              <button type="button" onClick={loadDeposits} disabled={moduleLoading}><RefreshCw size={15}/> Refresh</button>
+              <div><span>DEPOSIT REVIEW</span><strong>Incoming transactions</strong></div>
+              <button type="button" onClick={loadDeposits} disabled={moduleLoading}><RefreshCw size={15} className={moduleLoading ? styles.spin : ""}/> Refresh</button>
             </div>
             {moduleMessage && <div className={styles.workspaceState}>{moduleMessage}</div>}
-            <div className={styles.usersList}>
-              {deposits.length ? deposits.map((item)=>(
-                <article className={styles.userRow} key={item.id}>
-                  <div className={styles.userAvatar}>{item.asset}</div>
-                  <div className={styles.userIdentity}><strong>{item.userName}</strong><span>{item.email || item.txHash}</span></div>
-                  <div className={styles.userMeta}><span>{item.amount} {item.asset}</span><em>{item.status}</em></div>
-                  <div className={styles.opsActions}>
-                    {item.status !== "confirmed" && item.status !== "rejected" && <>
-                      <button type="button" onClick={()=>actDeposit(item.id,"confirm")}>Confirm</button>
-                      <button type="button" onClick={()=>actDeposit(item.id,"reject")}>Reject</button>
-                    </>}
+            <div className={styles.financeList}>
+              {moduleLoading ? (
+                <div className={styles.usersEmpty}><RefreshCw size={22} className={styles.spin}/><span>Loading deposits…</span></div>
+              ) : deposits.length ? deposits.map((item)=>(
+                <article className={styles.financeCard} key={item.id}>
+                  <div className={styles.financeCardTop}>
+                    <div className={styles.financeIdentity}>
+                      <div className={styles.userAvatar}>{item.asset}</div>
+                      <div><strong>{item.userName}</strong><span>{item.email || "No email"}</span></div>
+                    </div>
+                    <em className={styles.statusPill}>{item.status}</em>
+                  </div>
+
+                  <div className={styles.financeAmount}>
+                    <small>AMOUNT</small>
+                    <strong>{format(item.amount,6)} {item.asset}</strong>
+                  </div>
+
+                  <div className={styles.financeMeta}>
+                    <div><span>Network</span><strong>{item.network || "BSC"}</strong></div>
+                    <div><span>Submitted</span><strong>{item.createdAt ? new Date(item.createdAt).toLocaleString() : "—"}</strong></div>
+                    <div className={styles.financeHash}><span>Transaction hash</span><code>{item.txHash || "—"}</code></div>
+                  </div>
+
+                  <div className={styles.depositActions}>
+                    {item.status !== "confirmed" && item.status !== "rejected" ? (
+                      <>
+                        <button type="button" onClick={()=>actDeposit(item.id,"confirm")}>Confirm deposit</button>
+                        <button type="button" className={styles.rejectAction} onClick={()=>actDeposit(item.id,"reject")}>Reject</button>
+                      </>
+                    ) : (
+                      <span className={styles.completedAction}>Review completed</span>
+                    )}
                   </div>
                 </article>
-              )) : <div className={styles.usersEmpty}><CircleDollarSign size={24}/><strong>No deposits</strong><span>Submitted deposit transactions will appear here.</span></div>}
+              )) : (
+                <div className={styles.usersEmpty}><CircleDollarSign size={24}/><strong>No deposits</strong><span>Submitted deposit transactions will appear here.</span></div>
+              )}
             </div>
           </section>
         )}
@@ -443,25 +467,44 @@ export default function AdminPanel({
         {tab === "withdrawals" && (
           <section className={styles.usersWorkspace}>
             <div className={styles.usersToolbar}>
-              <div><span>LIVE WITHDRAWALS</span><strong>Withdrawal review queue</strong></div>
-              <button type="button" onClick={loadWithdrawals} disabled={moduleLoading}><RefreshCw size={15}/> Refresh</button>
+              <div><span>WITHDRAWAL REVIEW</span><strong>Outgoing requests</strong></div>
+              <button type="button" onClick={loadWithdrawals} disabled={moduleLoading}><RefreshCw size={15} className={moduleLoading ? styles.spin : ""}/> Refresh</button>
             </div>
             {moduleMessage && <div className={styles.workspaceState}>{moduleMessage}</div>}
-            <div className={styles.usersList}>
-              {withdrawals.length ? withdrawals.map((item)=>(
-                <article className={styles.userRow} key={item.id}>
-                  <div className={styles.userAvatar}>{item.asset}</div>
-                  <div className={styles.userIdentity}><strong>{item.userName}</strong><span>{item.address}</span></div>
-                  <div className={styles.userMeta}><span>{item.amount} {item.asset}</span><em>{item.status}</em></div>
-                  <div className={styles.opsActions}>
+            <div className={styles.financeList}>
+              {moduleLoading ? (
+                <div className={styles.usersEmpty}><RefreshCw size={22} className={styles.spin}/><span>Loading withdrawals…</span></div>
+              ) : withdrawals.length ? withdrawals.map((item)=>(
+                <article className={styles.financeCard} key={item.id}>
+                  <div className={styles.financeCardTop}>
+                    <div className={styles.financeIdentity}>
+                      <div className={styles.userAvatar}>{item.asset}</div>
+                      <div><strong>{item.userName}</strong><span>{item.email || "No email"}</span></div>
+                    </div>
+                    <em className={styles.statusPill}>{item.status}</em>
+                  </div>
+                  <div className={styles.financeAmount}>
+                    <small>REQUESTED</small>
+                    <strong>{format(item.amount,6)} {item.asset}</strong>
+                  </div>
+                  <div className={styles.financeMeta}>
+                    <div><span>Fee</span><strong>{format(item.fee,6)} {item.asset}</strong></div>
+                    <div><span>Submitted</span><strong>{item.createdAt ? new Date(item.createdAt).toLocaleString() : "—"}</strong></div>
+                    <div className={styles.financeHash}><span>Destination</span><code>{item.address}</code></div>
+                    {item.txHash && <div className={styles.financeHash}><span>Transaction hash</span><code>{item.txHash}</code></div>}
+                  </div>
+                  <div className={styles.depositActions}>
                     {item.status === "pending" && <>
                       <button type="button" onClick={()=>actWithdrawal(item.id,"approve")}>Approve</button>
-                      <button type="button" onClick={()=>actWithdrawal(item.id,"reject")}>Reject</button>
+                      <button type="button" className={styles.rejectAction} onClick={()=>actWithdrawal(item.id,"reject")}>Reject</button>
                     </>}
                     {item.status === "approved" && <button type="button" onClick={()=>actWithdrawal(item.id,"sent")}>Mark sent</button>}
+                    {!["pending","approved"].includes(item.status) && <span className={styles.completedAction}>Review completed</span>}
                   </div>
                 </article>
-              )) : <div className={styles.usersEmpty}><WalletCards size={24}/><strong>No withdrawals</strong><span>User withdrawal requests will appear here.</span></div>}
+              )) : (
+                <div className={styles.usersEmpty}><WalletCards size={24}/><strong>No withdrawals</strong><span>User withdrawal requests will appear here.</span></div>
+              )}
             </div>
           </section>
         )}
