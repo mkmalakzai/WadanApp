@@ -67,8 +67,9 @@ export default function WalletPage() {
   const wdc=summary?.profile.wdcBalance ?? 0;
   const usdt=summary?.profile.usdtBalance ?? 0;
   const price=summary?.wdcPrice ?? 0.01;
-  const name=summary?.profile.displayName || "Member";
-  const initials=name.slice(0,2).toUpperCase();
+  const name=summary?.profile.displayName || "";
+  const displayName=name || "—";
+  const initials=name ? name.slice(0,2).toUpperCase() : "W";
   const total=summary?.totalUsd ?? 0;
 
   return (
@@ -108,7 +109,7 @@ export default function WalletPage() {
           </div>
           <div className="dash-top-actions">
             <button className="icon-square" aria-label="Notifications"><Bell size={18}/></button>
-            <button className="user-chip"><span>{initials}</span><div><strong>{name}</strong><small>Member</small></div></button>
+            <button className="user-chip"><span>{initials}</span><div><strong>{displayName}</strong><small>Member</small></div></button>
           </div>
         </header>
 
@@ -130,7 +131,7 @@ export default function WalletPage() {
                 <div><strong>Wadan Coin</strong><small>WDC • BNB Chain</small></div>
               </div>
               <h3>{!summary ? "—" : hidden ? "••••" : wdc.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC"}</h3>
-              <div className="asset-balance-foot"><span>{hidden ? "••••" : (wdc*price).toLocaleString("en-US",{style:"currency",currency:"USD"})}</span><em>{price.toLocaleString("en-US",{style:"currency",currency:"USD",minimumFractionDigits:4,maximumFractionDigits:4})} / WDC</em></div>
+              <div className="asset-balance-foot"><span>{!summary ? "—" : hidden ? "••••" : (wdc*price).toLocaleString("en-US",{style:"currency",currency:"USD"})}</span><em>{!summary ? "—" : price.toLocaleString("en-US",{style:"currency",currency:"USD",minimumFractionDigits:4,maximumFractionDigits:4})+" / WDC"}</em></div>
             </article>
 
             <article className="wallet-asset-balance usdt-balance">
@@ -139,7 +140,7 @@ export default function WalletPage() {
                 <div><strong>Tether USD</strong><small>USDT • BNB Chain</small></div>
               </div>
               <h3>{!summary ? "—" : hidden ? "••••" : usdt.toLocaleString("en-US",{maximumFractionDigits:4})+" USDT"}</h3>
-              <div className="asset-balance-foot"><span>{hidden ? "••••" : usdt.toLocaleString("en-US",{style:"currency",currency:"USD"})}</span><em>$1.00 / USDT</em></div>
+              <div className="asset-balance-foot"><span>{!summary ? "—" : hidden ? "••••" : usdt.toLocaleString("en-US",{style:"currency",currency:"USD"})}</span><em>{summary ? "$1.00 / USDT" : "—"}</em></div>
             </article>
           </div>
         </section>
@@ -198,8 +199,8 @@ export default function WalletPage() {
             </div>
 
             <div className="wallet-security-list">
-              <div><span>Email verification</span><strong>{summary?.profile.emailConfirmed ? "Verified" : "Pending"}</strong></div>
-              <div><span>KYC status</span><strong>{(summary?.profile.kycStatus || "not_started").replace("_"," ")}</strong></div>
+              <div><span>Email verification</span><strong>{!summary ? "—" : summary.profile.emailConfirmed ? "Verified" : "Pending"}</strong></div>
+              <div><span>KYC status</span><strong>{summary ? summary.profile.kycStatus.replace("_"," ") : "—"}</strong></div>
               <div><span>Network</span><strong>BNB Chain</strong></div>
               <div><span>Wallet status</span><strong className="gold-text">Protected</strong></div>
             </div>
