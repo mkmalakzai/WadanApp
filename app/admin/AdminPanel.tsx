@@ -69,6 +69,7 @@ export default function AdminPanel({
   }, []);
 
   useEffect(() => {
+    setModuleMessage("");
     if (tab === "users") void loadUsers();
     if (tab === "deposits") void loadDeposits();
     if (tab === "withdrawals") void loadWithdrawals();
