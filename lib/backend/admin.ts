@@ -135,6 +135,7 @@ export type AdminDeposit = {
   userName: string;
   email: string;
   asset: string;
+  network: string;
   amount: number;
   txHash: string;
   status: string;
@@ -190,13 +191,14 @@ export async function getAdminDeposits(): Promise<AdminDeposit[]> {
     id:string;
     user_id:string;
     asset:string;
+    network?:string|null;
     amount:number|string;
     tx_hash?:string|null;
     status:string;
     created_at:string;
     users?:{display_name?:string|null;email?:string|null}|Array<{display_name?:string|null;email?:string|null}>;
   }>>(
-    "deposits?select=id,user_id,asset,amount,tx_hash,status,created_at,users(display_name,email)&order=created_at.desc&limit=100"
+    "deposits?select=id,user_id,asset,network,amount,tx_hash,status,created_at,users(display_name,email)&order=created_at.desc&limit=100"
   );
 
   return rows.map((row) => {
@@ -207,6 +209,7 @@ export async function getAdminDeposits(): Promise<AdminDeposit[]> {
       userName: joined?.display_name || "Member",
       email: joined?.email || "",
       asset: row.asset,
+      network: row.network || "BSC",
       amount: toNumber(row.amount),
       txHash: row.tx_hash || "",
       status: row.status,
