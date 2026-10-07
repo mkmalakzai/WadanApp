@@ -90,7 +90,7 @@ export default function WithdrawPage() {
   const enabled=Boolean(summary?.flags.withdrawals);
 
   return (
-    <main className="flow-shell">
+    <main className="flow-shell feature-withdraw">
       <div className="public-grid-bg" />
 
       <section className="flow-page">
@@ -105,7 +105,6 @@ export default function WithdrawPage() {
           <span>Create a withdrawal request on BNB Smart Chain. Funds are reserved while the request is reviewed.</span>
         </div>
 
-        <Link href="/history/withdraw" className="flow-history-link"><History size={16}/> View history</Link>
 
         {summary && !enabled && (
           <div className="flow-warning">
@@ -222,6 +221,7 @@ export default function WithdrawPage() {
           </section>
         )}
 
+        <Link href="/history/withdraw" className="feature-history-bottom"><History size={16}/> Withdrawal history</Link>
         <MobileDock active="/wallet" />
       </section>
     </main>
