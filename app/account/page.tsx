@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
 import styles from "./account.module.css";
+import { fetchCached, readCached } from "../../lib/client-cache";
 
 type Tab = "overview" | "profile" | "security" | "preferences";
 
@@ -49,8 +50,8 @@ export default function AccountPage() {
   const [twoFactor, setTwoFactor] = useState(false);
   const [emailAlerts, setEmailAlerts] = useState(true);
   const [securityAlerts, setSecurityAlerts] = useState(true);
-  const [profile, setProfile] = useState<AccountProfile | null>(null);
-  const [profileLoading, setProfileLoading] = useState(true);
+  const [profile, setProfile] = useState<AccountProfile | null>(()=>readCached<{profile:AccountProfile}>("account:me")?.profile ?? null);
+  const [profileLoading, setProfileLoading] = useState(()=>!readCached<{profile:AccountProfile}>("account:me")?.profile);
 
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("tab");
@@ -58,18 +59,12 @@ export default function AccountPage() {
       setTab(requested);
     }
 
-    void (async () => {
-      try {
-        const response = await fetch("/api/account/me", { cache: "no-store" });
-        const data = await response.json();
-
-        if (response.ok && data.profile) {
-          setProfile(data.profile);
-        }
-      } finally {
-        setProfileLoading(false);
-      }
-    })();
+    void fetchCached<{profile:AccountProfile}>("account:me","/api/account/me")
+      .then((data)=>{
+        if (data.profile) setProfile(data.profile);
+      })
+      .catch(()=>undefined)
+      .finally(()=>setProfileLoading(false));
   }, []);
 
   function savePreview() {
@@ -123,7 +118,7 @@ export default function AccountPage() {
             <div className={styles.avatar}>{(profile?.displayName || "M").slice(0,2).toUpperCase()}</div>
             <div>
               <span>WADAN MEMBER</span>
-              <h2>{profile?.displayName || (profileLoading ? "Loading..." : "Member")}</h2>
+              <h2>{profile?.displayName || (profileLoading ? "—" : "Member")}</h2>
               <p>Member ID: {profile ? `WDC-${profile.appUserId.slice(0,8).toUpperCase()}` : "—"}</p>
             </div>
           </div>
@@ -263,7 +258,7 @@ export default function AccountPage() {
                 <LockKeyhole size={21}/>
               </div>
               <div className={styles.session}>
-                <div><span className={styles.deviceIcon}><Smartphone size={19}/></span><div><strong>Current mobile session</strong><small>Session details will come from backend authentication.</small></div></div>
+                <div><span className={styles.deviceIcon}><Smartphone size={19}/></span><div><strong>Current mobile session</strong><small>This device is signed in to your WADAN account.</small></div></div>
                 <em>Active</em>
               </div>
             </article>
