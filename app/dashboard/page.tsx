@@ -36,6 +36,9 @@ type WalletSummary = {
   };
   wdcPrice:number;
   totalUsd:number;
+  portfolioUsd?:number;
+  availableUsd?:number;
+  stakedUsd?:number;
   totalStaked:number;
 };
 
@@ -77,9 +80,10 @@ export default function DashboardPage() {
   const stakingReady=Boolean(staking);
 
   const wdc=wallet?.profile.wdcBalance ?? 0;
-  const totalUsd=wallet?.totalUsd ?? 0;
+  const walletUsd=wallet?.availableUsd ?? wallet?.totalUsd ?? 0;
   const price=wallet?.wdcPrice ?? 0.01;
-  const totalStaked=staking?.summary?.totalStaked ?? wallet?.totalStaked ?? 0;
+  const totalStaked=wallet?.totalStaked ?? staking?.summary?.totalStaked ?? 0;
+  const portfolioUsd=wallet?.portfolioUsd ?? walletUsd + totalStaked * (wallet?.wdcPrice ?? 0.01);
   const todayEarned=staking?.summary?.todayProfit ?? 0;
   const allProfit=staking?.summary?.allProfit ?? 0;
   const expectedProfit=staking?.summary?.expectedProfit ?? 0;
@@ -142,8 +146,9 @@ export default function DashboardPage() {
 
           <div className="premium-portfolio-value">
             <small>Total portfolio value</small>
-            <strong>{walletReady ? totalUsd.toLocaleString("en-US",{style:"currency",currency:"USD",maximumFractionDigits:2}) : "—"}</strong>
-            <p><b>{walletReady ? fmt(wdc,4) : "—"} WDC</b><span>available balance</span></p>
+            <strong>{walletReady ? portfolioUsd.toLocaleString("en-US",{style:"currency",currency:"USD",maximumFractionDigits:2}) : "—"}</strong>
+            <p><b>{walletReady ? fmt(wdc,4) : "—"} WDC</b><span>available to spend</span></p>
+            <p className="portfolio-locked-note">{walletReady ? fmt(totalStaked,4) : "—"} WDC staked · Wallet {walletReady ? walletUsd.toLocaleString("en-US",{style:"currency",currency:"USD"}) : "—"}</p>
           </div>
 
           <div className="premium-portfolio-stats">
