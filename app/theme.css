@@ -1,0 +1,280 @@
+/* WADAN theme system — imported after legacy globals. */
+.wadan-theme-toggle{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  min-height:43px;
+  padding:0 14px;
+  border-radius:13px;
+  border:1px solid rgba(217,139,82,.25);
+  background:linear-gradient(145deg,rgba(217,139,82,.13),rgba(9,14,19,.85));
+  color:#efb182;
+  font-size:12px;
+  font-weight:800;
+  text-decoration:none;
+  white-space:nowrap;
+  cursor:pointer;
+}
+.wadan-theme-toggle.compact{
+  width:44px;
+  height:44px;
+  min-height:44px;
+  padding:0;
+  border-radius:14px;
+}
+.wadan-theme-toggle:hover{border-color:rgba(217,139,82,.48)}
+.wadan-theme-toggle svg{flex:none}
+
+.portfolio-locked-note{
+  display:block!important;
+  max-width:100%;
+  margin:8px 0 0!important;
+  color:#edc3a4!important;
+  font-size:12px!important;
+  line-height:1.5!important;
+  font-weight:700;
+}
+.wallet-value-breakdown{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 24px;
+  margin-top:14px;
+}
+.wallet-value-breakdown span{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  align-items:center;
+  color:#b1a9a3;
+  font-size:11px;
+}
+.wallet-value-breakdown strong{color:#e6b387}
+.wallet-balance-label{
+  margin-top:16px;
+  color:#b7a9a1;
+  font-size:11px;
+  font-weight:700;
+}
+.wallet-locked-note{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-top:14px;
+  padding:11px 12px;
+  border:1px solid rgba(217,139,82,.22);
+  border-radius:13px;
+  background:rgba(217,139,82,.07);
+  color:#e8b38e;
+  text-decoration:none;
+  font-size:12px;
+}
+.wallet-locked-note span{flex:1}
+.wallet-locked-note strong{font-weight:850}
+.wallet-locked-note svg{flex:none}
+
+@media(max-width:760px){
+  .portfolio-locked-note{font-size:10px!important;margin-top:8px!important}
+  .wallet-value-breakdown{gap:6px 13px}
+  .wallet-value-breakdown span{font-size:10px}
+  .wallet-locked-note{font-size:11px}
+}
+
+/* Light mode: slate/porcelain canvas, copper highlights, teal gains.
+   Explicit rules are needed because older versioned CSS has !important dark surfaces. */
+html[data-wadan-theme="light"]{
+  color-scheme:light!important;
+  --bg:#f3f5f8;
+  --text:#192535;
+  --muted:#536374;
+  --gold:#b76b3e;
+  --gold2:#c67d4f;
+  --wadan-gold:#b76b3e;
+  --wadan-bg:#f3f5f8;
+  --wadan-text:#192535;
+  --wd-bg:#f3f5f8;
+  --wd-panel:#fff;
+}
+html[data-wadan-theme="light"] body{
+  background:#f3f5f8!important;
+  color:#192535!important;
+}
+html[data-wadan-theme="light"] :is(
+  .dash-shell,.flow-shell,.premium-surface,.premium-dashboard,
+  .public-shell,.public-page,.landing-page,.auth-shell
+){
+  background:
+    radial-gradient(circle at 10% -8%,rgba(194,121,73,.09),transparent 27rem),
+    radial-gradient(circle at 96% 24%,rgba(39,153,149,.07),transparent 25rem),
+    linear-gradient(180deg,#f7f8fa 0%,#eef1f5 100%)!important;
+  color:#172535!important;
+}
+html[data-wadan-theme="light"] :is(.premium-dashboard-noise,.public-grid-bg){
+  opacity:.085!important;
+}
+html[data-wadan-theme="light"] .wadan-ambient{opacity:.16!important}
+html[data-wadan-theme="light"] .wadan-ambient-orb{mix-blend-mode:multiply!important}
+html[data-wadan-theme="light"] .wadan-ambient-dust{opacity:.05!important}
+
+html[data-wadan-theme="light"] :is(.dash-sidebar,.premium-sidebar){
+  background:linear-gradient(180deg,#fff,#f4f6f8)!important;
+  border-color:rgba(52,67,87,.13)!important;
+}
+html[data-wadan-theme="light"] .dash-nav a{color:#526171!important}
+html[data-wadan-theme="light"] .dash-nav a.active{
+  color:#a75732!important;
+  border-color:rgba(180,98,55,.18)!important;
+  background:rgba(180,98,55,.07)!important;
+}
+html[data-wadan-theme="light"] .public-brand strong{color:#293445!important}
+html[data-wadan-theme="light"] .dash-security{
+  background:#fff!important;
+  border-color:rgba(52,67,87,.12)!important;
+}
+html[data-wadan-theme="light"] .dash-security strong{color:#253143!important}
+html[data-wadan-theme="light"] .dash-security span{color:#657283!important}
+
+html[data-wadan-theme="light"] :is(.dash-topbar,.flow-topbar){
+  background:rgba(247,248,250,.97)!important;
+  border-color:rgba(52,67,87,.1)!important;
+}
+html[data-wadan-theme="light"] :is(.dash-topbar h1,.flow-heading h1,.premium-header h1){
+  color:#182638!important;
+}
+html[data-wadan-theme="light"] :is(.dash-topbar p,.premium-header p){
+  color:#a65b37!important;
+}
+html[data-wadan-theme="light"] :is(.icon-square,.user-chip,.premium-icon-button,.premium-avatar){
+  border-color:rgba(57,73,94,.14)!important;
+  background:#fff!important;
+  color:#38475a!important;
+  box-shadow:0 5px 16px rgba(24,39,58,.06)!important;
+}
+html[data-wadan-theme="light"] .premium-avatar{
+  background:linear-gradient(145deg,#eab787,#c07a4b)!important;
+  color:#352116!important;
+}
+html[data-wadan-theme="light"] .premium-header h1 span{
+  background:linear-gradient(90deg,#d99b72,#a95434)!important;
+  background-clip:text!important;
+  -webkit-background-clip:text!important;
+  color:transparent!important;
+}
+html[data-wadan-theme="light"] .premium-header p{color:#758092!important}
+
+/* Scenic hero and vivid colored shortcuts intentionally stay dark for contrast. */
+html[data-wadan-theme="light"] .premium-dashboard .premium-portfolio{
+  background:#101923!important;
+  color:#f5ede7!important;
+}
+html[data-wadan-theme="light"] :is(.premium-dashboard .premium-metric-card,.premium-dashboard .premium-action,.premium-dashboard .premium-explore-card){
+  color:#f1ede7!important;
+}
+html[data-wadan-theme="light"] .premium-section-head h2{color:#172535!important}
+
+html[data-wadan-theme="light"] :is(
+  .wallet-total,.wallet-asset-balance,.wallet-action-dock,.wallet-activity-panel,
+  .wallet-security-v2,.wallet-flow-hint,.wdc-price-strip,
+  .dash-panel,.overview-grid-v2 article,.wallet-overview-v2 article,
+  .withdraw-form,.withdraw-review,.deposit-network,.qr-stage,.full-address-card,
+  .swap-experience,.flow-warning,.flow-loading-card,.asset-selector button,
+  .amount-input-card,.swap-box,.destination-input,.withdraw-summary,.review-card
+){
+  background:linear-gradient(160deg,#fff,#f8fafb)!important;
+  border-color:rgba(51,72,98,.13)!important;
+  box-shadow:0 10px 29px rgba(31,46,66,.055)!important;
+  color:#223347!important;
+}
+html[data-wadan-theme="light"] :is(
+  .wallet-total h2,.wallet-asset-balance h3,.wallet-label,
+  .wallet-asset-balance strong,.wallet-security-v2 strong,
+  .wallet-activity-panel strong,.wallet-action-link strong,
+  .wallet-flow-hint strong,.section-strip strong,
+  .flow-section-title strong,.flow-field-group label
+){color:#1c2a3d!important}
+html[data-wadan-theme="light"] :is(
+  .wallet-total p,.wallet-total small,.wallet-asset-balance small,
+  .wallet-asset-balance em,.wallet-flow-hint span,.wallet-security-v2 span,
+  .wallet-activity-panel small,.wallet-action-link small,
+  .flow-heading>span,.flow-warning p,.section-strip small
+){color:#697789!important}
+html[data-wadan-theme="light"] :is(.wallet-action-link,.action-link){
+  background:rgba(233,237,242,.4)!important;
+  border-color:rgba(50,65,87,.08)!important;
+}
+html[data-wadan-theme="light"] .wallet-value-breakdown span{color:#607081}
+html[data-wadan-theme="light"] .wallet-value-breakdown strong{color:#a65b36}
+html[data-wadan-theme="light"] .wallet-balance-label{color:#6e7784}
+html[data-wadan-theme="light"] .wallet-locked-note{
+  background:rgba(190,112,64,.075)!important;
+  color:#985333!important;
+  border-color:rgba(190,112,64,.19)!important;
+}
+html[data-wadan-theme="light"] .wallet-locked-note strong{color:#985333!important}
+html[data-wadan-theme="light"] :is(.flow-field-group input,.flow-field-group select,.swap-input-row input,.amount-input-top input){
+  color:#1c2a3d!important;
+}
+
+html[data-wadan-theme="light"] .wadan-mobile-dock{
+  background:rgba(255,255,255,.97)!important;
+  border-color:rgba(62,80,106,.15)!important;
+  box-shadow:0 12px 34px rgba(20,38,62,.15)!important;
+}
+html[data-wadan-theme="light"] .wadan-mobile-dock a{color:#697688!important}
+html[data-wadan-theme="light"] .wadan-mobile-dock a.active{
+  color:#a55631!important;
+  background:linear-gradient(180deg,rgba(190,109,58,.14),rgba(190,109,58,.055))!important;
+}
+html[data-wadan-theme="light"] .wadan-theme-toggle{
+  border-color:rgba(184,103,60,.22)!important;
+  background:#fff!important;
+  color:#9e5734!important;
+}
+html[data-wadan-theme="light"] .auth-live-message{
+  background:#fff!important;color:#334255!important;
+}
+
+html[data-wadan-theme="light"] :is(
+  [class*="account_"][class*="_hero"],
+  [class*="account_"][class*="_panel"],
+  [class*="account_"][class*="_widePanel"],
+  [class*="account_"][class*="_formPanel"],
+  [class*="referrals_"][class*="_hero"],
+  [class*="referrals_"][class*="_shareCard"],
+  [class*="referrals_"][class*="_depthCard"],
+  [class*="referrals_"][class*="_networkCard"],
+  [class*="staking_"][class*="_hero"],
+  [class*="staking_"][class*="_builderMain"],
+  [class*="staking_"][class*="_positionCard"],
+  [class*="staking_"][class*="_planRail"] > button,
+  [class*="history_"][class*="_hero"],
+  [class*="history_"][class*="_ledger"]
+){
+  background:linear-gradient(155deg,#fff,#f7f9fb)!important;
+  border-color:rgba(53,71,94,.14)!important;
+  color:#223247!important;
+  box-shadow:0 8px 28px rgba(32,47,70,.055)!important;
+}
+html[data-wadan-theme="light"] :is(
+  [class*="account_"] h2,[class*="account_"] strong,
+  [class*="staking_"] h2,[class*="staking_"] strong,
+  [class*="referrals_"] h2,[class*="referrals_"] strong,
+  [class*="history_"] h2,[class*="history_"] strong
+){color:#1b2c42}
+html[data-wadan-theme="light"] :is(
+  [class*="account_"] small,[class*="account_"] p,[class*="account_"] span,
+  [class*="staking_"] small,[class*="staking_"] p,
+  [class*="referrals_"] small,[class*="referrals_"] p,
+  [class*="history_"] small,[class*="history_"] p
+){color:#687688}
+
+html[data-wadan-theme="light"] .flow-primary{
+  background:linear-gradient(130deg,#d99861,#b9673d)!important;
+  color:#fff!important;
+}
+@media(max-width:760px){
+  .wadan-theme-toggle.compact{width:42px;height:42px;min-height:42px}
+  html[data-wadan-theme="light"] .flow-heading{
+    background:linear-gradient(100deg,#f7f9fb,#e8edf2)!important;
+  }
+}
