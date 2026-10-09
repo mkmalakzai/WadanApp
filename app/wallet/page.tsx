@@ -19,7 +19,7 @@ import {
   WalletCards,
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
-import { fetchCached, readCached } from "../../lib/client-cache";
+import { fetchCached, readCached, syncStakingRewards } from "../../lib/client-cache";
 
 type WalletSummary = {
   profile: {
@@ -62,6 +62,11 @@ export default function WalletPage() {
       .then(setSummary)
       .catch(()=>undefined);
     void fetchCached("wallet:deposit","/api/wallet/deposit").catch(()=>undefined);
+    void syncStakingRewards().then((credited)=>{
+      if(credited<=0) return;
+      void fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary",{force:true})
+        .then(setSummary).catch(()=>undefined);
+    });
   },[]);
 
   const wdc=summary?.profile.wdcBalance ?? 0;
