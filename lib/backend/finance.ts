@@ -26,6 +26,8 @@ type StakeRow = {
   plan_id: string;
   principal: number | string;
   accrued_reward: number | string;
+  reward_paid_days?: number | null;
+  daily_rate_at_start?: number | string | null;
   started_at: string;
   unlock_at: string;
   status: string;
@@ -69,7 +71,7 @@ export async function getWalletSummary(accessToken: string) {
     ),
     getSettings(["wdc_reference_price_usd","withdrawals_enabled","deposits_enabled","swaps_enabled"]),
     supabaseRest<StakeRow[]>(
-      `stakes?user_id=eq.${encodeURIComponent(profile.appUserId)}&status=eq.active&select=id,plan_id,principal,accrued_reward,started_at,unlock_at,status&order=started_at.desc`
+      `stakes?user_id=eq.${encodeURIComponent(profile.appUserId)}&status=eq.active&select=id,plan_id,principal,accrued_reward,reward_paid_days,daily_rate_at_start,started_at,unlock_at,status&order=started_at.desc`
     ),
   ]);
 
@@ -228,7 +230,7 @@ export async function getStakingOverview(accessToken: string) {
       "staking_plans?select=id,title,duration_days,daily_rate,enabled&order=duration_days.asc"
     ),
     supabaseRest<StakeRow[]>(
-      `stakes?user_id=eq.${encodeURIComponent(profile.appUserId)}&select=id,plan_id,principal,accrued_reward,started_at,unlock_at,status&order=started_at.desc`
+      `stakes?user_id=eq.${encodeURIComponent(profile.appUserId)}&select=id,plan_id,principal,accrued_reward,reward_paid_days,daily_rate_at_start,started_at,unlock_at,status&order=started_at.desc`
     ),
   ]);
 
@@ -239,7 +241,7 @@ export async function getStakingOverview(accessToken: string) {
   const positions = stakes.map((stake) => {
     const plan = planMap.get(stake.plan_id);
     const principal = toNumber(stake.principal);
-    const dailyRate = toNumber(plan?.daily_rate);
+    const dailyRate = toNumber(stake.daily_rate_at_start ?? plan?.daily_rate);
     const durationDays = Number(plan?.duration_days ?? 0);
     const started = new Date(stake.started_at).getTime();
     const unlock = new Date(stake.unlock_at).getTime();
@@ -257,6 +259,9 @@ export async function getStakingOverview(accessToken: string) {
         : 0;
     const totalProjectedProfit = dailyProfit * durationDays;
     const storedReward = toNumber(stake.accrued_reward);
+    const paidDays = Math.min(durationDays,Number(stake.reward_paid_days ?? 0));
+    const creditedProfit = stake.status === "unlocked" ? totalProjectedProfit : storedReward;
+    const pendingProfit = Math.max(0, dailyProfit * completedDays - creditedProfit);
     const earnedProfit =
       stake.status === "unlocked"
         ? Math.max(storedReward, totalProjectedProfit)
@@ -279,6 +284,9 @@ export async function getStakingOverview(accessToken: string) {
       dailyProfit,
       last24hProfit,
       earnedProfit,
+      creditedProfit,
+      pendingProfit,
+      paidDays,
       totalProjectedProfit,
       completedDays,
       daysRemaining,
@@ -291,6 +299,8 @@ export async function getStakingOverview(accessToken: string) {
 
   const activePositions = positions.filter((position) => position.status === "active");
   const summary = {
+    creditedProfit: positions.reduce((sum, position) => sum + position.creditedProfit, 0),
+    pendingProfit: positions.reduce((sum, position) => sum + position.pendingProfit, 0),
     totalStaked: activePositions.reduce((sum, position) => sum + position.principal, 0),
     todayProfit: activePositions.reduce(
       (sum, position) => sum + position.last24hProfit,
@@ -313,6 +323,14 @@ export async function getStakingOverview(accessToken: string) {
     positions,
     summary,
   };
+}
+
+export async function settleStakingRewardsForUser(accessToken: string) {
+  const profile = await getCurrentAccountProfile(accessToken);
+  return supabaseRest<Record<string, unknown>>("rpc/settle_staking_rewards", {
+    method: "POST",
+    body: { p_user_id: profile.appUserId },
+  });
 }
 
 export async function createStakeForUser(
