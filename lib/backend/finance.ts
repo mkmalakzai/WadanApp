@@ -71,7 +71,7 @@ export async function getWalletSummary(accessToken: string) {
     ),
     getSettings(["wdc_reference_price_usd","withdrawals_enabled","deposits_enabled","swaps_enabled"]),
     supabaseRest<StakeRow[]>(
-      `stakes?user_id=eq.${encodeURIComponent(profile.appUserId)}&status=eq.active&select=id,plan_id,principal,accrued_reward,reward_paid_days,daily_rate_at_start,started_at,unlock_at,status&order=started_at.desc`
+      `stakes?user_id=eq.${encodeURIComponent(profile.appUserId)}&status=eq.active&select=*&order=started_at.desc`
     ),
   ]);
 
@@ -230,7 +230,7 @@ export async function getStakingOverview(accessToken: string) {
       "staking_plans?select=id,title,duration_days,daily_rate,enabled&order=duration_days.asc"
     ),
     supabaseRest<StakeRow[]>(
-      `stakes?user_id=eq.${encodeURIComponent(profile.appUserId)}&select=id,plan_id,principal,accrued_reward,reward_paid_days,daily_rate_at_start,started_at,unlock_at,status&order=started_at.desc`
+      `stakes?user_id=eq.${encodeURIComponent(profile.appUserId)}&select=*&order=started_at.desc`
     ),
   ]);
 
