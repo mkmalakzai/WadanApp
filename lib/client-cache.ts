@@ -101,3 +101,25 @@ export async function fetchCached<T>(
     inflight.delete(key);
   }
 }
+
+// Reward settlement is an authenticated POST. The database RPC locks positions
+// and stores paid days, so repeat requests cannot credit the same day twice.
+// Before the SQL migration is installed, the site continues to load normally.
+export async function syncStakingRewards(): Promise<number> {
+  try {
+    const response = await fetchCached<{
+      ok: boolean;
+      result?: { credited_wdc?: number | string };
+    }>("staking:settlement","/api/staking/settle",{
+      method:"POST",
+      staleMs:120_000,
+    });
+    const credited = Number(response.result?.credited_wdc ?? 0);
+    if (credited > 0) {
+      invalidateCached("wallet:summary","staking:overview","account:me","history");
+    }
+    return credited;
+  } catch {
+    return 0;
+  }
+}
