@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
 import styles from "./staking.module.css";
-import { fetchCached, readCached, invalidateCached } from "../../lib/client-cache";
+import { fetchCached, readCached, invalidateCached, syncStakingRewards } from "../../lib/client-cache";
 
 type Plan = {
   id:string;
@@ -92,7 +92,12 @@ export default function StakingPage() {
     }
   }
 
-  useEffect(()=>{void load();},[]);
+  useEffect(()=>{
+    void load();
+    void syncStakingRewards().then((credited)=>{
+      if(credited>0) void load(true);
+    });
+  },[]);
 
   const plan=data?.plans.find((item)=>item.id===planId) || data?.plans[0];
   const balance=data?.profile.wdcBalance ?? 0;
@@ -244,7 +249,7 @@ export default function StakingPage() {
           </article>
           <article>
             <div className={styles.metricIconBlue}><Coins size={20}/></div>
-            <div><small>All profit</small><strong>{summary ? fmt(summary.allProfit,4) : "—"} WDC</strong><span>Completed staking days</span></div>
+            <div><small>All profit</small><strong>{summary ? fmt(summary.allProfit,4) : "—"} WDC</strong><span>Paid after full staking days</span></div>
           </article>
           <article>
             <div className={styles.metricIcon}><Sparkles size={20}/></div>
