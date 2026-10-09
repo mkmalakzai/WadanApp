@@ -26,6 +26,7 @@ import {
   WalletCards,
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
+import { ThemeSwitch } from "../components/WadanTheme";
 import styles from "./account.module.css";
 import { fetchCached, readCached } from "../../lib/client-cache";
 
@@ -285,7 +286,7 @@ export default function AccountPage() {
               </div>
 
               <div className={styles.preferenceRows}>
-                <div><span>Theme</span><strong>WADAN Dark</strong></div>
+                <div><span>Appearance</span><ThemeSwitch /></div>
                 <div><span>Display currency</span><strong>USD</strong></div>
                 <div><span>Language</span><strong>English</strong></div>
               </div>
