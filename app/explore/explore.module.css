@@ -1,471 +1,202 @@
-.main{min-width:0;font-size:16px}
+/* WADAN Explore — copper and teal premium service hub. */
+.main{min-width:0;max-width:1440px;margin:0 auto;padding-bottom:105px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:110px;padding:8px 1px 21px}
+.topbar>div:first-child{min-width:0}
+.topEyebrow{display:block;color:#dba071;font-size:10px;font-weight:900;letter-spacing:.18em}
+.topbar h1{margin:5px 0 0;font-size:clamp(34px,4.5vw,53px);line-height:1;letter-spacing:-.052em;color:#f2eee8}
+.topbar h1 span{color:#d98b52}
+.topActions{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.avatar{width:44px;height:44px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.11);border-radius:15px;background:#12171e;color:#d6a279;text-decoration:none}
 
-.searchPanel{
-  margin-top:2px;
-}
-
-.searchBox{
-  min-height:54px;
+.hero{
+  position:relative;
+  overflow:hidden;
+  min-height:320px;
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:0 15px;
-  border:1px solid rgba(255,255,255,.075);
-  border-radius:16px;
-  background:rgba(255,255,255,.022);
-  color:#817a70;
+  padding:28px;
+  border:1px solid rgba(217,139,82,.27);
+  border-radius:27px;
+  background:
+    linear-gradient(92deg,rgba(6,9,13,.96) 0%,rgba(7,11,15,.92) 35%,rgba(7,11,15,.42) 72%,rgba(7,11,15,.05) 100%),
+    url('/assets/dashboard/wadan-dashboard-hero.webp') center 52%/cover no-repeat;
+  box-shadow:0 24px 64px rgba(0,0,0,.29),inset 0 1px rgba(255,255,255,.03);
 }
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(3,7,11,.48),transparent 40%)}
+.heroContent{position:relative;z-index:1;max-width:610px}
+.heroTag{display:inline-flex;gap:8px;align-items:center;min-height:35px;padding:0 13px;border:1px solid rgba(233,162,103,.31);border-radius:999px;color:#f2b681;background:rgba(45,22,15,.49);font-size:10px;font-weight:850;letter-spacing:.06em}
+.hero h2{margin:17px 0 0;font-size:clamp(35px,5.2vw,60px);letter-spacing:-.05em;line-height:1.06;color:#f6f0e9}
+.hero h2 em{font-style:normal;color:#e3a270}
+.hero p{max-width:495px;margin:13px 0 0;color:#c4b7aa;font-size:13px;line-height:1.62}
+.heroFoot{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:25px;color:#a6aab0;font-size:10px}
+.heroFoot strong{font-size:11px;color:#f0ebe4}
+.liveDot{width:8px;height:8px;border-radius:50%;background:#53d4bb;box-shadow:0 0 15px rgba(83,212,187,.55)}
 
-.searchBox:focus-within{
-  border-color:rgba(255,176,0,.28);
-  box-shadow:0 0 0 3px rgba(255,176,0,.045);
-}
+.sectionTitle{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:29px 0 12px}
+.sectionTitle span{display:block;color:#dc9969;font-size:10px;font-weight:900;letter-spacing:.15em}
+.sectionTitle h2{margin:5px 0 0;color:#f1ede8;font-size:24px;letter-spacing:-.035em}
+.sectionTitle>small{color:#858a91;font-size:11px}
 
-.searchBox input{
-  width:100%;
-  border:0;
-  outline:0;
-  background:transparent;
-  color:#f4ede1;
-  font-size:12px;
-}
-
-.searchBox input::placeholder{color:#5f5a53}
-
-.shortcuts,
-.directory{
-  margin-top:24px;
-}
-
-.sectionHead{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:14px;
-  padding:0 2px 10px;
-}
-
-.sectionHead>div>span{
-  display:block;
-  color:#f6a800;
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:.15em;
-}
-
-.sectionHead>div>strong{
-  display:block;
-  margin-top:3px;
-  font-size:19px;
-  letter-spacing:-.02em;
-}
-
-.sectionHead>a,
-.sectionHead>small{
-  color:#777168;
-  font-size:8.5px;
-  text-decoration:none;
-}
-
-.shortcutGrid{
-  display:grid;
-  grid-template-columns:repeat(8,1fr);
-  gap:7px;
-  padding:15px 10px;
-  border:1px solid rgba(255,255,255,.065);
-  border-radius:18px;
-  background:linear-gradient(180deg,rgba(12,18,27,.80),rgba(7,11,17,.90));
-}
-
-.shortcut{
-  min-height:86px;
+.featureGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.feature{
+  position:relative;
   display:flex;
   flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:6px 3px;
-  border:0;
-  border-radius:13px;
-  background:transparent;
-  color:#d9d2c7;
-  text-decoration:none;
-  font:inherit;
-  cursor:pointer;
-  transition:background .16s ease,transform .16s ease,color .16s ease;
-}
-
-.shortcut:hover{
-  background:rgba(255,176,0,.045);
-  color:#ffbd2e;
-  transform:translateY(-2px);
-}
-
-.shortcutIcon{
-  width:42px;
-  height:42px;
-  display:grid;
-  place-items:center;
-  border-radius:13px;
-  color:#f6a800;
-  background:rgba(255,176,0,.07);
-  border:1px solid rgba(255,176,0,.13);
-}
-
-.moreIcon{
-  color:#9e968b;
-  background:rgba(255,255,255,.025);
-  border-color:rgba(255,255,255,.08);
-}
-
-.shortcut>strong{
-  max-width:100%;
+  justify-content:space-between;
   overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  font-size:9px;
-  font-weight:760;
+  min-height:212px;
+  padding:17px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:22px;
+  color:#f3eee8;
+  text-decoration:none;
+  box-shadow:0 15px 34px rgba(0,0,0,.17);
+  transition:transform .18s ease,border-color .18s ease;
 }
-
-.tabs{
-  display:flex;
-  gap:7px;
-  overflow-x:auto;
-  padding-bottom:10px;
-  scrollbar-width:none;
+.feature:hover{transform:translateY(-2px);border-color:rgba(231,165,110,.43)}
+.featureStake{
+  background:
+    linear-gradient(180deg,rgba(36,19,12,.34),rgba(15,9,7,.97)),
+    url('/assets/dashboard/wadan-free-earnings.webp') center/cover no-repeat;
 }
+.featureReferral{
+  background:
+    linear-gradient(180deg,rgba(11,33,37,.3),rgba(5,17,20,.97)),
+    url('/assets/dashboard/wadan-kyc.webp') center/cover no-repeat;
+}
+.featureWallet{
+  background:
+    linear-gradient(180deg,rgba(12,24,39,.38),rgba(6,13,23,.98)),
+    url('/assets/dashboard/wadan-security.webp') center/cover no-repeat;
+}
+.featureIcon{width:47px;height:47px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.21);border-radius:15px;background:rgba(6,9,14,.35);color:#f2af75}
+.featureReferral .featureIcon{color:#69e2d6}
+.featureWallet .featureIcon{color:#9ecdf3}
+.feature>div{position:relative;z-index:1}
+.feature small{display:block;color:#e6ae85;font-size:10px;font-weight:850;letter-spacing:.08em}
+.featureReferral small{color:#8addd1}
+.featureWallet small{color:#acd2f6}
+.feature strong{display:block;margin-top:5px;color:#fff;font-size:22px;letter-spacing:-.02em}
+.feature p{margin:4px 0 0;color:#c5bec0;font-size:11px}
+.featureArrow{position:absolute;right:14px;bottom:20px;color:#e6c3a7}
 
+.directory{margin-top:29px}
+.searchBox{min-height:57px;display:flex;align-items:center;gap:13px;padding:0 18px;border:1px solid rgba(255,255,255,.11);border-radius:16px;background:linear-gradient(180deg,#0f151c,#090f15);color:#d2936b}
+.searchBox:focus-within{border-color:rgba(217,139,82,.38);box-shadow:0 0 0 3px rgba(217,139,82,.045)}
+.searchBox input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:#f2eee8;font-size:14px}
+.searchBox input::placeholder{color:#7f8791}
+
+.tabs{display:flex;align-items:center;gap:7px;overflow-x:auto;margin:14px 0 20px;padding:1px 1px 5px;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
+.tabs button{min-height:39px;flex:0 0 auto;padding:0 17px;border:1px solid rgba(255,255,255,.09);border-radius:999px;background:rgba(255,255,255,.027);color:#969ba3;font-size:12px;font-weight:800;cursor:pointer}
+.tabs button.activeTab{color:#f3bc8d;border-color:rgba(217,139,82,.30);background:rgba(217,139,82,.09)}
 
-.tabs button{
-  min-height:38px;
-  padding:0 14px;
-  flex:0 0 auto;
-  border:1px solid rgba(255,255,255,.065);
-  border-radius:999px;
-  background:rgba(255,255,255,.018);
-  color:#827b71;
-  font-size:9px;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.tabs button.activeTab{
-  border-color:rgba(255,176,0,.22);
-  background:rgba(255,176,0,.08);
-  color:#f6a800;
-}
-
-.groups{
-  display:grid;
-  gap:18px;
-}
-
-.group{
-  scroll-margin-top:80px;
-}
-
-.group h2{
-  margin:0 0 8px 2px;
-  color:#b6aea3;
-  font-size:11px;
-  font-weight:800;
-}
-
-.serviceGrid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:7px;
-}
-
+.groups{display:grid;gap:24px}
+.groupHead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px}
+.groupHead h3{margin:0;font-size:17px;color:#f0eae3}
+.groupHead span{font-size:10px;color:#858e98}
+.serviceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
 .service{
-  min-height:76px;
+  min-height:87px;
   display:grid;
-  grid-template-columns:auto minmax(0,1fr) auto;
-  gap:10px;
+  grid-template-columns:46px minmax(0,1fr) auto;
   align-items:center;
-  padding:11px 12px;
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:15px;
-  background:rgba(255,255,255,.016);
+  gap:12px;
+  padding:12px 14px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  background:linear-gradient(165deg,#111920,#0a1017);
   color:inherit;
   text-decoration:none;
-  transition:border-color .16s ease,background .16s ease,transform .16s ease;
+  transition:border-color .16s ease,transform .16s ease;
 }
-
-a.service:hover{
-  transform:translateY(-2px);
-  border-color:rgba(246,168,0,.11);
-  background:rgba(255,176,0,.025);
-}
-
-.serviceDisabled{
-  opacity:.66;
-}
-
-.serviceIcon{
-  width:39px;
-  height:39px;
-  display:grid;
-  place-items:center;
-  border-radius:12px;
-  color:#f6a800;
-  background:rgba(255,176,0,.06);
-  border:1px solid rgba(255,176,0,.12);
-}
-
+a.service:hover{border-color:rgba(217,139,82,.33);transform:translateY(-1px)}
+.serviceIcon{width:46px;height:46px;display:grid;place-items:center;border:1px solid rgba(217,139,82,.15);border-radius:14px;background:rgba(217,139,82,.065);color:#e2a473}
 .serviceCopy{min-width:0}
+.serviceCopy strong{display:block;color:#ede8e1;font-size:13px}
+.serviceCopy p{margin:5px 0 0;color:#8e969d;font-size:11px;line-height:1.45}
+.serviceArrow{color:#dba070}
+.service em{padding:6px 9px;border:1px solid rgba(255,255,255,.09);border-radius:999px;color:#a0a5aa;background:rgba(255,255,255,.025);font-size:9px;font-weight:800;font-style:normal;white-space:nowrap}
+.serviceDisabled{opacity:.72}
+.empty{min-height:155px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;border:1px dashed rgba(255,255,255,.12);border-radius:17px;color:#e5aa77}
+.empty strong{color:#ece6df;font-size:14px}
+.empty p{margin:0;color:#9c9995;font-size:12px}
+.bottomNote{display:flex;align-items:center;gap:10px;margin:27px 0 9px;padding:14px 16px;border:1px solid rgba(255,255,255,.07);border-radius:14px;background:rgba(255,255,255,.018);color:#8d959d;font-size:11px;line-height:1.45}
+.bottomNote svg{color:#d99668;flex-shrink:0}
 
-.serviceCopy strong,
-.serviceCopy span{
-  display:block;
-}
-
-.serviceCopy strong{
-  font-size:10.5px;
-}
-
-.serviceCopy span{
-  margin-top:4px;
-  color:#706a61;
-  font-size:8px;
-  line-height:1.4;
-}
-
-.service em{
-  padding:4px 6px;
-  border-radius:999px;
-  background:rgba(255,255,255,.025);
-  color:#777168;
-  font-size:6.8px;
-  font-style:normal;
-  font-weight:800;
-  white-space:nowrap;
-}
-
-.openDot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:#f6a800;
-  box-shadow:0 0 12px rgba(255,176,0,.28);
-}
-
-.empty{
-  min-height:180px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:16px;
-  color:#f6a800;
-  background:rgba(255,255,255,.014);
-}
-
-.empty strong{margin-top:10px;font-size:12px;color:#d9d2c7}
-.empty span{margin-top:5px;color:#706a61;font-size:8.5px}
-
-.footerNote{
-  min-height:68px;
-  margin:18px 0 4px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:11px 13px;
-  border-top:1px solid rgba(255,255,255,.05);
-  border-bottom:1px solid rgba(255,255,255,.05);
-  color:#f6a800;
-}
-
-.footerNote strong,
-.footerNote span{
-  display:block;
-}
-
-.footerNote strong{
-  color:#cfc7bb;
-  font-size:10.5px;
-}
-
-.footerNote span{
-  margin-top:3px;
-  color:#69635b;
-  font-size:8px;
-}
-
-@media(max-width:1050px){
-  .shortcutGrid{grid-template-columns:repeat(4,1fr)}
-}
-
-@media(max-width:760px){
-  .main{font-size:16px}
-
-  .searchBox{
-    min-height:50px;
-    padding:0 13px;
-    border-radius:14px;
-  }
-
-  .searchBox input{
-    font-size:11px;
-  }
-
-  .shortcuts,
-  .directory{
-    margin-top:21px;
-  }
-
-  .sectionHead{
-    padding-bottom:8px;
-  }
-
-  .sectionHead>div>span{font-size:7.5px}
-  .sectionHead>div>strong{font-size:17px}
-  .sectionHead>a,.sectionHead>small{font-size:8px}
-
-  .shortcutGrid{
-    grid-template-columns:repeat(4,1fr);
-    gap:3px;
-    row-gap:10px;
-    padding:12px 5px 10px;
-    border-radius:16px;
-  }
-
-  .shortcut{
-    min-height:71px;
-    gap:7px;
-    padding:4px 2px;
-  }
-
-  .shortcutIcon{
-    width:38px;
-    height:38px;
-    border-radius:11px;
-  }
-
-  .shortcutIcon svg{
-    width:19px;
-    height:19px;
-  }
-
-  .shortcut>strong{
-    font-size:8.2px;
-  }
-
-  .tabs{
-    margin-right:-12px;
-    padding-right:12px;
-  }
-
-  .tabs button{
-    min-height:36px;
-    padding:0 12px;
-    font-size:8.5px;
-  }
-
-  .groups{
-    gap:16px;
-  }
-
-  .group h2{
-    font-size:10px;
-  }
-
-  .serviceGrid{
-    grid-template-columns:1fr;
-    gap:6px;
-  }
-
-  .service{
-    min-height:66px;
-    padding:9px 10px;
-    border-radius:13px;
-  }
-
-  .serviceIcon{
-    width:35px;
-    height:35px;
-    border-radius:10px;
-  }
-
-  .serviceIcon svg{
-    width:18px;
-    height:18px;
-  }
-
-  .serviceCopy strong{
-    font-size:10px;
-  }
-
-  .serviceCopy span{
-    font-size:7.5px;
-  }
-
-  .service em{
-    font-size:6.5px;
-  }
-}
-
-@media(max-width:430px){
-  .shortcutGrid{
-    grid-template-columns:repeat(4,1fr);
-  }
-}
-
-
-/* EXPLORE V3 — service hub polish */
-.searchBox,
-.shortcutGrid,
-.serviceCard{
-  border-color:rgba(255,255,255,.065);
-  background:linear-gradient(180deg,#0d1218,#090d12);
-}
-.shortcut:hover{
-  background:rgba(246,168,0,.035);
-}
-.shortcutIcon{
-  color:#f6a800;
-  background:rgba(246,168,0,.055);
-  border-color:rgba(246,168,0,.10);
+@media(max-width:900px){
+ .hero{min-height:290px}
+ .featureGrid{gap:8px}
+ .feature{min-height:193px;padding:14px}
 }
 @media(max-width:760px){
-  .shortcuts,.directory{margin-top:20px}
-  .shortcutGrid{padding:10px 6px;border-radius:16px}
-  .shortcut{min-height:78px}
+ .main{width:100%;padding:0 11px 118px!important}
+ .topbar{min-height:93px;padding:11px 3px 16px}
+ .topEyebrow{font-size:9px}
+ .topbar h1{font-size:37px}
+ .topActions{gap:7px}
+ .avatar{width:42px;height:42px}
+ .hero{min-height:265px;padding:17px;border-radius:21px;background-position:59% center}
+ .heroTag{min-height:32px;padding:0 10px;font-size:8.5px}
+ .hero h2{font-size:34px;max-width:285px;margin-top:15px}
+ .hero p{max-width:290px;font-size:11.5px;line-height:1.5}
+ .heroFoot{margin-top:16px;font-size:9px}
+ .heroFoot strong{font-size:10px}
+ .sectionTitle{margin-top:23px;margin-bottom:11px}
+ .sectionTitle h2{font-size:22px}
+ .sectionTitle span{font-size:9px}
+ .featureGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+ .feature{min-height:161px;padding:11px;border-radius:16px}
+ .featureIcon{width:37px;height:37px;border-radius:12px}
+ .featureIcon svg{width:19px;height:19px}
+ .feature small{font-size:8px;line-height:1.25}
+ .feature strong{font-size:14px;overflow-wrap:anywhere}
+ .feature p{font-size:9px}
+ .featureArrow{width:15px;height:15px;right:7px;bottom:12px}
+ .directory{margin-top:24px}
+ .searchBox{min-height:53px;padding:0 13px}
+ .searchBox input{font-size:13px}
+ .tabs{gap:6px;margin:12px 0 18px}
+ .tabs button{min-height:37px;padding:0 14px;font-size:11px}
+ .groups{gap:21px}
+ .groupHead h3{font-size:16px}
+ .serviceGrid{grid-template-columns:1fr;gap:8px}
+ .service{min-height:80px;grid-template-columns:42px minmax(0,1fr) auto;gap:11px;padding:11px 12px;border-radius:15px}
+ .serviceIcon{width:42px;height:42px;border-radius:13px}
+ .serviceCopy strong{font-size:13px}
+ .serviceCopy p{font-size:10.5px}
+ .bottomNote{font-size:10px}
+}
+@media(max-width:390px){
+ .hero h2{font-size:29px}
+ .hero p{max-width:265px}
+ .featureGrid{grid-template-columns:1fr 1fr}
+ .feature:last-child{grid-column:1 / -1;min-height:112px}
+ .feature:last-child .featureIcon{position:absolute;right:13px;top:11px}
+ .feature:last-child .featureArrow{right:13px;bottom:12px}
 }
 
-/* EXPLORE V4 — premium ecosystem directory */
-.searchBox,.shortcutGrid,.service{
-  border-color:rgba(255,255,255,.09);
-  box-shadow:0 10px 30px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.015);
+/* Native light-mode presentation — image-backed featured cards retain contrast. */
+:global(html[data-wadan-theme="light"]) .topbar h1,
+:global(html[data-wadan-theme="light"]) .sectionTitle h2,
+:global(html[data-wadan-theme="light"]) .groupHead h3{color:#1c2c3f!important}
+:global(html[data-wadan-theme="light"]) .topEyebrow,
+:global(html[data-wadan-theme="light"]) .sectionTitle span{color:#a55c39!important}
+:global(html[data-wadan-theme="light"]) .avatar,
+:global(html[data-wadan-theme="light"]) .searchBox,
+:global(html[data-wadan-theme="light"]) .service,
+:global(html[data-wadan-theme="light"]) .bottomNote{
+  background:linear-gradient(165deg,#fff,#f7f9fb)!important;
+  border-color:rgba(49,71,98,.13)!important;
+  box-shadow:0 8px 26px rgba(27,48,74,.055)!important;
 }
-.searchBox{background:linear-gradient(180deg,#0d131a,#080d12)}
-.shortcutGrid{
-  background:
-    linear-gradient(90deg,rgba(6,9,12,.94),rgba(6,9,12,.82)),
-    url('/assets/dashboard/wadan-kyc.webp') right center/55% auto no-repeat;
-}
-.shortcutIcon{
-  color:#f2b37b;
-  border-color:rgba(217,139,82,.16);
-  background:rgba(217,139,82,.055);
-}
-.shortcut:hover{color:#f2b37b;background:rgba(217,139,82,.045)}
-.tabs button.activeTab{
-  color:#55ddd4;
-  border-color:rgba(53,209,197,.18);
-  background:rgba(53,209,197,.055);
-}
-.service:hover{border-color:rgba(217,139,82,.18)}
-.serviceIcon{
-  color:#55ddd4;
-  border-color:rgba(53,209,197,.14);
-  background:rgba(53,209,197,.045);
-}
-.openDot{background:#55ddd4;box-shadow:0 0 12px rgba(53,209,197,.28)}
-@media(max-width:760px){
-  .shortcutGrid{background-size:auto 100%;background-position:92% center}
-  .service{min-height:70px}
-}
+:global(html[data-wadan-theme="light"]) .searchBox input{color:#243347!important}
+:global(html[data-wadan-theme="light"]) .searchBox input::placeholder{color:#788697!important}
+:global(html[data-wadan-theme="light"]) .serviceCopy strong{color:#26374d!important}
+:global(html[data-wadan-theme="light"]) .serviceCopy p,
+:global(html[data-wadan-theme="light"]) .groupHead span,
+:global(html[data-wadan-theme="light"]) .bottomNote{color:#697b8d!important}
+:global(html[data-wadan-theme="light"]) .tabs button{background:#fff!important;border-color:rgba(46,68,93,.12)!important;color:#5a6d80!important}
+:global(html[data-wadan-theme="light"]) .tabs button.activeTab{color:#a65b38!important;background:rgba(217,139,82,.09)!important;border-color:rgba(217,139,82,.24)!important}
+:global(html[data-wadan-theme="light"]) .empty{border-color:rgba(46,68,93,.15)!important}
+:global(html[data-wadan-theme="light"]) .empty strong{color:#243347!important}
