@@ -1,62 +1,104 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
-  ArrowRight, ArrowUpRight, BadgeCheck, BookOpen, CircleHelp, Coins,
-  Gift, History, LayoutDashboard, LockKeyhole, Megaphone,
-  Search, ShieldCheck, Sparkles, UserRound, Users, WalletCards,
+  ArrowRight,
+  ArrowUpRight,
+  BadgeHelp,
+  BookOpen,
+  Calculator,
+  CheckCircle2,
+  ChevronRight,
+  Coins,
+  Compass,
+  ExternalLink,
+  Gift,
+  Globe2,
+  GraduationCap,
+  History,
+  LayoutDashboard,
+  Megaphone,
+  Search,
+  ShieldCheck,
+  Sparkles,
+  Target,
+  UserRound,
+  Users,
+  WalletCards,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import MobileDock from "../components/MobileDock";
 import { ThemeSwitch } from "../components/WadanTheme";
+import { fetchCached, readCached } from "../../lib/client-cache";
 import styles from "./explore.module.css";
 
-type Category = "all" | "earn" | "wallet" | "account" | "discover";
+type Category = "all" | "earn" | "tools" | "discover" | "community";
+type Panel = "calculator" | "learn" | "safety" | "support";
 type Service = {
+  id:string;
   title:string;
-  subtitle:string;
+  description:string;
   category:Exclude<Category,"all">;
   icon:LucideIcon;
+  action?:Panel;
   href?:string;
-  status?:"Coming soon" | "Planned";
-};
-const services: Service[] = [
-  {title:"Staking",subtitle:"WDC plans, positions and earned rewards",category:"earn",icon:Coins,href:"/staking"},
-  {title:"Referral Network",subtitle:"Invite friends and view your rewards",category:"earn",icon:Users,href:"/referrals"},
-  {title:"Free Earnings",subtitle:"Tasks and community campaigns",category:"earn",icon:Gift,status:"Coming soon"},
-  {title:"Deposit",subtitle:"Submit a BEP-20 deposit for review",category:"wallet",icon:WalletCards,href:"/wallet/deposit"},
-  {title:"Withdraw",subtitle:"Track your withdrawal requests",category:"wallet",icon:ArrowUpRight,href:"/wallet/withdraw"},
-  {title:"Swap",subtitle:"Convert your wallet WDC and USDT",category:"wallet",icon:Sparkles,href:"/wallet/swap"},
-  {title:"Transaction History",subtitle:"Your complete activity and statuses",category:"wallet",icon:History,href:"/history"},
-  {title:"Account Center",subtitle:"Profile and your account settings",category:"account",icon:UserRound,href:"/account"},
-  {title:"Security Center",subtitle:"Review security and session settings",category:"account",icon:ShieldCheck,href:"/account?tab=security"},
-  {title:"KYC Verification",subtitle:"Identity verification tools",category:"account",icon:BadgeCheck,status:"Coming soon"},
-  {title:"WADAN Learn",subtitle:"Guides and education about WDC",category:"discover",icon:BookOpen,status:"Planned"},
-  {title:"Announcements",subtitle:"Official WADAN updates",category:"discover",icon:Megaphone,status:"Planned"},
-  {title:"Help Center",subtitle:"Support and frequently asked questions",category:"discover",icon:CircleHelp,status:"Planned"},
-];
-const categories:Record<Category,string>={all:"All",earn:"Earn",wallet:"Wallet",account:"Account",discover:"Discover"};
-const groupNames:Record<Exclude<Category,"all">,string>={
-  earn:"Grow & earn",wallet:"Move your assets",account:"Account & protection",discover:"Coming next"
+  soon?:boolean;
 };
 
-export default function ExplorePage(){
+const services:Service[] = [
+  {id:"calculator",title:"WDC Calculator",description:"Convert WDC using the current reference price",category:"tools",icon:Calculator,action:"calculator"},
+  {id:"explorer",title:"BNB Chain Explorer",description:"Look up public BEP-20 network transactions",category:"tools",icon:Globe2,href:"https://bscscan.com/"},
+  {id:"safety",title:"Security Checklist",description:"Protect your account and verify wallet addresses",category:"tools",icon:ShieldCheck,action:"safety"},
+  {id:"guide",title:"WADAN Academy",description:"Start with the WDC ecosystem basics",category:"discover",icon:GraduationCap,action:"learn"},
+  {id:"faq",title:"Help & FAQs",description:"Simple answers to common WADAN questions",category:"discover",icon:BadgeHelp,action:"support"},
+  {id:"updates",title:"WADAN Announcements",description:"Product news and release notes",category:"discover",icon:Megaphone,soon:true},
+  {id:"tasks",title:"Free Earnings",description:"Community tasks and free reward opportunities",category:"earn",icon:Gift,soon:true},
+  {id:"missions",title:"Daily Missions",description:"Explore daily ecosystem challenges",category:"earn",icon:Target,soon:true},
+  {id:"quests",title:"Community Quests",description:"Special campaigns for active members",category:"earn",icon:Sparkles,soon:true},
+  {id:"community",title:"Community Hub",description:"Find upcoming WADAN community activities",category:"community",icon:Users,soon:true},
+  {id:"news",title:"Ecosystem News",description:"Important notices from WADAN",category:"community",icon:Megaphone,soon:true},
+];
+
+const categories:Record<Category,string> = {
+  all:"All services",earn:"Earnings",tools:"Tools",discover:"Learn",community:"Community",
+};
+const groupTitles:Record<Exclude<Category,"all">,string> = {
+  earn:"Earnings & campaigns",tools:"Useful tools",discover:"Learn & support",community:"Community",
+};
+const panels:Record<Panel,string> = {
+  calculator:"WDC Price Calculator",learn:"WADAN Academy",safety:"Security Checklist",support:"Help & FAQs",
+};
+
+type WalletSummary = { wdcPrice?:number };
+
+export default function ExplorePage() {
   const [query,setQuery]=useState("");
   const [category,setCategory]=useState<Category>("all");
+  const [panel,setPanel]=useState<Panel>("calculator");
+  const [amount,setAmount]=useState("1000");
+  const [price,setPrice]=useState<number|null>(()=>readCached<WalletSummary>("wallet:summary")?.wdcPrice ?? null);
+
+  useEffect(()=>{
+    void fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary")
+      .then(result=>setPrice(result.wdcPrice ?? null))
+      .catch(()=>undefined);
+  },[]);
 
   const filtered=useMemo(()=>{
     const q=query.trim().toLowerCase();
     return services.filter(item=>
-      (category==="all"||item.category===category) &&
-      (!q||(item.title+" "+item.subtitle).toLowerCase().includes(q))
+      (category==="all" || item.category===category) &&
+      (!q || (item.title+" "+item.description).toLowerCase().includes(q))
     );
-  },[query,category]);
+  },[category,query]);
 
-  const grouped=(["earn","wallet","account","discover"] as const)
+  const grouped=(["earn","tools","discover","community"] as const)
     .map(group=>({group,items:filtered.filter(item=>item.category===group)}))
-    .filter(group=>group.items.length);
-  const liveCount=services.filter(s=>s.href).length;
+    .filter(group=>group.items.length>0);
+
+  const entered=Number(amount);
+  const calculated=price !== null && Number.isFinite(entered) && entered>=0 ? entered*price : null;
 
   return (
     <main className="dash-shell premium-surface explore-premium">
@@ -73,119 +115,119 @@ export default function ExplorePage(){
           <Link href="/history"><History size={18}/> History</Link>
         </nav>
         <div className="dash-security">
-          <Sparkles size={19}/>
-          <div><strong>WADAN ecosystem</strong><span>Explore connected services</span></div>
+          <Compass size={19}/>
+          <div><strong>Explore WADAN</strong><span>Discover more tools</span></div>
         </div>
-        <nav className="dash-nav bottom"><Link href="/account"><UserRound size={18}/> Account</Link></nav>
+        <nav className="dash-nav bottom">
+          <Link href="/account"><UserRound size={18}/> Account</Link>
+        </nav>
       </aside>
 
       <section className={"dash-main "+styles.main}>
         <header className={styles.topbar}>
-          <div>
-            <span className={styles.topEyebrow}>WADAN ECOSYSTEM</span>
-            <h1>Explore<span>.</span></h1>
-          </div>
+          <div><span className={styles.eyebrow}>WADAN ECOSYSTEM</span><h1>Explore<span>.</span></h1></div>
           <div className={styles.topActions}>
             <ThemeSwitch compact/>
-            <Link href="/account?tab=preferences" className={styles.avatar} aria-label="Open account preferences"><UserRound size={20}/></Link>
+            <Link href="/account" className={styles.profile} aria-label="Open profile"><UserRound size={19}/></Link>
           </div>
         </header>
 
         <section className={styles.hero}>
           <div className={styles.heroContent}>
-            <span className={styles.heroTag}><Sparkles size={15}/> ONE CONNECTED ECOSYSTEM</span>
-            <h2>More than a <em>wallet.</em></h2>
-            <p>Stake, grow your community, and manage WDC in one place. Everything important, organized around you.</p>
-            <div className={styles.heroFoot}>
-              <span className={styles.liveDot}/><strong>{liveCount} accessible tools</strong><span>• BNB Smart Chain</span>
-            </div>
+            <span className={styles.heroTag}><Sparkles size={15}/> DISCOVER WADAN</span>
+            <h2>One ecosystem.<br/><em>More possibilities.</em></h2>
+            <p>Discover new services, practical tools and community opportunities beyond your wallet.</p>
           </div>
         </section>
 
-        <div className={styles.sectionTitle}>
-          <div><span>START HERE</span><h2>Featured services</h2></div>
-        </div>
-        <div className={styles.featureGrid}>
-          <Link href="/staking" className={styles.feature+" "+styles.featureStake}>
-            <span className={styles.featureIcon}><Coins size={24}/></span>
-            <div><small>EARN WDC</small><strong>Staking</strong><p>Plans & positions</p></div>
-            <ArrowUpRight className={styles.featureArrow} size={20}/>
-          </Link>
-          <Link href="/referrals" className={styles.feature+" "+styles.featureReferral}>
-            <span className={styles.featureIcon}><Users size={24}/></span>
-            <div><small>BUILD YOUR NETWORK</small><strong>Referrals</strong><p>Invite & grow</p></div>
-            <ArrowUpRight className={styles.featureArrow} size={20}/>
-          </Link>
-          <Link href="/wallet" className={styles.feature+" "+styles.featureWallet}>
-            <span className={styles.featureIcon}><WalletCards size={24}/></span>
-            <div><small>YOUR ASSETS</small><strong>WADAN Wallet</strong><p>WDC & USDT</p></div>
-            <ArrowUpRight className={styles.featureArrow} size={20}/>
-          </Link>
-        </div>
+        <section className={styles.shortcuts}>
+          <div className={styles.sectionTitle}><span>YOUR TOOLKIT</span><h2>Quick access</h2></div>
+          <div className={styles.quickGrid}>
+            <button type="button" onClick={()=>setPanel("calculator")} className={styles.quick}><Calculator size={21}/><strong>Calculator</strong></button>
+            <button type="button" onClick={()=>setPanel("learn")} className={styles.quick}><GraduationCap size={21}/><strong>Academy</strong></button>
+            <a href="https://bscscan.com/" target="_blank" rel="noopener noreferrer" className={styles.quick}><Globe2 size={21}/><strong>BscScan</strong></a>
+            <button type="button" onClick={()=>setPanel("safety")} className={styles.quick}><ShieldCheck size={21}/><strong>Security</strong></button>
+            <button type="button" onClick={()=>setPanel("support")} className={styles.quick}><BadgeHelp size={21}/><strong>Help</strong></button>
+          </div>
+        </section>
 
-        <section className={styles.directory}>
-          <div className={styles.sectionTitle}>
-            <div><span>SERVICE DIRECTORY</span><h2>Find what you need</h2></div>
-            <small>{filtered.length} results</small>
+        <section className={styles.toolPanel}>
+          <div className={styles.toolHead}>
+            <div><span>FEATURED TOOL</span><h2>{panels[panel]}</h2></div>
+            <span className={styles.available}><CheckCircle2 size={15}/> Available</span>
           </div>
 
-          <div className={styles.searchBox}>
-            <Search size={20}/>
-            <input
-              value={query}
-              onChange={event=>setQuery(event.target.value)}
-              placeholder="Search services, wallets, rewards…"
-              aria-label="Search WADAN services"
-            />
-          </div>
-
-          <nav className={styles.tabs} aria-label="Service categories">
-            {(Object.keys(categories) as Category[]).map(item=>(
-              <button
-                key={item}
-                type="button"
-                className={category===item ? styles.activeTab : ""}
-                onClick={()=>setCategory(item)}
-                aria-pressed={category===item}
-              >{categories[item]}</button>
-            ))}
-          </nav>
-
-          {grouped.length ? (
-            <div className={styles.groups}>
-              {grouped.map(({group,items})=>(
-                <section key={group} className={styles.group}>
-                  <div className={styles.groupHead}><h3>{groupNames[group]}</h3><span>{items.length} services</span></div>
-                  <div className={styles.serviceGrid}>
-                    {items.map(item=>{
-                      const Icon=item.icon;
-                      const inner=(
-                        <>
-                          <span className={styles.serviceIcon}><Icon size={21}/></span>
-                          <div className={styles.serviceCopy}>
-                            <strong>{item.title}</strong>
-                            <p>{item.subtitle}</p>
-                          </div>
-                          {item.href ? <ArrowRight size={18} className={styles.serviceArrow}/> : <em>{item.status}</em>}
-                        </>
-                      );
-                      return item.href
-                        ? <Link key={item.title} href={item.href} className={styles.service}>{inner}</Link>
-                        : <article key={item.title} className={styles.service+" "+styles.serviceDisabled}>{inner}</article>;
-                    })}
-                  </div>
-                </section>
-              ))}
+          {panel==="calculator" && (
+            <div className={styles.calculator}>
+              <label>
+                <span>WDC amount</span>
+                <div className={styles.calcInput}><input inputMode="decimal" aria-label="Amount in WDC" value={amount} onChange={event=>setAmount(event.target.value.replace(/[^\d.]/g,""))}/><strong>WDC</strong></div>
+              </label>
+              <div className={styles.calcResult}>
+                <span>Estimated value</span>
+                <strong>{calculated===null ? "—" : calculated.toLocaleString("en-US",{style:"currency",currency:"USD",maximumFractionDigits:4})}</strong>
+                <small>{price===null ? "Checking WDC reference price…" : "1 WDC = "+price.toLocaleString("en-US",{style:"currency",currency:"USD",minimumFractionDigits:4,maximumFractionDigits:6})}</small>
+              </div>
+              <p>This is an estimate based on the WADAN reference price, not a market quote or a promise of liquidity.</p>
             </div>
-          ) : (
-            <div className={styles.empty}><Search size={25}/><strong>No results</strong><p>Try another search term or category.</p></div>
+          )}
+
+          {panel==="learn" && (
+            <div className={styles.guideGrid}>
+              <article><span>01</span><strong>What is WDC?</strong><p>Wadan Coin is the planned token for the WADAN ecosystem on BNB Smart Chain.</p></article>
+              <article><span>02</span><strong>What is staking?</strong><p>A WDC position locks its principal for a chosen duration; rewards follow the configured plan terms.</p></article>
+              <article><span>03</span><strong>Where do rewards go?</strong><p>Completed staking days can be credited to the in-app WDC wallet after the rewards system is enabled.</p></article>
+            </div>
+          )}
+
+          {panel==="safety" && (
+            <div className={styles.guideGrid}>
+              <article><ShieldCheck size={21}/><strong>Check the network</strong><p>Always confirm BNB Smart Chain (BEP-20) before sending assets.</p></article>
+              <article><ShieldCheck size={21}/><strong>Protect your wallet</strong><p>Never share recovery phrases, private keys or account passwords.</p></article>
+              <article><ShieldCheck size={21}/><strong>Verify transactions</strong><p>Use a trusted explorer and check the full destination address and token contract.</p></article>
+            </div>
+          )}
+
+          {panel==="support" && (
+            <div className={styles.guideGrid}>
+              <article><BadgeHelp size={21}/><strong>Why is available WDC zero?</strong><p>Staked principal is locked. Earned rewards enter the spendable wallet only when credited to its ledger.</p></article>
+              <article><BadgeHelp size={21}/><strong>Is WDC the same as USDT?</strong><p>No. They are separate assets even if both use a BEP-20 receiving address.</p></article>
+              <article><BadgeHelp size={21}/><strong>Where is my history?</strong><p>Every financial feature has its own history, with all events also available from the History page.</p></article>
+            </div>
           )}
         </section>
 
-        <div className={styles.bottomNote}>
-          <LockKeyhole size={18}/>
-          <span>Deposits and withdrawals remain subject to verification and current platform settings.</span>
-        </div>
+        <section className={styles.directory}>
+          <div className={styles.sectionTitle}><span>WADAN SERVICES</span><h2>Discover services</h2></div>
+          <div className={styles.searchBox}><Search size={19}/><input value={query} onChange={event=>setQuery(event.target.value)} placeholder="Search tools, missions, education…" aria-label="Search ecosystem services"/></div>
+          <div className={styles.tabs} role="group" aria-label="Explore categories">
+            {(Object.keys(categories) as Category[]).map(key=>(
+              <button type="button" key={key} onClick={()=>setCategory(key)} className={category===key?styles.activeTab:""} aria-pressed={category===key}>{categories[key]}</button>
+            ))}
+          </div>
+          {grouped.length ? grouped.map(({group,items})=>(
+            <section className={styles.group} key={group}>
+              <div className={styles.groupTitle}><h3>{groupTitles[group]}</h3><span>{items.length} services</span></div>
+              <div className={styles.serviceGrid}>
+                {items.map(item=>{
+                  const Icon=item.icon;
+                  const content=(
+                    <>
+                      <span className={styles.serviceIcon}><Icon size={22}/></span>
+                      <div className={styles.serviceText}><strong>{item.title}</strong><small>{item.description}</small></div>
+                      {item.soon ? <em>Coming soon</em> : item.href ? <ExternalLink size={17}/> : <ChevronRight size={17}/>}
+                    </>
+                  );
+                  if(item.soon) return <article key={item.id} className={styles.service+" "+styles.disabled}>{content}</article>;
+                  if(item.href) return <a key={item.id} className={styles.service} href={item.href} target="_blank" rel="noopener noreferrer">{content}</a>;
+                  return <button type="button" key={item.id} className={styles.service} onClick={()=>setPanel(item.action!)}>{content}</button>;
+                })}
+              </div>
+            </section>
+          )) : <div className={styles.empty}><Search size={23}/><strong>No services found</strong><p>Try a different category or search.</p></div>}
+        </section>
+
+        <div className={styles.footer}><Compass size={19}/><span>New tools appear here as WADAN grows. Unreleased services are marked Coming soon.</span><ArrowRight size={18}/></div>
         <MobileDock/>
       </section>
     </main>
