@@ -7607,51 +7607,30 @@ html,body{
 }
 
 @media(max-width:760px){
-  .premium-dashboard .premium-portfolio{
-    min-height:318px!important;
-  }
-
+  /* Keep scenic asset framing but let V30 control layout and typography. */
   .premium-dashboard .premium-portfolio-art{
-    inset:0 0 82px 0!important;
+    inset:0 0 110px 0!important;
   }
-
   .premium-dashboard .premium-portfolio-art img{
     object-position:58% center!important;
   }
-
   .premium-dashboard .premium-portfolio-art::after{
     background:
       linear-gradient(90deg,rgba(5,8,11,.96) 0%,rgba(5,8,11,.88) 25%,rgba(5,8,11,.38) 54%,rgba(5,8,11,.02) 79%),
       linear-gradient(180deg,rgba(4,7,10,.02) 46%,rgba(4,7,10,.30) 100%)!important;
   }
-
-  .premium-dashboard .premium-portfolio-value{
-    width:61%!important;
-    margin-top:26px!important;
-  }
-
-  .premium-dashboard .premium-portfolio-value>strong{
-    font-size:38px!important;
-  }
-
   .premium-dashboard .premium-metric-card{
     border-color:rgba(255,255,255,.085)!important;
   }
-
   .premium-dashboard .premium-action{
     border-color:rgba(255,255,255,.09)!important;
   }
-
   .premium-dashboard .premium-explore-card{
-    min-height:102px!important;
-    background-position:center 56%!important;
     border-color:rgba(255,255,255,.10)!important;
   }
-
   .premium-dashboard .premium-explore-card strong{
     text-shadow:0 2px 10px rgba(0,0,0,.72);
   }
-
   .premium-dashboard .premium-explore-card small{
     color:#b8b7b4!important;
     text-shadow:0 2px 10px rgba(0,0,0,.72);
