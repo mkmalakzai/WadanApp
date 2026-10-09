@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
 import { ThemeSwitch } from "../components/WadanTheme";
+import { ThemeSwitch } from "../components/WadanTheme";
 import styles from "./account.module.css";
 import { fetchCached, readCached } from "../../lib/client-cache";
 
