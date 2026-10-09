@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -76,6 +76,12 @@ export default function ExplorePage() {
   const [query,setQuery]=useState("");
   const [category,setCategory]=useState<Category>("all");
   const [panel,setPanel]=useState<Panel>("calculator");
+  const panelRef=useRef<HTMLElement|null>(null);
+
+  function choosePanel(next:Panel){
+    setPanel(next);
+    panelRef.current?.scrollIntoView({behavior:"smooth",block:"start"});
+  }
   const [amount,setAmount]=useState("1000");
   const [price,setPrice]=useState<number|null>(()=>readCached<WalletSummary>("wallet:summary")?.wdcPrice ?? null);
 
@@ -143,15 +149,15 @@ export default function ExplorePage() {
         <section className={styles.shortcuts}>
           <div className={styles.sectionTitle}><span>YOUR TOOLKIT</span><h2>Quick access</h2></div>
           <div className={styles.quickGrid}>
-            <button type="button" onClick={()=>setPanel("calculator")} className={styles.quick}><Calculator size={21}/><strong>Calculator</strong></button>
-            <button type="button" onClick={()=>setPanel("learn")} className={styles.quick}><GraduationCap size={21}/><strong>Academy</strong></button>
+            <button type="button" onClick={()=>choosePanel("calculator")} className={styles.quick}><Calculator size={21}/><strong>Calculator</strong></button>
+            <button type="button" onClick={()=>choosePanel("learn")} className={styles.quick}><GraduationCap size={21}/><strong>Academy</strong></button>
             <a href="https://bscscan.com/" target="_blank" rel="noopener noreferrer" className={styles.quick}><Globe2 size={21}/><strong>BscScan</strong></a>
-            <button type="button" onClick={()=>setPanel("safety")} className={styles.quick}><ShieldCheck size={21}/><strong>Security</strong></button>
-            <button type="button" onClick={()=>setPanel("support")} className={styles.quick}><BadgeHelp size={21}/><strong>Help</strong></button>
+            <button type="button" onClick={()=>choosePanel("safety")} className={styles.quick}><ShieldCheck size={21}/><strong>Security</strong></button>
+            <button type="button" onClick={()=>choosePanel("support")} className={styles.quick}><BadgeHelp size={21}/><strong>Help</strong></button>
           </div>
         </section>
 
-        <section className={styles.toolPanel}>
+        <section ref={panelRef} className={styles.toolPanel}>
           <div className={styles.toolHead}>
             <div><span>FEATURED TOOL</span><h2>{panels[panel]}</h2></div>
             <span className={styles.available}><CheckCircle2 size={15}/> Available</span>
@@ -220,7 +226,7 @@ export default function ExplorePage() {
                   );
                   if(item.soon) return <article key={item.id} className={styles.service+" "+styles.disabled}>{content}</article>;
                   if(item.href) return <a key={item.id} className={styles.service} href={item.href} target="_blank" rel="noopener noreferrer">{content}</a>;
-                  return <button type="button" key={item.id} className={styles.service} onClick={()=>setPanel(item.action!)}>{content}</button>;
+                  return <button type="button" key={item.id} className={styles.service} onClick={()=>choosePanel(item.action!)}>{content}</button>;
                 })}
               </div>
             </section>
