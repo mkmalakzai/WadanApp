@@ -75,20 +75,12 @@ export async function getWalletSummary(accessToken: string) {
 
   const wdcPrice = toNumber(settings.wdc_reference_price_usd) || 0.01;
   const totalStaked = stakes.reduce((sum, stake) => sum + toNumber(stake.principal), 0);
-  // Spendable wallet and locked staking principal are separate assets.
-  // Never count unclaimed/projected staking rewards as liquid funds.
-  const availableUsd = profile.usdtBalance + profile.wdcBalance * wdcPrice;
-  const stakedUsd = totalStaked * wdcPrice;
-  const portfolioUsd = availableUsd + stakedUsd;
 
   return {
     profile,
     wdcPrice,
-    totalUsd: availableUsd,
-    availableUsd,
-    stakedUsd,
-    portfolioUsd,
-    totalWdcHoldings: profile.wdcBalance + totalStaked,
+    // Portfolio excludes staking principal; only spendable wallet assets count.
+    totalUsd: profile.usdtBalance + profile.wdcBalance * wdcPrice,
     totalStaked,
     flags: {
       deposits: Boolean(scalar(settings.deposits_enabled)),
