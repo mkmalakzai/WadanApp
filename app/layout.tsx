@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
+import "./theme.css";
+import { WadanThemeProvider } from "./components/WadanTheme";
 
 export const metadata: Metadata = {
   title: "WADAN • WDC",
@@ -27,7 +29,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <span className="wadan-ambient-ring ring-b" />
           <span className="wadan-ambient-dust" />
         </div>
-        <div className="wadan-app-layer">{children}</div>
+        <WadanThemeProvider><div className="wadan-app-layer">{children}</div></WadanThemeProvider>
       </body>
     </html>
   );
