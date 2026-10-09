@@ -22,7 +22,7 @@ import {
   WalletCards,
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
-import { fetchCached, readCached } from "../../lib/client-cache";
+import { fetchCached, readCached, syncStakingRewards } from "../../lib/client-cache";
 
 type WalletSummary = {
   profile:{
@@ -71,6 +71,16 @@ export default function DashboardPage() {
       fetchCached<StakingOverview>("staking:overview","/api/staking/overview").then(setStaking),
       fetchCached<ReferralOverview>("referrals:overview","/api/referrals/overview").then(setReferral),
     ]).catch(()=>undefined);
+
+    // When the daily reward migration is installed, completed days are
+    // credited once and the wallet/positions refresh without duplicating WDC.
+    void syncStakingRewards().then((credited)=>{
+      if(credited<=0) return;
+      void Promise.all([
+        fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary",{force:true}).then(setWallet),
+        fetchCached<StakingOverview>("staking:overview","/api/staking/overview",{force:true}).then(setStaking),
+      ]).catch(()=>undefined);
+    });
   },[]);
 
   const name=wallet?.profile.displayName || "";
