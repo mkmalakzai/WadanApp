@@ -495,3 +495,191 @@
 :global(html[data-wadan-theme="light"]) .serviceText small,
 :global(html[data-wadan-theme="light"]) .footer{color:#657588!important}
 :global(html[data-wadan-theme="light"]) .tabs button.activeTab{background:rgba(217,139,82,.10)!important;color:#a25d3b!important}
+
+
+/* EXPLORE V5 — PREMIUM ECOSYSTEM */
+.sceneHero{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  min-height:245px;
+  display:flex;
+  align-items:center;
+  padding:29px 34px;
+  border:1px solid rgba(217,139,82,.20);
+  border-radius:23px;
+  background:
+    linear-gradient(90deg,rgba(5,8,12,.94) 0%,rgba(5,8,12,.76) 38%,rgba(5,8,12,.12) 100%),
+    url('/assets/dashboard/wadan-dashboard-hero.webp') center 51%/cover no-repeat;
+  box-shadow:0 18px 50px rgba(0,0,0,.24);
+}
+.sceneHero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:linear-gradient(180deg,transparent 60%,rgba(4,7,11,.27));
+}
+.sceneCopy{
+  position:relative;
+  z-index:1;
+  max-width:510px;
+}
+.sceneCopy>span{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  color:#e1a679;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.13em;
+}
+.sceneCopy h2{
+  margin:12px 0 0;
+  font-size:clamp(32px,4vw,49px);
+  line-height:1.05;
+  letter-spacing:-.045em;
+  color:#f7f0ea;
+}
+.sceneCopy p{
+  max-width:410px;
+  margin:11px 0 0;
+  color:#c4b6a9;
+  font-size:13px;
+  line-height:1.6;
+}
+.sceneLinks{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:20px;
+}
+.sceneLinks a{
+  min-height:38px;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:0 12px;
+  border:1px solid rgba(231,166,116,.29);
+  border-radius:11px;
+  background:rgba(23,16,16,.66);
+  color:#f2bb8b;
+  font-size:11px;
+  font-weight:850;
+  text-decoration:none;
+  backdrop-filter:blur(5px);
+}
+.sceneLinks a:hover{
+  border-color:rgba(244,185,125,.55);
+  background:rgba(72,41,28,.69);
+}
+.searchPanel{margin-top:16px}
+.searchBox{
+  min-height:57px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:15px;
+  background:linear-gradient(165deg,#111a23,#0a0f15);
+}
+.searchBox input{font-size:14px}
+.shortcuts,.directory{margin-top:26px}
+.sectionHead>div>span{font-size:10px;color:#d99569}
+.sectionHead>div>strong{font-size:22px;color:#f3eee9}
+.sectionHead>a,.sectionHead>small{font-size:11px;color:#9b9fa6}
+.shortcutGrid{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  padding:13px;
+  background:
+    linear-gradient(135deg,rgba(13,21,27,.94),rgba(5,11,16,.90)),
+    url('/assets/dashboard/wadan-kyc.webp') right center/50% auto no-repeat;
+}
+.shortcut{
+  min-height:98px;
+  gap:9px;
+  border:1px solid transparent;
+  border-radius:14px;
+}
+.shortcut:hover{border-color:rgba(217,139,82,.14)}
+.shortcutIcon{
+  width:48px;height:48px;
+  border-radius:15px;
+}
+.shortcut>strong{
+  font-size:12px;
+  line-height:1.25;
+}
+.upcomingShortcut{
+  cursor:default;
+  opacity:.5;
+}
+.upcomingShortcut:hover{transform:none;background:transparent;border-color:transparent}
+.tabs{margin-top:8px;gap:8px}
+.tabs button{font-size:12px;min-height:41px}
+.groups{gap:20px}
+.group h2{font-size:13px;margin-bottom:12px;color:#d4c8bb}
+.serviceGrid{gap:10px}
+.service{
+  min-height:99px;
+  gap:12px;
+  padding:16px;
+  border:1px solid rgba(255,255,255,.085);
+  border-radius:17px;
+  background:linear-gradient(155deg,#111922,#090e14);
+}
+.serviceIcon{
+  width:48px;height:48px;
+  border-radius:15px;
+}
+.serviceCopy strong{font-size:14px;color:#f0e9e1}
+.serviceCopy span{font-size:11px;color:#a1a5ac;line-height:1.45}
+.service em{font-size:10px;padding:5px 8px;color:#b3a396}
+.serviceDisabled{opacity:.72}
+.footerNote strong{font-size:12px}
+.footerNote span{font-size:11px;line-height:1.45}
+@media(max-width:760px){
+  .sceneHero{
+    min-height:220px;
+    padding:21px;
+    border-radius:20px;
+    background-position:61% center;
+  }
+  .sceneHero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:0;
+    background:linear-gradient(90deg,rgba(5,8,11,.92),rgba(5,8,11,.5) 65%,rgba(5,8,11,.1));
+  }
+  .sceneCopy h2{font-size:30px}
+  .sceneCopy p{max-width:275px;font-size:11px}
+  .sceneLinks{gap:6px;margin-top:15px}
+  .sceneLinks a{font-size:10px;min-height:34px;padding:0 9px}
+  .searchBox{min-height:52px}
+  .searchBox input{font-size:13px}
+  .shortcutGrid{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:5px;
+    padding:11px 7px;
+    border-radius:16px;
+  }
+  .shortcut{min-height:86px;gap:7px}
+  .shortcutIcon{width:42px;height:42px}
+  .shortcut>strong{font-size:10px;white-space:normal;text-align:center}
+  .sectionHead>div>strong{font-size:19px}
+  .sectionHead>div>span{font-size:9px}
+  .sectionHead>a,.sectionHead>small{font-size:10px}
+  .tabs button{font-size:11px;min-height:40px}
+  .group h2{font-size:12px}
+  .serviceGrid{grid-template-columns:1fr}
+  .service{min-height:86px;padding:12px}
+  .serviceIcon{width:44px;height:44px}
+  .serviceCopy strong{font-size:13px}
+  .serviceCopy span{font-size:10px}
+  .service em{font-size:9px}
+}
+@media(max-width:360px){
+  .sceneHero{padding:16px}
+  .sceneCopy h2{font-size:26px}
+  .sceneLinks a{font-size:9px}
+}
