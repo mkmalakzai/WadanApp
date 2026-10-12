@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
 import { fetchCached, readCached } from "../../lib/client-cache";
+import { settlePendingWalletRewards } from "../../lib/client-staking-rewards";
 
 type WalletSummary = {
   profile: {
@@ -64,10 +65,14 @@ export default function WalletPage() {
 
   useEffect(()=>{
     let live=true;
-    void fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary",{force:true})
-      .then(v=>{if(live)setSummary(v)})
-      .catch(()=>undefined);
-    void fetchCached("wallet:deposit","/api/wallet/deposit").catch(()=>undefined);
+    void (async()=>{
+      await settlePendingWalletRewards().catch(()=>null);
+      if(!live) return;
+      void fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary",{force:true})
+        .then(v=>{if(live)setSummary(v)})
+        .catch(()=>undefined);
+      void fetchCached("wallet:deposit","/api/wallet/deposit").catch(()=>undefined);
+    })();
     return ()=>{live=false};
   },[]);
 
