@@ -77,12 +77,17 @@ export async function getWalletSummary(accessToken: string) {
 
   const wdcPrice = toNumber(settings.wdc_reference_price_usd) || 0.01;
   const totalStaked = stakes.reduce((sum, stake) => sum + toNumber(stake.principal), 0);
+  const availableUsd = profile.usdtBalance + profile.wdcBalance * wdcPrice;
+  const stakedUsd = totalStaked * wdcPrice;
 
   return {
     profile,
     wdcPrice,
-    // Portfolio excludes staking principal; only spendable wallet assets count.
-    totalUsd: profile.usdtBalance + profile.wdcBalance * wdcPrice,
+    totalUsd: availableUsd,
+    availableUsd,
+    stakedUsd,
+    portfolioUsd: availableUsd + stakedUsd,
+    totalWdcHoldings: profile.wdcBalance + totalStaked,
     totalStaked,
     flags: {
       deposits: Boolean(scalar(settings.deposits_enabled)),
