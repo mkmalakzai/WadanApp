@@ -53,6 +53,26 @@ function toNumber(value: unknown) {
   return Number.isFinite(number) ? number : 0;
 }
 
+/**
+ * Credit completed staking days through the server-only, idempotent DB RPC.
+ * Until the SQL installer enables the feature, no synthetic funds are created.
+ */
+async function settleEnabledRewards(userId: string) {
+  const settings = await getSettings(["staking_rewards_settlement_enabled"]);
+  if (settings.staking_rewards_settlement_enabled !== true) return false;
+
+  const result = await supabaseRest<{
+    credited_wdc?: string | number;
+    credited_usdt?: string | number;
+  }>("rpc/settle_wallet_rewards", {
+    method: "POST",
+    body: { p_user_id: userId },
+  });
+
+  return toNumber(result?.credited_wdc) > 0 || toNumber(result?.credited_usdt) > 0;
+}
+
+
 export async function getSettings(keys?: string[]) {
   const path = keys?.length
     ? `system_settings?select=key,value&key=in.(${keys.map((key) => encodeURIComponent(key)).join(",")})`
@@ -63,7 +83,9 @@ export async function getSettings(keys?: string[]) {
 }
 
 export async function getWalletSummary(accessToken: string) {
-  const profile = await getCurrentAccountProfile(accessToken);
+  let profile = await getCurrentAccountProfile(accessToken);
+  const credited = await settleEnabledRewards(profile.appUserId);
+  if (credited) profile = await getCurrentAccountProfile(accessToken);
 
   const [ledger, settings, stakes] = await Promise.all([
     supabaseRest<LedgerRow[]>(
@@ -168,6 +190,7 @@ export async function requestWithdrawalForUser(
   input: { asset: Asset; amount: number; address: string }
 ) {
   const profile = await getCurrentAccountProfile(accessToken);
+  await settleEnabledRewards(profile.appUserId);
   const settings = await getSettings([
     "withdrawals_enabled",
     input.asset === "WDC" ? "withdraw_fee_wdc" : "withdraw_fee_usdt",
@@ -211,6 +234,7 @@ export async function executeSwapForUser(
   input: { fromAsset: Asset; amount: number }
 ) {
   const profile = await getCurrentAccountProfile(accessToken);
+  await settleEnabledRewards(profile.appUserId);
 
   if (!Number.isFinite(input.amount) || input.amount <= 0) {
     throw new Error("Enter a valid swap amount.");
@@ -230,7 +254,9 @@ export async function executeSwapForUser(
 }
 
 export async function getStakingOverview(accessToken: string) {
-  const profile = await getCurrentAccountProfile(accessToken);
+  let profile = await getCurrentAccountProfile(accessToken);
+  const credited = await settleEnabledRewards(profile.appUserId);
+  if (credited) profile = await getCurrentAccountProfile(accessToken);
 
   const [plans, stakes] = await Promise.all([
     supabaseRest<PlanRow[]>(
