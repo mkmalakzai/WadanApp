@@ -22,7 +22,7 @@ import {
   WalletCards,
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
-import { fetchCached, readCached, syncStakingRewards } from "../../lib/client-cache";
+import { fetchCached, readCached } from "../../lib/client-cache";
 
 type WalletSummary = {
   profile:{
@@ -65,23 +65,14 @@ export default function DashboardPage() {
   const [staking,setStaking]=useState<StakingOverview|null>(()=>readCached<StakingOverview>("staking:overview"));
   const [referral,setReferral]=useState<ReferralOverview>(()=>readCached<ReferralOverview>("referrals:overview") || {});
 
-  const [rewardSyncError,setRewardSyncError]=useState("");
 
   useEffect(()=>{
     let live=true;
-    void (async()=>{
-      try {
-        await syncStakingRewards();
-        if(live) setRewardSyncError("");
-      } catch(err) {
-        if(live) setRewardSyncError(err instanceof Error ? err.message : "Reward settlement unavailable.");
-      }
-      await Promise.allSettled([
-        fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary",{force:true}).then(value=>{if(live)setWallet(value)}),
-        fetchCached<StakingOverview>("staking:overview","/api/staking/overview",{force:true}).then(value=>{if(live)setStaking(value)}),
-        fetchCached<ReferralOverview>("referrals:overview","/api/referrals/overview").then(value=>{if(live)setReferral(value)}),
-      ]);
-    })();
+    void Promise.allSettled([
+      fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary",{force:true}).then(v=>{if(live)setWallet(v)}),
+      fetchCached<StakingOverview>("staking:overview","/api/staking/overview",{force:true}).then(v=>{if(live)setStaking(v)}),
+      fetchCached<ReferralOverview>("referrals:overview","/api/referrals/overview").then(v=>{if(live)setReferral(v)}),
+    ]);
     return ()=>{live=false};
   },[]);
 
@@ -95,7 +86,7 @@ export default function DashboardPage() {
   const spendableUsd=wallet?.availableUsd ?? wallet?.totalUsd ?? 0;
   const price=wallet?.wdcPrice ?? 0.01;
   const totalStaked=wallet?.totalStaked ?? staking?.summary?.totalStaked ?? 0;
-  const portfolioUsd=wallet?.portfolioUsd ?? spendableUsd;
+  const portfolioUsd=wallet?.portfolioUsd ?? spendableUsd + totalStaked * price;
   const todayEarned=staking?.summary?.todayProfit ?? 0;
   const allProfit=staking?.summary?.allProfit ?? 0;
   const expectedProfit=staking?.summary?.expectedProfit ?? 0;
@@ -146,8 +137,6 @@ export default function DashboardPage() {
           </div>
         </header>
 
-        {rewardSyncError && <div className="reward-sync-warning">Daily staking rewards are pending wallet credit. {rewardSyncError}</div>}
-
         <section className="premium-portfolio">
           <div className="premium-portfolio-art" aria-hidden="true">
             <img src="/assets/dashboard/wadan-dashboard-hero.webp" alt="" />
@@ -161,8 +150,8 @@ export default function DashboardPage() {
           <div className="premium-portfolio-value">
             <small>Total portfolio value</small>
             <strong>{walletReady ? portfolioUsd.toLocaleString("en-US",{style:"currency",currency:"USD",maximumFractionDigits:2}) : "—"}</strong>
-            <p><b>{walletReady ? fmt(wdc,4) : "—"} WDC</b><span>available incl. credited rewards</span></p>
-            <p className="portfolio-locked-note">Locked staking principal shown below · not included in portfolio value</p>
+            <p><b>{walletReady ? fmt(wdc,4) : "—"} WDC</b><span>available to spend</span></p>
+            <p className="portfolio-locked-note">Portfolio includes locked WDC principal; uncredited rewards excluded</p>
           </div>
 
           <div className="premium-portfolio-stats">
