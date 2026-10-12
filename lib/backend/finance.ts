@@ -327,7 +327,7 @@ export async function getStakingOverview(accessToken: string) {
 
 export async function settleStakingRewardsForUser(accessToken: string) {
   const profile = await getCurrentAccountProfile(accessToken);
-  return supabaseRest<Record<string, unknown>>("rpc/settle_staking_rewards", {
+  return supabaseRest<Record<string, unknown>>("rpc/settle_wallet_rewards", {
     method: "POST",
     body: { p_user_id: profile.appUserId },
   });
