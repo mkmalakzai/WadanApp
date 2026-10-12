@@ -115,16 +115,17 @@ export async function syncStakingRewards(): Promise<number> {
   const request = (async () => {
     const response = await requestJson<{
       ok: boolean;
-      result?: { credited_wdc?: number | string };
+      result?: { credited_wdc?: number | string; credited_usdt?: number | string };
     }>("/api/staking/settle", { method: "POST" });
 
     if (!response.ok) {
-      throw new Error("Staking rewards could not be settled.");
+      throw new Error("Wallet rewards could not be settled.");
     }
 
     const credited = Number(response.result?.credited_wdc ?? 0);
+    const creditedUsdt = Number(response.result?.credited_usdt ?? 0);
     lastSettlementAt = Date.now();
-    if (credited > 0) {
+    if (credited > 0 || creditedUsdt > 0) {
       invalidateCached(
         "wallet:summary",
         "staking:overview",
