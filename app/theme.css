@@ -278,3 +278,22 @@ html[data-wadan-theme="light"] .flow-primary{
     background:linear-gradient(100deg,#f7f9fb,#e8edf2)!important;
   }
 }
+
+
+/* Clear, non-decorative warning when daily rewards could not be credited. */
+.reward-sync-warning{
+  margin:11px 0 13px;
+  padding:13px 15px;
+  border:1px solid rgba(227,160,84,.35);
+  border-radius:14px;
+  background:rgba(227,160,84,.085);
+  color:#f2c79b;
+  font-size:12px;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+}
+html[data-wadan-theme="light"] .reward-sync-warning{
+  background:#fff4e7;
+  border-color:#ecc7a1;
+  color:#965330;
+}
