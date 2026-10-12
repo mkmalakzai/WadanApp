@@ -93,10 +93,19 @@ export default function StakingPage() {
   }
 
   useEffect(()=>{
-    void load();
-    void syncStakingRewards().then((credited)=>{
-      if(credited>0) void load(true);
-    });
+    let mounted = true;
+    void (async()=>{
+      try {
+        await syncStakingRewards();
+      } catch(err) {
+        if(mounted) setError(
+          "Earned rewards are awaiting wallet credit: " +
+          (err instanceof Error ? err.message : "Reward settlement unavailable.")
+        );
+      }
+      if(mounted) await load(true);
+    })();
+    return ()=>{ mounted=false; };
   },[]);
 
   const plan=data?.plans.find((item)=>item.id===planId) || data?.plans[0];
