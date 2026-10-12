@@ -77,8 +77,8 @@ export async function getWalletSummary(accessToken: string) {
 
   const wdcPrice = toNumber(settings.wdc_reference_price_usd) || 0.01;
   const totalStaked = stakes.reduce((sum, stake) => sum + toNumber(stake.principal), 0);
-  // Total holdings include locked WDC principal, but not uncredited rewards.
-  // Keep the liquid wallet separate so nothing non-spendable appears available.
+  // Portfolio shows spendable WDC and USDT only. Locked staking principal
+  // remains visible in a separate staking metric and is never added here.
   const availableUsd = profile.usdtBalance + profile.wdcBalance * wdcPrice;
   const stakedUsd = totalStaked * wdcPrice;
 
@@ -88,7 +88,7 @@ export async function getWalletSummary(accessToken: string) {
     totalUsd: availableUsd,
     availableUsd,
     stakedUsd,
-    portfolioUsd: availableUsd + stakedUsd,
+    portfolioUsd: availableUsd,
     totalWdcHoldings: profile.wdcBalance + totalStaked,
     totalStaked,
     flags: {
