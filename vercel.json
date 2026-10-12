@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/staking-rewards",
+      "schedule": "10 0 * * *"
+    }
+  ]
+}
