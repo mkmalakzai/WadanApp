@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
 import { fetchCached, readCached } from "../../lib/client-cache";
+import { settlePendingWalletRewards } from "../../lib/client-staking-rewards";
 
 type WalletSummary = {
   profile:{
@@ -68,11 +69,15 @@ export default function DashboardPage() {
 
   useEffect(()=>{
     let live=true;
-    void Promise.allSettled([
-      fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary",{force:true}).then(v=>{if(live)setWallet(v)}),
-      fetchCached<StakingOverview>("staking:overview","/api/staking/overview",{force:true}).then(v=>{if(live)setStaking(v)}),
-      fetchCached<ReferralOverview>("referrals:overview","/api/referrals/overview").then(v=>{if(live)setReferral(v)}),
-    ]);
+    void (async () => {
+      await settlePendingWalletRewards().catch(() => null);
+      if(!live) return;
+      await Promise.allSettled([
+        fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary",{force:true}).then(v=>{if(live)setWallet(v)}),
+        fetchCached<StakingOverview>("staking:overview","/api/staking/overview",{force:true}).then(v=>{if(live)setStaking(v)}),
+        fetchCached<ReferralOverview>("referrals:overview","/api/referrals/overview").then(v=>{if(live)setReferral(v)}),
+      ]);
+    })();
     return ()=>{live=false};
   },[]);
 
