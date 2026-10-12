@@ -92,7 +92,7 @@ export default function WalletPage() {
   const total=summary?.availableUsd ?? summary?.totalUsd ?? 0;
   const stakedWdc=summary?.totalStaked ?? 0;
   const stakedUsd=summary?.stakedUsd ?? stakedWdc * price;
-  const portfolio=summary?.portfolioUsd ?? total + stakedUsd;
+  const portfolio=summary?.portfolioUsd ?? total;
 
   return (
     <main className="dash-shell premium-surface wallet-premium">
@@ -144,8 +144,8 @@ export default function WalletPage() {
               <p>Spendable WDC + USDT, including credited rewards</p>
               <h2>{!summary ? "—" : hidden ? "••••" : total.toLocaleString("en-US",{style:"currency",currency:"USD"})}</h2>
               <div className="wallet-value-breakdown">
-                <span>Total portfolio <strong>{!summary ? "—" : hidden ? "••••" : portfolio.toLocaleString("en-US",{style:"currency",currency:"USD"})}</strong></span>
-                <span>Locked in staking <strong>{!summary ? "—" : hidden ? "••••" : stakedUsd.toLocaleString("en-US",{style:"currency",currency:"USD"})}</strong></span>
+                <span>Total available portfolio <strong>{!summary ? "—" : hidden ? "••••" : portfolio.toLocaleString("en-US",{style:"currency",currency:"USD"})}</strong></span>
+                <span>Locked principal (excluded) <strong>{!summary ? "—" : hidden ? "••••" : stakedUsd.toLocaleString("en-US",{style:"currency",currency:"USD"})}</strong></span>
               </div>
             </div>
             <button className="wallet-eye" aria-label="Toggle balance visibility" onClick={()=>setHidden(!hidden)}><Eye size={19}/></button>
@@ -157,7 +157,7 @@ export default function WalletPage() {
                 <span className="asset-symbol">W</span>
                 <div><strong>Wadan Coin</strong><small>WDC • BNB Chain</small></div>
               </div>
-              <div className="wallet-balance-label">Available WDC</div>
+              <div className="wallet-balance-label">Available WDC · includes credited staking profit</div>
               <h3>{!summary ? "—" : hidden ? "••••" : wdc.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC"}</h3>
               <div className="asset-balance-foot"><span>{!summary ? "—" : hidden ? "••••" : (wdc*price).toLocaleString("en-US",{style:"currency",currency:"USD"})}</span><em>{!summary ? "—" : price.toLocaleString("en-US",{style:"currency",currency:"USD",minimumFractionDigits:4,maximumFractionDigits:4})+" / WDC"}</em></div>
               <Link href="/staking" className="wallet-locked-note"><LockKeyhole size={16}/><span>Locked principal: <strong>{!summary ? "—" : hidden ? "••••" : stakedWdc.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC"}</strong></span><ArrowUpRight size={15}/></Link>
