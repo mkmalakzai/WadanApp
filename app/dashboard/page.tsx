@@ -65,22 +65,24 @@ export default function DashboardPage() {
   const [staking,setStaking]=useState<StakingOverview|null>(()=>readCached<StakingOverview>("staking:overview"));
   const [referral,setReferral]=useState<ReferralOverview>(()=>readCached<ReferralOverview>("referrals:overview") || {});
 
-  useEffect(()=>{
-    void Promise.all([
-      fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary").then(setWallet),
-      fetchCached<StakingOverview>("staking:overview","/api/staking/overview").then(setStaking),
-      fetchCached<ReferralOverview>("referrals:overview","/api/referrals/overview").then(setReferral),
-    ]).catch(()=>undefined);
+  const [rewardSyncError,setRewardSyncError]=useState("");
 
-    // When the daily reward migration is installed, completed days are
-    // credited once and the wallet/positions refresh without duplicating WDC.
-    void syncStakingRewards().then((credited)=>{
-      if(credited<=0) return;
-      void Promise.all([
-        fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary",{force:true}).then(setWallet),
-        fetchCached<StakingOverview>("staking:overview","/api/staking/overview",{force:true}).then(setStaking),
-      ]).catch(()=>undefined);
-    });
+  useEffect(()=>{
+    let live=true;
+    void (async()=>{
+      try {
+        await syncStakingRewards();
+        if(live) setRewardSyncError("");
+      } catch(err) {
+        if(live) setRewardSyncError(err instanceof Error ? err.message : "Reward settlement unavailable.");
+      }
+      await Promise.allSettled([
+        fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary",{force:true}).then(value=>{if(live)setWallet(value)}),
+        fetchCached<StakingOverview>("staking:overview","/api/staking/overview",{force:true}).then(value=>{if(live)setStaking(value)}),
+        fetchCached<ReferralOverview>("referrals:overview","/api/referrals/overview").then(value=>{if(live)setReferral(value)}),
+      ]);
+    })();
+    return ()=>{live=false};
   },[]);
 
   const name=wallet?.profile.displayName || "";
@@ -142,6 +144,8 @@ export default function DashboardPage() {
             </Link>
           </div>
         </header>
+
+        {rewardSyncError && <div className="reward-sync-warning">Daily staking rewards are pending wallet credit. {rewardSyncError}</div>}
 
         <section className="premium-portfolio">
           <div className="premium-portfolio-art" aria-hidden="true">
