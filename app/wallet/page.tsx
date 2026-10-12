@@ -80,7 +80,7 @@ export default function WalletPage() {
   const total=summary?.availableUsd ?? summary?.totalUsd ?? 0;
   const stakedWdc=summary?.totalStaked ?? 0;
   const stakedUsd=summary?.stakedUsd ?? stakedWdc * price;
-  const portfolio=summary?.portfolioUsd ?? total + stakedUsd;
+  const portfolio=total;
 
   return (
     <main className="dash-shell premium-surface wallet-premium">
@@ -126,12 +126,12 @@ export default function WalletPage() {
         <section className="wallet-overview-v2">
           <div className="wallet-total">
             <div>
-              <span className="wallet-label"><WalletCards size={15}/> TOTAL HOLDINGS</span>
-              <p>Available wallet plus locked staking principal</p>
+              <span className="wallet-label"><WalletCards size={15}/> WALLET BALANCE</span>
+              <p>Available to spend • WDC + USDT</p>
               <h2>{!summary ? "—" : hidden ? "••••" : portfolio.toLocaleString("en-US",{style:"currency",currency:"USD"})}</h2>
               <div className="wallet-value-breakdown">
-                <span>Available wallet <strong>{!summary ? "—" : hidden ? "••••" : portfolio.toLocaleString("en-US",{style:"currency",currency:"USD"})}</strong></span>
-                <span>Locked staking value <strong>{!summary ? "—" : hidden ? "••••" : stakedUsd.toLocaleString("en-US",{style:"currency",currency:"USD"})}</strong></span>
+                <span>Available wallet <strong>{!summary ? "—" : hidden ? "••••" : total.toLocaleString("en-US",{style:"currency",currency:"USD"})}</strong></span>
+                <span>Locked in staking (separate) <strong>{!summary ? "—" : hidden ? "••••" : stakedUsd.toLocaleString("en-US",{style:"currency",currency:"USD"})}</strong></span>
               </div>
             </div>
             <button className="wallet-eye" aria-label="Toggle balance visibility" onClick={()=>setHidden(!hidden)}><Eye size={19}/></button>
