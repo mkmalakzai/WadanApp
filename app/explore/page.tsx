@@ -32,7 +32,6 @@ import MobileDock from "../components/MobileDock";
 import { ThemeSwitch } from "../components/WadanTheme";
 import { fetchCached, readCached } from "../../lib/client-cache";
 import styles from "./explore.module.css";
-import { ThemeSwitch } from "../components/WadanTheme";
 
 type Category = "all" | "earn" | "tools" | "discover" | "community";
 type Panel = "calculator" | "learn" | "safety" | "support";
