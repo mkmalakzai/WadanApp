@@ -23,6 +23,7 @@ import {
 import MobileDock from "../components/MobileDock";
 import styles from "./staking.module.css";
 import { fetchCached, readCached, invalidateCached } from "../../lib/client-cache";
+import { settlePendingWalletRewards } from "../../lib/client-staking-rewards";
 
 type Plan = {
   id:string;
@@ -92,7 +93,7 @@ export default function StakingPage() {
     }
   }
 
-  useEffect(()=>{ void load(true); },[]);
+  useEffect(()=>{ void (async()=>{ await settlePendingWalletRewards().catch(()=>null); await load(true); })(); },[]);
 
   const plan=data?.plans.find((item)=>item.id===planId) || data?.plans[0];
   const balance=data?.profile.wdcBalance ?? 0;
