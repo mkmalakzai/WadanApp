@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
 import styles from "./staking.module.css";
-import { fetchCached, readCached, invalidateCached, syncStakingRewards } from "../../lib/client-cache";
+import { fetchCached, readCached, invalidateCached } from "../../lib/client-cache";
 
 type Plan = {
   id:string;
@@ -92,21 +92,7 @@ export default function StakingPage() {
     }
   }
 
-  useEffect(()=>{
-    let mounted = true;
-    void (async()=>{
-      try {
-        await syncStakingRewards();
-      } catch(err) {
-        if(mounted) setError(
-          "Earned rewards are awaiting wallet credit: " +
-          (err instanceof Error ? err.message : "Reward settlement unavailable.")
-        );
-      }
-      if(mounted) await load(true);
-    })();
-    return ()=>{ mounted=false; };
-  },[]);
+  useEffect(()=>{ void load(true); },[]);
 
   const plan=data?.plans.find((item)=>item.id===planId) || data?.plans[0];
   const balance=data?.profile.wdcBalance ?? 0;
