@@ -1,0 +1,101 @@
+/* WADAN premium portfolio. Scoped to the dashboard card deck; no changes to financial calculations. */
+.wadan-carddeck{width:100%;min-width:0;margin:14px 0 0;color:#f6eee4}
+.wadan-luxury-card{position:relative;isolation:isolate;overflow:hidden;border:1px solid rgba(227,171,99,.34);border-radius:27px;padding:clamp(18px,2.5vw,31px);background:radial-gradient(circle at 89% 14%,rgba(232,148,67,.23),transparent 35%),radial-gradient(circle at 17% 115%,rgba(53,190,173,.10),transparent 47%),linear-gradient(120deg,#211811 0%,#13191f 54%,#0a1118 100%);box-shadow:0 20px 58px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,230,195,.07)}
+.wadan-luxury-card::before{content:"";z-index:-1;pointer-events:none;position:absolute;inset:0;opacity:.56;background:repeating-linear-gradient(125deg,transparent 0,transparent 64px,rgba(230,168,96,.045) 65px,transparent 66px)}
+.wadan-luxury-card::after{content:"";z-index:-1;pointer-events:none;position:absolute;width:420px;height:420px;right:-180px;top:-260px;border:1px solid rgba(240,186,114,.13);border-radius:50%;box-shadow:0 0 0 38px rgba(222,166,96,.018),0 0 0 83px rgba(222,166,96,.02)}
+.wadan-luxury-ornament{position:absolute;z-index:-1;right:-100px;top:30px;width:320px;height:320px;border-radius:50%;border:1px solid rgba(238,185,120,.10);pointer-events:none}
+.wadan-luxury-top,.wadan-luxury-brand,.wadan-luxury-footer,.wadan-luxury-asset-label,.wadan-luxury-stat-head,.wadan-luxury-price,.wadan-luxury-price>span{display:flex;align-items:center}
+.wadan-luxury-top{justify-content:space-between;gap:10px;position:relative;z-index:1}
+.wadan-luxury-brand{gap:11px;min-width:0}
+.wadan-luxury-brand img{display:block;width:43px;height:43px;object-fit:contain;filter:drop-shadow(0 8px 15px rgba(236,158,79,.20))}
+.wadan-luxury-brand strong{display:block;font-size:15px;font-weight:900;letter-spacing:.16em;line-height:1.1}
+.wadan-luxury-brand small{display:block;margin-top:6px;font-size:9px;font-weight:800;color:#d5b38a;letter-spacing:.14em;white-space:nowrap}
+.wadan-luxury-chain{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;color:#e7cbad;padding:10px 12px;border:1px solid rgba(235,192,132,.22);border-radius:30px;background:rgba(8,12,16,.5);font-size:10px;font-weight:800;letter-spacing:.06em}
+.wadan-luxury-chain i,.wadan-luxury-price i{flex:none;width:7px;height:7px;border-radius:50%;background:#58d9c3;box-shadow:0 0 11px rgba(57,224,191,.42)}
+.wadan-luxury-main{display:flex;align-items:center;justify-content:space-between;gap:18px;min-width:0;min-height:175px;padding:20px 2px 10px}
+.wadan-luxury-balance{min-width:0;position:relative;z-index:1}
+.wadan-luxury-label{display:block;font-size:11px;font-weight:850;letter-spacing:.11em;color:#ebc294}
+.wadan-luxury-balance>strong{display:block;margin-top:10px;font-size:clamp(36px,4.6vw,60px);font-weight:900;line-height:1.09;letter-spacing:-.045em;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.wadan-luxury-balance p{margin:12px 0 0;font-size:12px;line-height:1.35;color:#bbc0bd}
+.wadan-luxury-seal{position:relative;display:grid;place-items:center;flex:0 0 164px;height:164px;border-radius:50%;border:1px solid rgba(232,175,108,.20);background:radial-gradient(circle,rgba(223,155,75,.14),transparent 70%);box-shadow:0 0 0 15px rgba(228,173,106,.035)}
+.wadan-luxury-seal img{width:114px;height:114px;object-fit:contain;filter:drop-shadow(0 12px 25px rgba(227,151,80,.25))}
+.wadan-luxury-assets{position:relative;z-index:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.wadan-luxury-asset{min-width:0;padding:16px 17px;border:1px solid rgba(247,201,147,.14);border-radius:17px;background:linear-gradient(155deg,rgba(255,255,255,.06),rgba(255,255,255,.02))}
+.wadan-luxury-asset-label{gap:8px;font-size:10px;font-weight:850;letter-spacing:.09em;color:#c9c0b8}
+.wadan-luxury-asset-label b{display:grid;place-items:center;flex:none;width:25px;height:25px;border-radius:50%;font-size:12px}
+.wadan-luxury-asset-label .wdc-token-icon{color:#271c13;background:linear-gradient(130deg,#ffcf88,#a5652d)}
+.wadan-luxury-asset-label .usdt-token-icon{color:white;background:linear-gradient(135deg,#59c5ac,#207d72)}
+.wadan-luxury-asset>strong{display:block;margin-top:13px;font-size:clamp(17px,2.2vw,24px);font-weight:850;font-variant-numeric:tabular-nums;letter-spacing:-.025em;line-height:1.2;overflow-wrap:anywhere}
+.wadan-luxury-asset>strong small{font-size:11px;color:#d1b398;letter-spacing:.03em;white-space:nowrap}
+.wadan-luxury-footer{position:relative;z-index:1;justify-content:space-between;gap:10px;margin-top:17px}
+.wadan-luxury-footer>span{display:inline-flex;align-items:center;gap:7px;font-size:11px;line-height:1.4;color:#aeb7b5}
+.wadan-luxury-footer>span svg{flex:none;color:#6dd4c4}
+.wadan-luxury-footer a{flex:none;display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:#f5c99d;font-size:12px;font-weight:850}
+.wadan-luxury-footer a:hover{color:#ffe3ba}
+.wadan-luxury-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
+.wadan-luxury-stat{display:flex;flex-direction:column;min-width:0;min-height:178px;text-decoration:none;padding:18px;border:1px solid rgba(229,175,106,.15);border-radius:21px;background:linear-gradient(150deg,#1a2026,#0d1319);box-shadow:inset 0 1px 0 rgba(255,255,255,.04);transition:transform .2s,border-color .2s}
+.wadan-luxury-stat:hover{transform:translateY(-2px);border-color:rgba(229,175,106,.4)}
+.wadan-luxury-stat-head{justify-content:space-between;color:#9c9490}
+.wadan-luxury-stat-head b{width:37px;height:37px;display:grid;place-items:center;border-radius:12px;color:#eeb47f;background:rgba(232,147,80,.11);border:1px solid rgba(232,147,80,.2)}
+.wadan-luxury-stat.earned .wadan-luxury-stat-head b{color:#6be0ce;background:rgba(54,205,181,.1);border-color:rgba(54,205,181,.22)}
+.wadan-luxury-stat.all-profit .wadan-luxury-stat-head b{color:#edc693;background:rgba(225,184,104,.1)}
+.wadan-luxury-stat-title{margin-top:15px;font-size:12px;font-weight:850;color:#cfc2b4}
+.wadan-luxury-stat>strong{margin-top:7px;font-size:clamp(20px,2.15vw,28px);font-weight:850;line-height:1.15;letter-spacing:-.03em;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.wadan-luxury-stat>strong small{font-size:11px;font-weight:850;letter-spacing:.02em;color:#e1b283;white-space:nowrap}
+.wadan-luxury-stat.earned>strong small{color:#67d9c7}
+.wadan-luxury-stat-foot{margin-top:9px;color:#929c9f;font-size:11px;line-height:1.35}
+.wadan-luxury-price{flex-wrap:wrap;justify-content:space-between;gap:7px 17px;padding:13px 4px 3px;color:#a4acaa;font-size:11px}
+.wadan-luxury-price>span{gap:9px;font-size:11px;font-weight:800;letter-spacing:.07em}
+.wadan-luxury-price strong{color:#efb980;font-size:13px}
+.wadan-luxury-price small{font-size:10px;color:#8b9394}
+@media(max-width:760px){
+.wadan-carddeck{margin-top:8px}
+.wadan-luxury-card{padding:18px;border-radius:23px}
+.wadan-luxury-brand img{width:38px;height:38px}
+.wadan-luxury-brand strong{font-size:13px}
+.wadan-luxury-brand small{font-size:8px;letter-spacing:.10em}
+.wadan-luxury-chain{font-size:9px;padding:8px 10px}
+.wadan-luxury-main{min-height:138px;padding:17px 0 10px}
+.wadan-luxury-label{font-size:10px}
+.wadan-luxury-balance>strong{font-size:clamp(32px,8vw,45px)}
+.wadan-luxury-balance p{font-size:11px}
+.wadan-luxury-seal{flex-basis:92px;height:92px;box-shadow:0 0 0 9px rgba(228,173,106,.03)}
+.wadan-luxury-seal img{width:73px;height:73px}
+.wadan-luxury-asset{padding:13px 12px;border-radius:14px}
+.wadan-luxury-asset-label{gap:6px;font-size:9px;letter-spacing:.04em}
+.wadan-luxury-asset>strong{font-size:clamp(16px,4.2vw,21px);margin-top:11px}
+.wadan-luxury-footer{margin-top:13px}
+.wadan-luxury-footer>span{font-size:10px;max-width:63%}
+.wadan-luxury-footer a{font-size:11px}
+.wadan-luxury-stats{gap:9px;margin-top:9px}
+.wadan-luxury-stat{padding:14px;border-radius:17px;min-height:154px}
+.wadan-luxury-stat-head b{width:34px;height:34px}
+.wadan-luxury-stat-title{font-size:11px;margin-top:12px}
+.wadan-luxury-stat>strong{font-size:clamp(18px,3.5vw,23px)}
+.wadan-luxury-stat-foot{font-size:10px}
+}
+@media(max-width:540px){
+.wadan-luxury-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+.wadan-luxury-stat.locked{grid-column:1/-1;min-height:140px}
+.wadan-luxury-stat.locked>strong{font-size:26px}
+.wadan-luxury-seal{opacity:.70;margin-right:-9px}
+.wadan-luxury-main{gap:5px}
+}
+@media(max-width:375px){
+.wadan-luxury-card{padding:15px}
+.wadan-luxury-chain{font-size:8px;padding:8px}
+.wadan-luxury-main{min-height:125px}
+.wadan-luxury-balance>strong{font-size:32px}
+.wadan-luxury-seal{flex-basis:67px;height:67px}
+.wadan-luxury-seal img{width:54px;height:54px}
+.wadan-luxury-asset-label{font-size:8px}
+.wadan-luxury-asset>strong{font-size:16px}
+}
+html[data-wadan-theme="light"] .wadan-luxury-stat{background:linear-gradient(150deg,#fff,#f5f7f9);border-color:rgba(132,89,58,.16);box-shadow:0 7px 27px rgba(43,57,73,.07)}
+html[data-wadan-theme="light"] .wadan-luxury-stat-title{color:#5b6c78}
+html[data-wadan-theme="light"] .wadan-luxury-stat>strong{color:#23303c}
+html[data-wadan-theme="light"] .wadan-luxury-stat-foot{color:#78838e}
+html[data-wadan-theme="light"] .wadan-luxury-price{color:#586a78}
+html[data-wadan-theme="light"] .wadan-luxury-price strong{color:#a7663b}
+html[data-wadan-theme="light"] .wadan-luxury-price small{color:#6b7785}
+@media(prefers-reduced-motion:reduce){.wadan-luxury-stat{transition:none}.wadan-luxury-stat:hover{transform:none}}
