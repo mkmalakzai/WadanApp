@@ -11,6 +11,7 @@ import {
   Coins,
   Eye,
   History,
+  LockKeyhole,
   LayoutDashboard,
   Settings,
   ShieldCheck,
@@ -32,6 +33,9 @@ type WalletSummary = {
   };
   wdcPrice: number;
   totalUsd: number;
+  availableUsd?: number;
+  portfolioUsd?: number;
+  stakedUsd?: number;
   totalStaked: number;
   flags: {
     deposits: boolean;
@@ -85,7 +89,10 @@ export default function WalletPage() {
   const name=summary?.profile.displayName || "";
   const displayName=name || "—";
   const initials=name ? name.slice(0,2).toUpperCase() : "W";
-  const total=summary?.totalUsd ?? 0;
+  const total=summary?.availableUsd ?? summary?.totalUsd ?? 0;
+  const stakedWdc=summary?.totalStaked ?? 0;
+  const stakedUsd=summary?.stakedUsd ?? stakedWdc * price;
+  const portfolio=summary?.portfolioUsd ?? total + stakedUsd;
 
   return (
     <main className="dash-shell premium-surface wallet-premium">
@@ -133,10 +140,13 @@ export default function WalletPage() {
         <section className="wallet-overview-v2">
           <div className="wallet-total">
             <div>
-              <span className="wallet-label"><WalletCards size={15}/> TOTAL WALLET</span>
-              <p>Estimated value</p>
+              <span className="wallet-label"><WalletCards size={15}/> AVAILABLE WALLET</span>
+              <p>Spendable WDC + USDT, including credited rewards</p>
               <h2>{!summary ? "—" : hidden ? "••••" : total.toLocaleString("en-US",{style:"currency",currency:"USD"})}</h2>
-              <small>Across WDC and USDT</small>
+              <div className="wallet-value-breakdown">
+                <span>Total portfolio <strong>{!summary ? "—" : hidden ? "••••" : portfolio.toLocaleString("en-US",{style:"currency",currency:"USD"})}</strong></span>
+                <span>Locked in staking <strong>{!summary ? "—" : hidden ? "••••" : stakedUsd.toLocaleString("en-US",{style:"currency",currency:"USD"})}</strong></span>
+              </div>
             </div>
             <button className="wallet-eye" aria-label="Toggle balance visibility" onClick={()=>setHidden(!hidden)}><Eye size={19}/></button>
           </div>
@@ -147,8 +157,10 @@ export default function WalletPage() {
                 <span className="asset-symbol">W</span>
                 <div><strong>Wadan Coin</strong><small>WDC • BNB Chain</small></div>
               </div>
+              <div className="wallet-balance-label">Available WDC</div>
               <h3>{!summary ? "—" : hidden ? "••••" : wdc.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC"}</h3>
               <div className="asset-balance-foot"><span>{!summary ? "—" : hidden ? "••••" : (wdc*price).toLocaleString("en-US",{style:"currency",currency:"USD"})}</span><em>{!summary ? "—" : price.toLocaleString("en-US",{style:"currency",currency:"USD",minimumFractionDigits:4,maximumFractionDigits:4})+" / WDC"}</em></div>
+              <Link href="/staking" className="wallet-locked-note"><LockKeyhole size={16}/><span>Locked principal: <strong>{!summary ? "—" : hidden ? "••••" : stakedWdc.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC"}</strong></span><ArrowUpRight size={15}/></Link>
             </article>
 
             <article className="wallet-asset-balance usdt-balance">
