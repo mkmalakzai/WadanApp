@@ -102,24 +102,44 @@ export async function fetchCached<T>(
   }
 }
 
-// Reward settlement is an authenticated POST. The database RPC locks positions
-// and stores paid days, so repeat requests cannot credit the same day twice.
-// Before the SQL migration is installed, the site continues to load normally.
+// Daily reward settlement is an authenticated, idempotent DB operation.
+// It is deliberately not emulated in the browser or counted as spendable
+// until the server posts the corresponding WDC ledger entry.
+let settlementInFlight: Promise<number> | null = null;
+let lastSettlementAt = 0;
+
 export async function syncStakingRewards(): Promise<number> {
-  try {
-    const response = await fetchCached<{
+  if (settlementInFlight) return settlementInFlight;
+  if (Date.now() - lastSettlementAt < 30_000) return 0;
+
+  const request = (async () => {
+    const response = await requestJson<{
       ok: boolean;
       result?: { credited_wdc?: number | string };
-    }>("staking:settlement","/api/staking/settle",{
-      method:"POST",
-      staleMs:120_000,
-    });
+    }>("/api/staking/settle", { method: "POST" });
+
+    if (!response.ok) {
+      throw new Error("Staking rewards could not be settled.");
+    }
+
     const credited = Number(response.result?.credited_wdc ?? 0);
+    lastSettlementAt = Date.now();
     if (credited > 0) {
-      invalidateCached("wallet:summary","staking:overview","account:me","history");
+      invalidateCached(
+        "wallet:summary",
+        "staking:overview",
+        "account:me",
+        "history",
+        "staking:settlement"
+      );
     }
     return credited;
-  } catch {
-    return 0;
+  })();
+
+  settlementInFlight = request;
+  try {
+    return await request;
+  } finally {
+    settlementInFlight = null;
   }
 }
