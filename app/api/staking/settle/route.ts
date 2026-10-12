@@ -1,22 +1,35 @@
 import { NextRequest, NextResponse } from "next/server";
-import { settleStakingRewardsForUser } from "../../../../lib/backend/finance";
+import {
+  getSettings,
+  settleStakingRewardsForUser,
+} from "../../../../lib/backend/finance";
 
 export const dynamic = "force-dynamic";
 
-// Credits completed 24-hour rewards exactly once via the locked DB transaction.
-// Identity is derived from the verified auth session, never from request input.
 export async function POST(request: NextRequest) {
   const token = request.cookies.get("wadan_access_token")?.value;
   if (!token) {
     return NextResponse.json({ error: "Not authenticated." }, { status: 401 });
   }
 
+  // The SQL migration must be applied and payouts explicitly enabled.
+  // Never call an undeployed RPC or claim that a reward was credited.
   try {
+    const settings = await getSettings(["staking_rewards_settlement_enabled"]);
+    if (settings.staking_rewards_settlement_enabled !== true) {
+      return NextResponse.json({
+        ok: true,
+        enabled: false,
+        result: { credited_wdc: 0, settled_positions: 0 },
+      });
+    }
+
     const result = await settleStakingRewardsForUser(token);
-    return NextResponse.json({ ok: true, result });
-  } catch (error) {
-    return NextResponse.json({
-      error: error instanceof Error ? error.message : "Unable to settle rewards.",
-    }, { status: 400 });
+    return NextResponse.json({ ok: true, enabled: true, result });
+  } catch {
+    return NextResponse.json(
+      { error: "Reward settlement is unavailable. No balance was credited." },
+      { status: 503 }
+    );
   }
 }
