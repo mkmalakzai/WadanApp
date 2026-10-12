@@ -32,6 +32,7 @@ import MobileDock from "../components/MobileDock";
 import { ThemeSwitch } from "../components/WadanTheme";
 import { fetchCached, readCached } from "../../lib/client-cache";
 import styles from "./explore.module.css";
+import { ThemeSwitch } from "../components/WadanTheme";
 
 type Category = "all" | "earn" | "tools" | "discover" | "community";
 type Panel = "calculator" | "learn" | "safety" | "support";
@@ -203,7 +204,7 @@ export default function ExplorePage() {
           )}
         </section>
 
-        <section className={styles.directory}>
+        <section id="all-wadan-services" className={styles.directory}>
           <div className={styles.sectionTitle}><span>WADAN SERVICES</span><h2>Discover services</h2></div>
           <div className={styles.searchBox}><Search size={19}/><input value={query} onChange={event=>setQuery(event.target.value)} placeholder="Search tools, missions, education…" aria-label="Search ecosystem services"/></div>
           <div className={styles.tabs} role="group" aria-label="Explore categories">
