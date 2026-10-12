@@ -12,6 +12,8 @@
 -- It is repeatable; already credited days/rewards will not be credited again.
 -- IMPORTANT: use only test funds until verified external WDC assets are live.
 
+begin;
+
 -- WADAN staking reward settlement v1
 -- Apply once in Supabase SQL Editor. Existing user balances are never reset.
 -- Completes 24-hour staking days atomically and credits WDC once per completed day.
@@ -354,3 +356,5 @@ select count(*) as active_positions,
        coalesce(sum(principal),0) as active_staked_wdc,
        coalesce(sum(accrued_reward),0) as already_credited_reward_wdc
 from public.stakes where status='active';
+
+commit;
