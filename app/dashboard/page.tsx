@@ -86,7 +86,7 @@ export default function DashboardPage() {
   const spendableUsd=wallet?.availableUsd ?? wallet?.totalUsd ?? 0;
   const price=wallet?.wdcPrice ?? 0.01;
   const totalStaked=wallet?.totalStaked ?? staking?.summary?.totalStaked ?? 0;
-  const portfolioUsd=wallet?.portfolioUsd ?? spendableUsd + totalStaked * price;
+  const portfolioUsd=spendableUsd;
   const todayEarned=staking?.summary?.todayProfit ?? 0;
   const allProfit=staking?.summary?.allProfit ?? 0;
   const expectedProfit=staking?.summary?.expectedProfit ?? 0;
@@ -151,7 +151,6 @@ export default function DashboardPage() {
             <small>Total portfolio value</small>
             <strong>{walletReady ? portfolioUsd.toLocaleString("en-US",{style:"currency",currency:"USD",maximumFractionDigits:2}) : "—"}</strong>
             <p><b>{walletReady ? fmt(wdc,4) : "—"} WDC</b><span>available to spend</span></p>
-            <p className="portfolio-locked-note">Portfolio includes locked WDC principal; uncredited rewards excluded</p>
           </div>
 
           <div className="premium-portfolio-stats">
