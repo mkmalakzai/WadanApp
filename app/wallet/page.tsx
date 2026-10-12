@@ -20,7 +20,7 @@ import {
   WalletCards,
 } from "lucide-react";
 import MobileDock from "../components/MobileDock";
-import { fetchCached, readCached, syncStakingRewards } from "../../lib/client-cache";
+import { fetchCached, readCached } from "../../lib/client-cache";
 
 type WalletSummary = {
   profile: {
@@ -61,25 +61,13 @@ export default function WalletPage() {
   const [summary,setSummary]=useState<WalletSummary | null>(()=>readCached<WalletSummary>("wallet:summary"));
   const [hidden,setHidden]=useState(false);
 
-  const [rewardSyncError,setRewardSyncError]=useState("");
 
   useEffect(()=>{
     let live=true;
-    void (async()=>{
-      try{
-        await syncStakingRewards();
-        if(live) setRewardSyncError("");
-      }catch(err){
-        if(live) setRewardSyncError(err instanceof Error ? err.message : "Unable to credit staking rewards.");
-      }
-      try{
-        const value=await fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary",{force:true});
-        if(live) setSummary(value);
-      }catch{
-        // Preserve last known account data until the authenticated request succeeds.
-      }
-      void fetchCached("wallet:deposit","/api/wallet/deposit").catch(()=>undefined);
-    })();
+    void fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary",{force:true})
+      .then(v=>{if(live)setSummary(v)})
+      .catch(()=>undefined);
+    void fetchCached("wallet:deposit","/api/wallet/deposit").catch(()=>undefined);
     return ()=>{live=false};
   },[]);
 
@@ -92,7 +80,7 @@ export default function WalletPage() {
   const total=summary?.availableUsd ?? summary?.totalUsd ?? 0;
   const stakedWdc=summary?.totalStaked ?? 0;
   const stakedUsd=summary?.stakedUsd ?? stakedWdc * price;
-  const portfolio=summary?.portfolioUsd ?? total;
+  const portfolio=summary?.portfolioUsd ?? total + stakedUsd;
 
   return (
     <main className="dash-shell premium-surface wallet-premium">
@@ -135,17 +123,15 @@ export default function WalletPage() {
           </div>
         </header>
 
-        {rewardSyncError && <div className="reward-sync-warning">Earned staking rewards have not been credited to Available yet. {rewardSyncError}</div>}
-
         <section className="wallet-overview-v2">
           <div className="wallet-total">
             <div>
-              <span className="wallet-label"><WalletCards size={15}/> AVAILABLE WALLET</span>
-              <p>Spendable WDC + USDT, including credited rewards</p>
-              <h2>{!summary ? "—" : hidden ? "••••" : total.toLocaleString("en-US",{style:"currency",currency:"USD"})}</h2>
+              <span className="wallet-label"><WalletCards size={15}/> TOTAL HOLDINGS</span>
+              <p>Available wallet plus locked staking principal</p>
+              <h2>{!summary ? "—" : hidden ? "••••" : portfolio.toLocaleString("en-US",{style:"currency",currency:"USD"})}</h2>
               <div className="wallet-value-breakdown">
-                <span>Total available portfolio <strong>{!summary ? "—" : hidden ? "••••" : portfolio.toLocaleString("en-US",{style:"currency",currency:"USD"})}</strong></span>
-                <span>Locked principal (excluded) <strong>{!summary ? "—" : hidden ? "••••" : stakedUsd.toLocaleString("en-US",{style:"currency",currency:"USD"})}</strong></span>
+                <span>Available wallet <strong>{!summary ? "—" : hidden ? "••••" : portfolio.toLocaleString("en-US",{style:"currency",currency:"USD"})}</strong></span>
+                <span>Locked staking value <strong>{!summary ? "—" : hidden ? "••••" : stakedUsd.toLocaleString("en-US",{style:"currency",currency:"USD"})}</strong></span>
               </div>
             </div>
             <button className="wallet-eye" aria-label="Toggle balance visibility" onClick={()=>setHidden(!hidden)}><Eye size={19}/></button>
@@ -157,10 +143,10 @@ export default function WalletPage() {
                 <span className="asset-symbol">W</span>
                 <div><strong>Wadan Coin</strong><small>WDC • BNB Chain</small></div>
               </div>
-              <div className="wallet-balance-label">Available WDC · includes credited staking profit</div>
+              <div className="wallet-balance-label">Available WDC</div>
               <h3>{!summary ? "—" : hidden ? "••••" : wdc.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC"}</h3>
               <div className="asset-balance-foot"><span>{!summary ? "—" : hidden ? "••••" : (wdc*price).toLocaleString("en-US",{style:"currency",currency:"USD"})}</span><em>{!summary ? "—" : price.toLocaleString("en-US",{style:"currency",currency:"USD",minimumFractionDigits:4,maximumFractionDigits:4})+" / WDC"}</em></div>
-              <Link href="/staking" className="wallet-locked-note"><LockKeyhole size={16}/><span>Locked principal: <strong>{!summary ? "—" : hidden ? "••••" : stakedWdc.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC"}</strong></span><ArrowUpRight size={15}/></Link>
+              <Link href="/staking" className="wallet-locked-note"><LockKeyhole size={16}/><span>In staking: <strong>{!summary ? "—" : hidden ? "••••" : stakedWdc.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC"}</strong></span><ArrowUpRight size={15}/></Link>
             </article>
 
             <article className="wallet-asset-balance usdt-balance">
