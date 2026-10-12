@@ -146,7 +146,6 @@ export default function WalletPage() {
               <div className="wallet-balance-label">Available WDC</div>
               <h3>{!summary ? "—" : hidden ? "••••" : wdc.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC"}</h3>
               <div className="asset-balance-foot"><span>{!summary ? "—" : hidden ? "••••" : (wdc*price).toLocaleString("en-US",{style:"currency",currency:"USD"})}</span><em>{!summary ? "—" : price.toLocaleString("en-US",{style:"currency",currency:"USD",minimumFractionDigits:4,maximumFractionDigits:4})+" / WDC"}</em></div>
-              <Link href="/staking" className="wallet-locked-note"><LockKeyhole size={16}/><span>In staking: <strong>{!summary ? "—" : hidden ? "••••" : stakedWdc.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC"}</strong></span><ArrowUpRight size={15}/></Link>
             </article>
 
             <article className="wallet-asset-balance usdt-balance">
@@ -158,6 +157,11 @@ export default function WalletPage() {
               <div className="asset-balance-foot"><span>{!summary ? "—" : hidden ? "••••" : usdt.toLocaleString("en-US",{style:"currency",currency:"USD"})}</span><em>{summary ? "$1.00 / USDT" : "—"}</em></div>
             </article>
           </div>
+          <Link href="/staking" className="wallet-locked-note wallet-staking-bar">
+            <LockKeyhole size={18}/>
+            <span>Locked in staking <strong>{!summary ? "—" : hidden ? "••••" : stakedWdc.toLocaleString("en-US",{maximumFractionDigits:4})+" WDC"}</strong></span>
+            <ArrowUpRight size={17}/>
+          </Link>
         </section>
 
         <section className="wallet-action-section">
