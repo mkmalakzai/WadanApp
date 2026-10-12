@@ -28,7 +28,6 @@ import {
 import MobileDock from "../components/MobileDock";
 import { ThemeSwitch } from "../components/WadanTheme";
 import styles from "./account.module.css";
-import { ThemeSwitch } from "../components/WadanTheme";
 import { fetchCached, readCached } from "../../lib/client-cache";
 
 type Tab = "overview" | "profile" | "security" | "preferences";
