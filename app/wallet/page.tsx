@@ -57,16 +57,26 @@ export default function WalletPage() {
   const [summary,setSummary]=useState<WalletSummary | null>(()=>readCached<WalletSummary>("wallet:summary"));
   const [hidden,setHidden]=useState(false);
 
+  const [rewardSyncError,setRewardSyncError]=useState("");
+
   useEffect(()=>{
-    void fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary")
-      .then(setSummary)
-      .catch(()=>undefined);
-    void fetchCached("wallet:deposit","/api/wallet/deposit").catch(()=>undefined);
-    void syncStakingRewards().then((credited)=>{
-      if(credited<=0) return;
-      void fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary",{force:true})
-        .then(setSummary).catch(()=>undefined);
-    });
+    let live=true;
+    void (async()=>{
+      try{
+        await syncStakingRewards();
+        if(live) setRewardSyncError("");
+      }catch(err){
+        if(live) setRewardSyncError(err instanceof Error ? err.message : "Unable to credit staking rewards.");
+      }
+      try{
+        const value=await fetchCached<WalletSummary>("wallet:summary","/api/wallet/summary",{force:true});
+        if(live) setSummary(value);
+      }catch{
+        // Preserve last known account data until the authenticated request succeeds.
+      }
+      void fetchCached("wallet:deposit","/api/wallet/deposit").catch(()=>undefined);
+    })();
+    return ()=>{live=false};
   },[]);
 
   const wdc=summary?.profile.wdcBalance ?? 0;
@@ -117,6 +127,8 @@ export default function WalletPage() {
             <button className="user-chip"><span>{initials}</span><div><strong>{displayName}</strong><small>Member</small></div></button>
           </div>
         </header>
+
+        {rewardSyncError && <div className="reward-sync-warning">Earned staking rewards have not been credited to Available yet. {rewardSyncError}</div>}
 
         <section className="wallet-overview-v2">
           <div className="wallet-total">
